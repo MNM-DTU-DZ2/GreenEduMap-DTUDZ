@@ -2,7 +2,7 @@
 
 # Hướng dẫn đóng góp
 
-Cảm ơn bạn đã quan tâm đến việc đóng góp cho RELIEFLINK! 
+Cảm ơn bạn đã quan tâm đến việc đóng góp cho GreenEduMap!
 
 ## Các cách đóng góp
 
