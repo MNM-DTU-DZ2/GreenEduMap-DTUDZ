@@ -1,6 +1,6 @@
 # 🌿 Giới thiệu về dự án GreenEduMap
 
-![Banner](assets/images/greenedumap_banner.png)
+![Banner](assets/images/greenedumap_bannerchinh.png)
 
 > *"Xanh hơn mỗi ngày – Dữ liệu vì cộng đồng xanh 🌍"*
 
@@ -71,7 +71,7 @@ Xây dựng **bản đồ tri thức đô thị xanh**, nơi dữ liệu môi tr
 ---
 
 # 🔍 Các tính năng chính
-
+![Banner](assets/images/tinhnangchinh.png)
 ## 🗺 1. Bản đồ môi trường
 - AQI, PM2.5, PM10, O3, NO2 theo từng phường/xã
 - Nhiệt độ bề mặt từ vệ tinh Sentinel/Copernicus
@@ -128,6 +128,7 @@ Time series chart
 ---
 
 # 🧩 Thành phần dữ liệu (Layers)
+![Banner](assets/images/thanhphandulieu1.png)
 
 Theo file mô tả dự án :contentReference[oaicite:2]{index=2}:
 
