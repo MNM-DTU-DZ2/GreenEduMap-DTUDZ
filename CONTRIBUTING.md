@@ -1,11 +1,11 @@
-🌱 Hướng dẫn đóng góp chi tiết
+# 🌱 Hướng dẫn đóng góp chi tiết
 
-🤝 Hướng dẫn đóng góp
+# 🤝 Hướng dẫn đóng góp
 
 🌿Cảm ơn bạn đã quan tâm đến việc đóng góp cho GreenEduMap!
 💚Hãy Cùng nhau, chúng ta xây dựng một hệ sinh thái học tập mở, xanh và bền vững 🌍
 
-💡 Các cách đóng góp
+## 💡 Các cách đóng góp
 
 1. 🐞 Báo cáo lỗi (Bug reports)
 2. 💡 Đề xuất tính năng mới (Feature requests)
@@ -13,9 +13,9 @@
 4. 📘 Cải thiện tài liệu
 5. 🌐Dịch tài liệu sang ngôn ngữ khác
 
-⚙️ Quy trình làm việc với code
+## ⚙️ Quy trình làm việc với code
 
-🧭 Chuẩn bị môi trường
+### 🧭 Chuẩn bị môi trường
 1. Fork repository
 2. 💻Clone repository đã fork về máy local
 3. 🔧Cài đặt các công cụ cần thiết:
@@ -23,7 +23,7 @@
    - 🗄️ MongoDB Compass (để test database)
    - 🧩VS Code với các extensions cho JSON/Markdown
 
-🧑‍💻 Phát triển
+### 🧑‍💻 Phát triển
 1. 🌿Tạo branch mới cho tính năng/fix:
    ```bash
    git checkout -b feature/name
@@ -47,31 +47,31 @@
    git push origin feature/name
    ```
 
-🔎 Review process
+### 🔎 Review process
 1.🧑‍🏫Maintainers sẽ review PR của bạn
 2.✏️Có thể cần chỉnh sửa theo yêu cầu
 3.🎉Sau khi được approve, PR sẽ được merge
 
 ## Test
 
-🧩 Unit Tests
+### 🧩 Unit Tests
 ```bash
 npm run test
 ```
 
-🔗 Integration Tests
+### 🔗 Integration Tests
 ```bash
 npm run test:integration
 ```
 
-🌐 E2E Tests
+### 🌐 E2E Tests
 ```bash
 npm run test:e2e
 ```
 
-🎨 Style Guide
+## 🎨 Style Guide
 
-📝 Commit Messages
+### 📝 Commit Messages
 - ✨feat: Thêm tính năng mới
 - 🐛fix: Sửa lỗi
 - 📚docs: Thay đổi documentation
@@ -80,7 +80,7 @@ npm run test:e2e
 - 🧪test: Thêm test cases
 - 🧰chore: Cập nhật build tasks, package manager,...
 
-💻 Code Style
+### 💻 Code Style
 - Sử dụng 2 spaces cho indentation
 - Dòng không quá 80 ký tự
 - Đặt tên biến/hàm rõ ràng, có ý nghĩa
