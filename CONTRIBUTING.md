@@ -49,7 +49,9 @@
 
 ### 🔎 Review process
 1.🧑‍🏫Maintainers sẽ review PR của bạn
+
 2.✏️Có thể cần chỉnh sửa theo yêu cầu
+
 3.🎉Sau khi được approve, PR sẽ được merge
 
 ## Test
