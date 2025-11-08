@@ -40,9 +40,6 @@ GreenEduMap ra đời để:
 ---
 
 # ✅ Mục tiêu dự án
-
-Theo tài liệu dự án hiện có :contentReference[oaicite:1]{index=1}:
-
 ## 🎯 Mục tiêu tổng thể
 
 Xây dựng **bản đồ tri thức đô thị xanh**, nơi dữ liệu môi trường – giáo dục – năng lượng được kết nối, phân tích và phục vụ cộng đồng.
@@ -129,8 +126,6 @@ Time series chart
 
 # 🧩 Thành phần dữ liệu (Layers)
 ![Banner](assets/images/thanhphandulieu1.png)
-
-Theo file mô tả dự án :contentReference[oaicite:2]{index=2}:
 
 ### ✅ Environmental Layer
 - AQI, PM2.5, PM10, tiếng ồn, cây xanh
