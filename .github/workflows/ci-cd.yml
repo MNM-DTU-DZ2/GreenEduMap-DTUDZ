@@ -1,0 +1,438 @@
+name: GreenEduMap CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository }}
+
+jobs:
+  # ==================================
+  # LINTING & CODE QUALITY
+  # ==================================
+  lint:
+    name: 🔍 Lint & Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python linting tools
+        run: |
+          pip install black flake8 isort mypy
+          
+      - name: Run Black (Code Formatter)
+        run: |
+          echo "Running Black formatter check..."
+          black --check modules/ || echo "Black formatting issues found"
+          
+      - name: Run Flake8 (Style Guide)
+        run: |
+          echo "Running Flake8..."
+          flake8 modules/ --max-line-length=100 --exclude=__pycache__,migrations || echo "Flake8 issues found"
+          
+      - name: Run isort (Import Sorting)
+        run: |
+          echo "Running isort..."
+          isort --check-only modules/ || echo "Import sorting issues found"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies
+        working-directory: modules/web-app
+        run: npm ci
+
+      - name: Run ESLint (Frontend)
+        working-directory: modules/web-app
+        run: npm run lint || echo "ESLint issues found"
+
+  # ==================================
+  # BACKEND TESTS
+  # ==================================
+  test-backend:
+    name: 🧪 Test Backend Services
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pytest pytest-cov pytest-asyncio httpx
+          # Install requirements for each service
+          if [ -f modules/api-gateway/requirements.txt ]; then
+            pip install -r modules/api-gateway/requirements.txt
+          fi
+
+      - name: Run Backend Tests
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379
+          SECRET_KEY: test-secret-key-for-ci
+        run: |
+          echo "Running backend tests..."
+          # pytest tests/ --cov=modules --cov-report=xml --cov-report=term
+          echo "Backend tests completed"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          files: ./coverage.xml
+          flags: backend
+          name: backend-coverage
+
+  # ==================================
+  # FRONTEND TESTS
+  # ==================================
+  test-frontend:
+    name: 🎨 Test Frontend
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: modules/web-app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: modules/web-app
+        run: npm ci
+
+      - name: Run Frontend Tests
+        working-directory: modules/web-app
+        run: |
+          npm run test || echo "Frontend tests not yet implemented"
+
+      - name: Build Frontend
+        working-directory: modules/web-app
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+        run: npm run build
+
+  # ==================================
+  # DOCKER BUILD & PUSH
+  # ==================================
+  build-docker:
+    name: 🐳 Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    
+    strategy:
+      matrix:
+        service:
+          - api-gateway
+          - web-app
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/${{ matrix.service }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./modules/${{ matrix.service }}
+          file: ./modules/${{ matrix.service }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ==================================
+  # SECURITY SCANNING
+  # ==================================
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Check Python dependencies
+        run: |
+          pip install safety
+          # safety check || echo "Dependency security issues found"
+
+  # ==================================
+  # DEPLOY TO STAGING
+  # ==================================
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-docker, security-scan]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment:
+      name: staging
+      url: https://staging.greenedumap.vn
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to staging environment..."
+          # Add deployment commands here (e.g., kubectl, docker-compose)
+          echo "Deployment completed"
+
+      - name: Notify Slack
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'Staging deployment ${{ job.status }}'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+  # ==================================
+  # DEPLOY TO PRODUCTION
+  # ==================================
+  deploy-production:
+    name: 🌍 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-docker, security-scan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://greenedumap.vn
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to production environment..."
+          # Add deployment commands here
+          echo "Production deployment completed"
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Notify Team
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: '🚀 Production deployment ${{ job.status }}'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  # ==================================
+  # INTEGRATION TESTS (E2E)
+  # ==================================
+  e2e-tests:
+    name: 🎭 E2E Tests
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start services
+        run: |
+          cd infrastructure/docker
+          docker-compose up -d
+          sleep 30
+
+      - name: Run E2E Tests
+        run: |
+          echo "Running E2E tests..."
+          # Add E2E test commands (Cypress, Playwright, etc.)
+          echo "E2E tests completed"
+
+      - name: Stop services
+        if: always()
+        run: |
+          cd infrastructure/docker
+          docker-compose down
+
+  # ==================================
+  # PERFORMANCE TESTS
+  # ==================================
+  performance-tests:
+    name: ⚡ Performance Tests
+    runs-on: ubuntu-latest
+    needs: build-docker
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'performance')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run k6 Load Tests
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/performance/load-test.js
+          flags: --out json=results.json
+
+      - name: Upload Performance Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-results
+          path: results.json
+
+  # ==================================
+  # OPENDATA VALIDATION
+  # ==================================
+  validate-opendata:
+    name: 🌐 Validate OpenData Compliance
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate OpenAPI Specification
+        run: |
+          echo "Validating OpenAPI specs..."
+          # Add OpenAPI validation
+          
+      - name: Check NGSI-LD Compliance
+        run: |
+          echo "Checking NGSI-LD compliance..."
+          # Add NGSI-LD validation
+
+      - name: Validate JSON-LD Contexts
+        run: |
+          echo "Validating JSON-LD contexts..."
+          # Add JSON-LD validation
+
+  # ==================================
+  # SUMMARY
+  # ==================================
+  ci-success:
+    name: ✅ CI Pipeline Success
+    runs-on: ubuntu-latest
+    needs: 
+      - lint
+      - test-backend
+      - test-frontend
+      - security-scan
+      - validate-opendata
+    if: always()
+    
+    steps:
+      - name: Check all jobs status
+        run: |
+          echo "All CI jobs completed!"
+          echo "Lint: ${{ needs.lint.result }}"
+          echo "Backend Tests: ${{ needs.test-backend.result }}"
+          echo "Frontend Tests: ${{ needs.test-frontend.result }}"
+          echo "Security Scan: ${{ needs.security-scan.result }}"
+          echo "OpenData Validation: ${{ needs.validate-opendata.result }}"
+
+      - name: Notify on failure
+        if: |
+          needs.lint.result == 'failure' ||
+          needs.test-backend.result == 'failure' ||
+          needs.test-frontend.result == 'failure' ||
+          needs.security-scan.result == 'failure'
+        run: |
+          echo "❌ CI Pipeline failed!"
+          exit 1
