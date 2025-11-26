@@ -4,7 +4,12 @@
 
 > *"Xanh hơn mỗi ngày – Dữ liệu vì cộng đồng xanh 🌍"*
 
-**GreenEduMap** là dự án mã nguồn mở được xây dựng với mong muốn giúp đô thị trở nên xanh hơn, công bằng hơn và đáng sống hơn. GreenEduMap đóng vai trò cầu nối giữa người dân – trường học – chính quyền bằng việc số hóa các dữ liệu môi trường, giáo dục và năng lượng, hiển thị trực quan trên bản đồ 3D realtime và cung cấp gợi ý hành động xanh nhờ AI.
+## 📖 Tổng Quan
+
+
+**GreenEduMap** là một dự án mã nguồn mở được phát triển bởi đội **DTU-DZ_2** Đến từ **Đại học Duy Tân** nhằm tham gia cuộc thi **Olympic Tin học Sinh viên – Khối Mã nguồn mở năm 2025**. Dự án tập trung xây dựng trên nền tảng **bản đồ tri thức đô thị xanh**, giúp kết nối **người dân – trường học – chính quyền** thông qua dữ liệu mở và công nghệ hiện đại.
+
+GreenEduMap hướng đến việc số hóa và trực quan hóa các dữ liệu quan trọng như **môi trường, giáo dục và năng lượng** trên **bản đồ 3D thời gian thực**, từ đó hỗ trợ ra quyết định thông minh và khuyến khích cộng đồng tham gia các hành động bền vững.
 
 ---
 
@@ -135,44 +140,40 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 
 Quy trình đơn giản như sau:
 
-**Người dân/Trường học/Chính quyền truy cập hệ thống** 📱 → Xem bản đồ 3D, dashboard, hoặc gửi phản hồi qua Web/Mobile App.
+**Người dùng** 📱 → Xem bản đồ 3D, dashboard, hoặc gửi phản hồi qua App.
 
-**Hệ thống thu thập dữ liệu** 🌐 → ETL Pipeline tự động lấy dữ liệu từ OpenAQ, OpenWeather, Sentinel, OpenStreetMap → Làm sạch và chuẩn hóa.
+**Hệ thống thu thập dữ liệu** 🌐 → ETL tự động lấy dữ liệu từ OpenAQ, OpenWeather, Sentinel, OpenStreetMap → Làm sạch & chuẩn hóa
 
 **AI phân tích & xử lý** 🤖 → Phân tích tương quan môi trường ↔ giáo dục, clustering khu vực, gợi ý hành động xanh → Cập nhật NGSI-LD Entities.
 
-**Hiển thị kết quả** 🗺️ → Dữ liệu được hiển thị trên bản đồ 3D realtime, dashboard đa vai trò, và thống kê → Người dùng nhận gợi ý hành động xanh từ AI.
+**Hiển thị** 🗺️ → Bản đồ 3D realtime, dashboard, thống kê → Người dùng nhận gợi ý xanh
 
 ---
 
-## 🧩  Thành phần dữ liệu (Data Layers)
+## 🧩  Hướng Phát Triển 
 
-### ✔ Environmental Layer
-- AQI, PM2.5, PM10, O₃, NO₂
-- Nhiệt độ bề mặt (Sentinel)
-- Cây xanh, mật độ phủ xanh
-- Tiềm năng năng lượng mặt trời
+ Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh, không chỉ dừng lại ở hiển thị dữ liệu mà còn mở rộng khả năng dự báo, tự động hóa và kết nối cộng đồng.
 
-### ✔ Educational Layer
-- Trường học
-- Hoạt động xanh
-- Khóa học Green Skills
+### 🌐 Mở rộng & Kết nối
+- Triển khai đa đô thị: Mở rộng GreenEduMap cho nhiều thành phố, hỗ trợ đa ngôn ngữ
+- Bản đồ 3D thời gian thực: Hiển thị lớp dữ liệu môi trường – giáo dục – năng lượng với vùng cảnh báo “điểm nóng”.
+- Nền tảng cộng đồng xanh: Kết nối người dân – trường học – doanh nghiệp thông qua dữ liệu mở và hoạt động xanh.
 
-### ✔ Energy Layer
-- Solar radiation
-- Renewable potential heatmap
+### 🧠 Nâng cấp AI & Dữ liệu
+- Dự báo xu hướng đô thị: Phân tích dữ liệu lịch sử để dự đoán ô nhiễm không khí, nhiệt độ và biến động mảng xanh.
+- AI GreenBot nâng cao: Học từ dữ liệu người dùng đóng góp và cảm biến IoT môi trường.
+- Phân tích hình ảnh vệ tinh: Tự động nhận diện thay đổi cây xanh, bê tông hóa từ ảnh Sentinel.
 
-### ✔ AI Layer
-- Clustering: Xanh – Vàng – Đỏ
-- Correlation: Môi trường ↔ Giáo dục ↔ Dân cư
-- Gợi ý hành động xanh
+### 🔗 Dữ liệu mở & Minh bạch
+- Chuẩn hóa dữ liệu mở: Áp dụng NGSI-LD, RDF/JSON-LD để chia sẻ dữ liệu môi trường và giáo dục.
+- API mở: Cho phép sinh viên, nhà nghiên cứu và startup phát triển các ứng dụng xanh trên nền tảng.
+- Quản lý chất lượng dữ liệu: Theo dõi nguồn gốc dữ liệu (data lineage) và độ tin cậy.
 
-### ✔ LOD / NGSI-LD Layer
-- RDF/JSON-LD
-- Turtle
-- SOSA/SSN
-- Digital Twin cho từng phường/xã
----
+### 🌍 Tầm nhìn dài hạn 
+- Xây dựng bản sao số đô thị xanh 3D, mô phỏng môi trường – giáo dục – năng lượng, dự báo xu hướng và gợi ý giải pháp tối ưu.
+- Kết nối người dân, trường học, doanh nghiệp và chính quyền trong một hệ sinh thái dữ liệu mở.
+- Ứng dụng AI dự báo ô nhiễm, thay đổi cây xanh và năng lượng, giúp ra quyết định nhanh và bền vững.
+- Triển khai GreenEduMap tại nhiều thành phố Đông Nam Á, chuẩn hóa dữ liệu theo NGSI-LD và Linked Open Data, trở thành trung tâm dữ liệu đô thị xanh mã nguồn mở hàng đầu khu vực.
 
 ## 🌿  Lợi ích mang lại
 
