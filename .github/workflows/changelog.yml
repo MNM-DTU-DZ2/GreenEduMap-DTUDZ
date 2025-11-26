@@ -1,0 +1,53 @@
+name: Auto CHANGELOG
+
+on:
+  push:
+    branches: [develop, main]
+    paths-ignore:
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+
+jobs:
+  changelog:
+    name: 📝 Generate CHANGELOG
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'docs: update CHANGELOG')"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate CHANGELOG with git-cliff
+        uses: orhun/git-cliff-action@v2
+        with:
+          config: cliff.toml
+          args: --verbose
+        env:
+          OUTPUT: CHANGELOG.md
+
+      - name: Check if CHANGELOG changed
+        id: check_changes
+        run: |
+          if git diff --quiet CHANGELOG.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push CHANGELOG
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "docs: update CHANGELOG [skip ci]"
+          git push origin ${{ github.ref_name }}
+
+      - name: Notify
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          echo "✅ CHANGELOG updated successfully!"
+          echo "Branch: ${{ github.ref_name }}"
