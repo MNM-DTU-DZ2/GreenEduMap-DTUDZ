@@ -212,7 +212,7 @@ GreenEduMap
 
 ---
 
-## 🗂 1 Dữ liệu & mô hình
+## 🗂  Dữ liệu & mô hình
 
 - `users` – Admin, School, Citizen
 - `schools`, `courses`, `enrollments`
@@ -237,7 +237,7 @@ npm run test
 
 ---
 
-## 📄 12. Tài liệu liên quan
+## 📄  Tài liệu liên quan
 
 | File | Mô tả |
 | --- | --- |
@@ -248,7 +248,7 @@ npm run test
 
 ---
 
-## 🤝 13. Đóng góp
+## 🤝  Đóng góp
 
 1. Fork repo
 2. Tạo branch `git checkout -b feature/my-feature`
@@ -260,7 +260,7 @@ Tuân thủ Conventional Commits & Code Style của dự án.
 
 ---
 
-## 👥 14. Team Members
+## 👥  Team Members
 
 | Vai trò | Thành viên | Email |
 | --- | --- | --- |
@@ -271,7 +271,7 @@ Tuân thủ Conventional Commits & Code Style của dự án.
 
 ---
 
-## 📜 15. License
+## 📜  License
 
 Dự án này được phân phối dưới [GNU General Public License v3.0](LICENSE). Xem file `LICENSE` để biết thêm chi tiết.
 
