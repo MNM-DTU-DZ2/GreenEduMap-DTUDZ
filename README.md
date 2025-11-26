@@ -273,7 +273,7 @@ Tuân thủ Conventional Commits & Code Style của dự án.
 
 ## 📜 15. License
 
-GNU General Public License v3.0 – xem file `LICENSE` để biết chi tiết.
+Dự án này được phân phối dưới [GNU General Public License v3.0](LICENSE). Xem file `LICENSE` để biết thêm chi tiết.
 
 ---
 
