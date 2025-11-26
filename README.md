@@ -2,9 +2,9 @@
 
 ![Banner](assets/images/greenedumap_banner2.jpg)
 
-**GreenEduMap** là nền tảng bản đồ 3D – dashboard – dữ liệu mở cho đô thị thông minh, kết nối ba lĩnh vực: **môi trường – giáo dục – năng lượng** để phục vụ người dân, chính quyền, trường học, nhà nghiên cứu, doanh nghiệp và tổ chức môi trường.
+> *"Xanh hơn mỗi ngày – Dữ liệu vì cộng đồng xanh 🌍"*
 
-Nền tảng tích hợp dữ liệu phân tán từ OpenAQ, OpenWeather, Sentinel, OpenStreetMap… sau đó chuẩn hóa bằng NGSI-LD / Linked Open Data và hiển thị trực quan trên bản đồ 3D với phân tích AI và gợi ý hành động xanh.
+**GreenEduMap** là dự án mã nguồn mở được xây dựng với mong muốn giúp đô thị trở nên xanh hơn, công bằng hơn và đáng sống hơn. GreenEduMap đóng vai trò cầu nối giữa người dân – trường học – chính quyền bằng việc số hóa các dữ liệu môi trường, giáo dục và năng lượng, hiển thị trực quan trên bản đồ 3D realtime và cung cấp gợi ý hành động xanh nhờ AI.
 
 ---
 
@@ -44,20 +44,19 @@ GreenEduMap ra đời để giải quyết những vấn đề đó, hướng t�
 
 ![Banner](assets/images/tinh_nang_chinh_greenedumap.png)
 
-- **Bản đồ 3D realtime** — hiển thị dữ liệu môi trường, giáo dục, năng lượng theo thời gian thực với các lớp dữ liệu đa tầng, hỗ trợ tương tác và zoom chi tiết.
+- **AI GreenBot**: KTự động phân tích dữ liệu để đọc hiểu dữ liệu môi trường – giáo dục, phát hiện mẫu bất thường và gợi ý các hành động xanh cụ thể cho từng khu vực.
 
-- **AI GreenBot + phân tích** — chatbot AI hỗ trợ tư vấn, phân tích tương quan môi trường ↔ giáo dục, clustering khu vực, và gợi ý hành động xanh thông minh.
+- **Bản đồ Realtime**: Người dùng có thể xem nhanh bức tranh “sức khỏe đô thị” trên bản đồ 3D, cập nhật theo thời gian thực với nhiều lớp dữ liệu 
 
-- **Dashboard đa vai trò** — giao diện tùy biến cho từng đối tượng: chính quyền (KPI, điểm nóng), trường học (khóa học xanh), người dân (chất lượng sống).
+- **Đa nền tảng**: Web Dashboard cho chính quyền/trường học và Mobile App cho người dân.
 
-- **API mở** — RESTful API theo chuẩn NGSI-LD và Linked Open Data (RDF/JSON-LD), hỗ trợ tích hợp với hệ thống thành phố và bên thứ ba.
+- **Dữ liệu mở & tương thích quốc tế**: Dữ liệu giúp dễ dàng chia sẻ, tái sử dụng và phục vụ nghiên cứu.
 
-- **Thống kê & báo cáo** — biểu đồ xu hướng, so sánh khu vực, export dữ liệu, và báo cáo tự động cho các đối tượng khác nhau.
 
 ---
 
 ## 🎯  Mục tiêu dự án
-![Banner](assets/images/muc_tieu_greenedumap.png)
+![Banner](assets/images/muc_tieu_GreenEduMap.png)
 ### 🎯 Mục tiêu tổng thể
 Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → hành động xanh → cải thiện chất lượng sống.
 
@@ -83,7 +82,7 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 ---
 
 ## 🛠️  Giải pháp của dự án
-![Banner](assets/images/muc_tieu_greenedumap.png)
+![Banner](assets/images/Giai_phap_greenedumap.png)
 - Bản đồ 3D tương tác hiển thị dữ liệu môi trường, giáo dục, năng lượng theo từng phường/xã với các lớp dữ liệu đa tầng.
 
 - ETL Pipeline tích hợp và chuẩn hóa dữ liệu từ nhiều nguồn mở (OpenAQ, OpenWeather, Sentinel, OpenStreetMap).
@@ -102,7 +101,7 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 
 ---
 
-## 👥 4. Vai trò & phân quyền
+## 👥  Vai trò & phân quyền
 
 | Vai trò | Khả năng | Màn hình |
 | --- | --- | --- |
@@ -112,7 +111,7 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 
 ---
 
-## 🧱 5. Kiến trúc hệ thống
+## 🧱  Kiến trúc hệ thống
 ![Banner](assets/images/Kien_truc_he_thong_GreenEduMap.png)
 
 ### Thành phần và công nghệ sử dụng
@@ -132,7 +131,7 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 
 ---
 
-## 🔄 6. Cách hoạt động
+## 🔄  Cách hoạt động
 
 Quy trình đơn giản như sau:
 
@@ -146,7 +145,7 @@ Quy trình đơn giản như sau:
 
 ---
 
-## 🧩 7. Thành phần dữ liệu (Data Layers)
+## 🧩  Thành phần dữ liệu (Data Layers)
 
 ### ✔ Environmental Layer
 - AQI, PM2.5, PM10, O₃, NO₂
@@ -175,7 +174,7 @@ Quy trình đơn giản như sau:
 - Digital Twin cho từng phường/xã
 ---
 
-## 🌿 8. Lợi ích mang lại
+## 🌿  Lợi ích mang lại
 
 ### 🌍 Minh bạch dữ liệu đô thị
 Dữ liệu phân tán → chuẩn hóa → hiển thị trực quan.
@@ -197,7 +196,7 @@ Dữ liệu phân tán → chuẩn hóa → hiển thị trực quan.
 
 ---
 
-## 📁 9. Cấu trúc thư mục
+## 📁  Cấu trúc thư mục
 
 ```
 GreenEduMap
@@ -213,7 +212,7 @@ GreenEduMap
 
 ---
 
-## 🗂 10. Dữ liệu & mô hình
+## 🗂 1 Dữ liệu & mô hình
 
 - `users` – Admin, School, Citizen
 - `schools`, `courses`, `enrollments`
@@ -226,7 +225,7 @@ GreenEduMap
 
 ---
 
-## 🧪 11. Kiểm thử
+## 🧪  Kiểm thử
 
 ```bash
 cd backend
