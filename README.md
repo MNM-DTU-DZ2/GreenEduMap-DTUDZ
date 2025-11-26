@@ -273,7 +273,7 @@ Tuân thủ Conventional Commits & Code Style của dự án.
 
 ## 📜 15. License
 
-MIT License – xem file `LICENSE` để biết chi tiết.
+GNU General Public License v3.0 – xem file `LICENSE` để biết chi tiết.
 
 ---
 
