@@ -1,6 +1,6 @@
 # 🌿 Giới thiệu về dự án GreenEduMap
 
-![Banner](assets/images/greenedumap_banner2.jpg)
+![Banner](assets/images/banner_greenedu.png)
 
 > *"Xanh hơn mỗi ngày – Dữ liệu vì cộng đồng xanh 🌍"*
 
