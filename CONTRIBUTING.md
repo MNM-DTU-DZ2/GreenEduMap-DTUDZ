@@ -1,58 +1,56 @@
-# 🌱 Hướng dẫn đóng góp chi tiết
+# 🌱 Detailed Contribution Guidelines
 
-# 🤝 Hướng dẫn đóng góp
+# 🤝 Contribution Guidelines
 
-🌿Cảm ơn bạn đã quan tâm đến việc đóng góp cho GreenEduMap!
-💚Hãy Cùng nhau, chúng ta xây dựng một hệ sinh thái học tập mở, xanh và bền vững 🌍
+Thanks for your interest in contributing to GreenEduMap!
+Together, let's build an open, green, and sustainable learning ecosystem.
 
-## 💡 Các cách đóng góp
+## 💡 Ways to Contribute
 
-1. 🐞 Báo cáo lỗi (Bug reports)
-2. 💡 Đề xuất tính năng mới (Feature requests)
-3. 🧰 Sửa lỗi và cải thiện code
-4. 📘 Cải thiện tài liệu
-5. 🌐Dịch tài liệu sang ngôn ngữ khác
+1. Bug reports
+2. Feature requests
+3. Bug fixes and code improvements
+4. Documentation improvements
+5. Translating documentation into other languages
 
-## ⚙️ Quy trình làm việc với code
+## ⚙️ Workflow
 
-### 🧭 Chuẩn bị môi trường
-1. Fork repository
-2. 💻Clone repository đã fork về máy local
-3. 🔧Cài đặt các công cụ cần thiết:
-   - ⚙️ Appsmith CLI
-   - 🗄️ MongoDB Compass (để test database)
-   - 🧩VS Code với các extensions cho JSON/Markdown
+### 🧭 Environment Setup
+1. Fork the repository
+2. Clone the forked repository to your local machine
+3. Install necessary tools:
+   - Appsmith CLI
+   - MongoDB Compass (for database testing)
+   - VS Code with extensions for JSON/Markdown
 
-### 🧑‍💻 Phát triển
-1. 🌿Tạo branch mới cho tính năng/fix:
+### 🧑‍💻 Development
+1. Create a new branch for your feature/fix:
    ```bash
    git checkout -b feature/name
-   # hoặc
+   # or
    git checkout -b fix/issue-number
    ```
 
-2. 🧠Viết code và test:
-   - ✅Tuân thủ coding style
-   - 🔍Test kỹ trước khi commit
-   - 🧪Viết test cases nếu cần thiết
+2. Write code and test:
+   - Follow the coding style
+   - Test thoroughly before committing
+   - Write test cases if necessary
 
-3. 💾Commit changes:
+3. Commit changes:
    ```bash
    git add .
-   git commit -m "feat/fix: mô tả ngắn gọn"
+   git commit -m "feat/fix: brief description"
    ```
 
-4.☁️Push và tạo Pull Request:
+4. Push and create a Pull Request:
    ```bash
    git push origin feature/name
    ```
 
-### 🔎 Review process
-1.🧑‍🏫Maintainers sẽ review PR của bạn
-
-2.✏️Có thể cần chỉnh sửa theo yêu cầu
-
-3.🎉Sau khi được approve, PR sẽ được merge
+### 🔎 Review Process
+1. Maintainers will review your PR
+2. Changes may be requested
+3. Once approved, the PR will be merged
 
 ## Test
 
@@ -74,16 +72,16 @@ npm run test:e2e
 ## 🎨 Style Guide
 
 ### 📝 Commit Messages
-- ✨feat: Thêm tính năng mới
-- 🐛fix: Sửa lỗi
-- 📚docs: Thay đổi documentation
-- 💅style: Format, thiếu dấu chấm phẩy,...
-- 🔄refactor: Refactor code
-- 🧪test: Thêm test cases
-- 🧰chore: Cập nhật build tasks, package manager,...
+- feat: Add a new feature
+- fix: Fix a bug
+- docs: Documentation changes
+- style: Formatting, missing semi-colons, etc.
+- refactor: Code refactoring
+- test: Add test cases
+- chore: Update build tasks, package manager, etc.
 
 ### 💻 Code Style
-- Sử dụng 2 spaces cho indentation
-- Dòng không quá 80 ký tự
-- Đặt tên biến/hàm rõ ràng, có ý nghĩa
-- Comment code khi cần thiết 
+- Use 2 spaces for indentation
+- Lines should not exceed 80 characters
+- Use clear and meaningful variable/function names
+- Comment code when necessary
