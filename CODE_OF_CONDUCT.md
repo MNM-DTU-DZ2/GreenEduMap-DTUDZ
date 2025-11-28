@@ -1,77 +1,77 @@
-# 🌿QUY TẮC ỨNG XỬ DÀNH CHO CỘNG TÁC VIÊN
+# 🌿CONTRIBUTOR CODE OF CONDUCT
 
-Dự án GreenEduMap – Hệ thống Bản đồ Học tập, Môi trường & Năng lượng Mở của Đô thị Thông minh
+GreenEduMap Project – Smart City Open Learning, Environment & Energy Map System
 
-## 💚 Cam kết của Chúng tôi
+## 💚 Our Pledge
 
-Với tư cách là thành viên, cộng tác viên và người lãnh đạo trong dự án GreenEduMap, chúng tôi cam kết xây dựng một môi trường học tập và hợp tác cởi mở, tôn trọng và bền vững, nơi mọi người đều được chào đón, lắng nghe và có cơ hội đóng góp ý nghĩa. Chúng tôi khuyến khích tinh thần hợp tác, sáng tạo và chia sẻ tri thức, đồng thời không dung thứ cho bất kỳ hình thức phân biệt đối xử hay quấy rối nào dựa trên tuổi tác, khuyết tật, dân tộc, giới tính, bản dạng giới, khuynh hướng tính dục, tôn giáo, trình độ học vấn, điều kiện kinh tế – xã hội hoặc đặc điểm cá nhân khác. Thông qua GreenEduMap, chúng tôi cùng nhau kiến tạo một cộng đồng mở, nơi tri thức xanh được kết nối và lan tỏa vì sự phát triển bền vững của giáo dục và xã hội.
+As members, contributors, and leaders in the GreenEduMap project, we are committed to building an open, respectful, and sustainable learning and collaborative environment, where everyone is welcomed, listened to, and has the opportunity to make meaningful contributions. We encourage a spirit of cooperation, creativity, and knowledge sharing, and do not tolerate any form of discrimination or harassment based on age, disability, ethnicity, gender, gender identity, sexual orientation, religion, educational level, socio-economic conditions, or other personal characteristics. Through GreenEduMap, we together create an open community, where green knowledge is connected and spread for the sustainable development of education and society.
 
-🌱 GreenEduMap hướng tới một cộng đồng học tập xanh – nơi mọi đóng góp đều được trân trọng và nuôi dưỡng.
+GreenEduMap aims for a green learning community – where every contribution is cherished and nurtured.
 
-## 🌟 Tiêu Chuẩn của chúng tôi
+## 🌟 Our Standards
 
-#### 🤝 Hành vi tích cực được khuyến khích:
+#### 🤝 Positive behavior that is encouraged:
 
-- 💬 Thể hiện sự đồng cảm, tôn trọng và lắng nghe ý kiến của người khác, góp phần xây dựng môi trường giao tiếp cởi mở, văn minh và tôn trọng lẫn nhau.
+- Demonstrating empathy, respect, and listening to others' opinions, contributing to building an open, civilized, and mutually respectful communication environment.
 
-- 🌍 Tôn vinh sự đa dạng về quan điểm, trải nghiệm và nền tảng cá nhân, xem đó là nguồn sức mạnh thúc đẩy sự sáng tạo, đổi mới và học hỏi không ngừng.
+- Honoring diversity of perspectives, experiences, and personal backgrounds, viewing it as a source of strength promoting creativity, innovation, and continuous learning.
 
-- 🧩 Chia sẻ phản hồi xây dựng một cách lịch sự, với tinh thần khích lệ và thấu hiểu, giúp nhau phát triển, củng cố sự tin cậy và nuôi dưỡng môi trường hợp tác tích cực.
+- Sharing constructive feedback politely, with a spirit of encouragement and understanding, helping each other develop, reinforcing trust, and nurturing a positive collaborative environment.
 
-- ✨ Chịu trách nhiệm cho hành động của bản thân, sẵn sàng nhận lỗi và học hỏi từ sai lầm, không ngừng hoàn thiện chính mình trong quá trình làm việc và cống hiến.
+- Taking responsibility for one's own actions, being ready to admit mistakes and learn from them, constantly perfecting oneself during the process of working and contributing.
 
-- 🌿Hướng đến lợi ích chung của cộng đồng, đặt giá trị tập thể và sự phát triển bền vững của xã hội lên trên lợi ích cá nhân.
+- Aiming for the common good of the community, placing collective values and the sustainable development of society above personal interests.
 
-#### 🚫 Hành vi không được chấp nhận:
+#### 🚫 Unacceptable behavior:
 
-- ❌ Sử dụng ngôn ngữ, hình ảnh hoặc hành động mang tính gợi dục, xúc phạm hay phân biệt đối xử.
+- Using language, images, or actions that are sexually suggestive, offensive, or discriminatory.
 
-- ❌ Thực hiện bất kỳ hình thức quấy rối nào, dù công khai hay riêng tư.
+- Engaging in any form of harassment, whether public or private.
 
-- ❌ Công bố hoặc chia sẻ thông tin cá nhân của người khác khi chưa được phép.
+- Publishing or sharing others' personal information without permission.
 
-- ❌ Có hành vi gây gián đoạn, làm tổn hại hoặc phá vỡ môi trường hợp tác chuyên nghiệp.
+- Engaging in behavior that disrupts, harms, or breaks the professional collaborative environment.
 
-## ⚖️Trách nhiệm thực hiện 
+## ⚖️ Enforcement Responsibilities
 
-- 🧭 Người lãnh đạo cộng đồng có trách nhiệm làm rõ, duy trì và thực thi các tiêu chuẩn về hành vi được chấp nhận, đồng thời thực hiện các biện pháp khắc phục phù hợp và công bằng đối với mọi hành vi bị xem là không phù hợp, đe dọa, xúc phạm hoặc gây tổn hại đến người khác.
+- Community leaders are responsible for clarifying, maintaining, and enforcing standards of acceptable behavior, and taking appropriate and fair corrective action in response to any instances of unacceptable behavior, threatening, offensive, or harmful conduct.
 
-- 🛠️ Người lãnh đạo cộng đồng có quyền và nghĩa vụ xóa, chỉnh sửa hoặc từ chối các bình luận, commit, mã nguồn, chỉnh sửa wiki, issues và các hình thức đóng góp khác không tuân thủ Quy tắc Ứng xử này, đồng thời thông báo lý do kiểm duyệt khi thích hợp để đảm bảo tính minh bạch và tôn trọng trong cộng đồng.
+- Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, communicating reasons for moderation decisions when appropriate to ensure transparency and respect in the community.
 
-## 🌐 Phạm vi áp dụng
+## 🌐 Scope
 
-- Quy tắc Ứng xử này được áp dụng trong mọi không gian hoạt động của cộng đồng GreenEduMap, bao gồm các nền tảng trực tuyến cũng như các sự kiện và hoạt động ngoại tuyến có liên quan. Đồng thời, quy tắc cũng được áp dụng khi bất kỳ cá nhân nào hành động với tư cách là đại diện chính thức của cộng đồng trong không gian công cộng, chẳng hạn như sử dụng địa chỉ email, tài khoản mạng xã hội chính thức hoặc tham gia các sự kiện, hội thảo và hoạt động truyền thông dưới danh nghĩa GreenEduMap.
+- This Code of Conduct applies within all community spaces, including online platforms as well as related offline events and activities. It also applies when an individual is representing the community in public spaces, such as using an official email address, official social media account, or acting as an appointed representative at an online or offline event.
 
-## 🛡️ Thực Thi 
+## 🛡️ Enforcement
 
-- Mọi hành vi lạm dụng, quấy rối hoặc vi phạm Quy tắc Ứng xử có thể được báo cáo đến người lãnh đạo cộng đồng chịu trách nhiệm thực thi tại 📧 xuantruong081205@gmail.com. Tất cả các báo cáo sẽ được xem xét, điều tra và xử lý một cách kịp thời, công bằng nhằm đảm bảo môi trường an toàn, tôn trọng và lành mạnh cho mọi thành viên. Người lãnh đạo cộng đồng cam kết giữ bí mật thông tin, tôn trọng quyền riêng tư và bảo vệ an toàn cho người báo cáo trong suốt quá trình xem xét và giải quyết sự cố.
+- Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at 📧 xuantruong081205@gmail.com. All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. The community leader is obligated to maintain confidentiality with regard to the reporter of an incident.
 
-## ⚙️ Hướng Dẫn Thực Thi 
+## ⚙️ Enforcement Guidelines
 
-- Người lãnh đạo cộng đồng sẽ áp dụng các biện pháp xử lý tương ứng đối với từng mức độ vi phạm Quy tắc Ứng xử, nhằm đảm bảo môi trường minh bạch, công bằng và tôn trọng trong toàn bộ hoạt động của GreenEduMap.
+- Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
 
-### 📝1. Sửa đổi
+### 📝1. Correction
 
-**Tác động đến cộng đồng**: Sử dụng ngôn ngữ hoặc hành vi chưa phù hợp, thể hiện sự thiếu chuyên nghiệp hoặc không được chào đón trong môi trường chung.
+**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
 
-**Hậu quả**: Người vi phạm sẽ nhận được cảnh báo bằng văn bản từ người lãnh đạo cộng đồng, trong đó nêu rõ hành vi sai phạm và lý do không phù hợp. Trong một số trường hợp, có thể yêu cầu lời xin lỗi công khai để khôi phục tinh thần tôn trọng và hợp tác.
+**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
 
-### ⚠️2. Cảnh báo 
+### ⚠️2. Warning
 
-**Tác động đến cộng đồng**: Vi phạm ở mức độ trung bình, thông qua một sự kiện cụ thể hoặc chuỗi hành động gây ảnh hưởng tiêu cực. 
+**Community Impact**: A violation through a single incident or series of actions.
 
-**Hậu quả**: Người vi phạm sẽ nhận cảnh báo chính thức kèm theo điều kiện hạn chế tương tác với các thành viên khác, bao gồm việc tránh tiếp xúc hoặc gửi tin nhắn không được yêu cầu trong thời gian quy định. Vi phạm tiếp theo có thể dẫn đến cấm tạm thời hoặc cấm vĩnh viễn.
+**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.
 
-### ⏳3. Cấm tạm thời 
+### ⏳3. Temporary Ban
 
-**Tác động đến cộng đồng**: Vi phạm nghiêm trọng các tiêu chuẩn ứng xử, bao gồm hành vi không phù hợp kéo dài hoặc gây ảnh hưởng đến nhiều thành viên.
+**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior.
 
-**Hậu quả**: Người vi phạm bị cấm tham gia hoặc giao tiếp công khai với cộng đồng trong thời gian tạm định. Trong thời gian này, mọi hình thức tương tác trực tuyến hoặc ngoại tuyến đều bị hạn chế. Tái phạm sẽ dẫn đến cấm vĩnh viễn.
+**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.
 
-### 🚫4. Cấm vĩnh viễn
+### 🚫4. Permanent Ban
 
-**Tác động đến cộng đồng**: Thể hiện hành vi vi phạm nghiêm trọng, có tính lặp lại, bao gồm quấy rối, tấn công cá nhân hoặc làm tổn hại đến danh dự và phẩm giá của người khác.
+**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.
 
-**Hậu quả**: Người vi phạm bị loại khỏi mọi hoạt động của cộng đồng GreenEduMap và cấm vĩnh viễn mọi hình thức tham gia hoặc tương tác, nhằm bảo đảm an toàn và sự tôn trọng cho toàn thể thành viên.
+**Consequence**: A permanent ban from any sort of public interaction within the community.
 
-## Đóng góp
+## Contribution
