@@ -126,38 +126,73 @@ services:
       start_period: 40s
 
   # ================================
-  # PLACEHOLDER FOR FUTURE SERVICES
+  # API GATEWAY
   # ================================
   
-  # user-service:
-  #   build:
-  #     context: ../../modules/user-service
-  #     dockerfile: Dockerfile
-  #   container_name: greenedumap-user-service
-  #   environment:
-  #     DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
-  #   ports:
-  #     - "8002:8002"
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - greenedumap-network
-  #   restart: unless-stopped
+  api-gateway:
+    build:
+      context: ../../modules/api-gateway
+      dockerfile: Dockerfile
+    container_name: greenedumap-api-gateway
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:8001
+      ENVIRONMENT_SERVICE_URL: http://environment-service:8007
+      HOST: 0.0.0.0
+      PORT: 8000
+      DEBUG: ${DEBUG:-true}
+      REDIS_URL: redis://redis:6379/0
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000","*"]'
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
-  # api-gateway:
-  #   build:
-  #     context: ../../modules/api-gateway
-  #     dockerfile: Dockerfile
-  #   container_name: greenedumap-api-gateway
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - auth-service
-  #     - user-service
-  #   networks:
-  #     - greenedumap-network
-  #   restart: unless-stopped
+  # ================================
+  # ENVIRONMENT SERVICE
+  # ================================
+  
+  environment-service:
+    build:
+      context: ../../modules
+      dockerfile: environment-service/Dockerfile
+    container_name: greenedumap-environment-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      OPENAQ_API_URL: https://api.openaq.org/v2
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      OPENWEATHER_API_URL: https://api.openweathermap.org/data/2.5
+      HOST: 0.0.0.0
+      PORT: 8007
+      DEBUG: ${DEBUG:-true}
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
+      FETCH_AIR_QUALITY_INTERVAL: ${FETCH_AIR_QUALITY_INTERVAL:-3600}
+      FETCH_WEATHER_INTERVAL: ${FETCH_WEATHER_INTERVAL:-1800}
+    ports:
+      - "8007:8007"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8007/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 # ================================
 # NETWORKS
