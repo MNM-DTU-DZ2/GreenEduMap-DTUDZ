@@ -8,7 +8,7 @@ As members, contributors, and leaders in the GreenEduMap project, we are committ
 
 GreenEduMap aims for a green learning community – where every contribution is cherished and nurtured.
 
-## 🌟 Our Standards
+## 🌟 O 
 
 #### 🤝 Positive behavior that is encouraged:
 
