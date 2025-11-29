@@ -1,10 +1,18 @@
 # 🌿 GreenEduMap - Dữ liệu mở dẫn lối đô thị xanh
 
-**License:** [![GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-green.svg)](LICENSE)
+<div align="center">
+
+[![GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-green.svg)](LICENSE)
 
 **🤝 [Đóng Góp](CONTRIBUTING.md)** • **📜 [Changelog](CHANGELOG.md)**
 
+</div>
+
+<div align="center">
+
 [![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://MNM-DTU-DZ2.github.io/GreenEduMap-DTUDZ/)
+
+</div>
 
 ![Banner](assets/images/banner_greenedu.png)
 
@@ -109,7 +117,8 @@ GreenEduMap tuân thủ chuẩn **NGSI-LD** (ETSI GS CIM 009) nhằm chia sẻ d
 - **Open Data**: API công khai phục vụ nhà nghiên cứu, startup xây ứng dụng xanh mà không cần phụ thuộc vào nền tảng độc quyền.
 
 ### API endpoints chính
-```http
+
+```text
 # Liệt kê entity Linked Data
 GET    /api/ngsi-ld/v1/entities
 GET    /api/ngsi-ld/v1/entities?type=AirQuality
