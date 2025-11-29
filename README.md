@@ -1,4 +1,10 @@
-# 🌿 Giới thiệu về dự án GreenEduMap
+# 🌿 GreenEduMap - Dữ liệu mở dẫn lối đô thị xanh
+
+**License:** [![GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-green.svg)](LICENSE)
+
+**🤝 [Đóng Góp](CONTRIBUTING.md)** • **📜 [Changelog](CHANGELOG.md)**
+
+[![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://MNM-DTU-DZ2.github.io/GreenEduMap-DTUDZ/)
 
 ![Banner](assets/images/banner_greenedu.png)
 
@@ -6,117 +12,69 @@
 
 ## 📖 Tổng Quan
 
-**GreenEduMap** là một dự án mã nguồn mở được phát triển bởi đội **DTU-DZ_2** Đến từ **Đại học Duy Tân** nhằm tham gia cuộc thi **Olympic Tin học Sinh viên – Khối Mã nguồn mở năm 2025**. Dự án tập trung xây dựng trên nền tảng **bản đồ tri thức đô thị xanh**, giúp kết nối **người dân – trường học – chính quyền** thông qua dữ liệu mở và công nghệ hiện đại.
+**GreenEduMap** là một dự án mã nguồn mở do đội **DTU-DZ_2** đến từ **Đại học Duy Tân** phát triển để tham gia cuộc thi **Olympic Tin học Sinh viên – Khối Mã nguồn mở 2025**. Dự án thuộc lĩnh vực đô thị thông minh xanh, với mục tiêu :
 
-GreenEduMap hướng đến việc số hóa và trực quan hóa các dữ liệu quan trọng như **môi trường, giáo dục và năng lượng** trên **bản đồ 3D thời gian thực**, từ đó hỗ trợ ra quyết định thông minh và khuyến khích cộng đồng tham gia các hành động bền vững.
+🤝 **Kết nối người dân – trường học – chính quyền** bằng bản đồ tri thức.
+🔍 **Minh bạch hóa dữ liệu đô thị** theo từng khu vực để cộng đồng dễ tiếp cận.
+🤖 **Tối ưu hóa quy trình ra quyết định bằng AI** giúp gợi ý hành động xanh phù hợp từng khu vực.
+🎓 **Thúc đẩy giáo dục bền vững** và khuyến khích cộng đồng cùng đóng góp, mở rộng.
 
----
-
-## 💡 Tại sao lại có dự án này?
-
-Chúng ta đều thấy các đô thị đang phát triển nhanh chóng, và các vấn đề như ô nhiễm không khí, hiệu ứng đảo nhiệt đô thị, thiếu cây xanh hay chất lượng giáo dục môi trường đang trở nên nghiêm trọng hơn. Tuy nhiên:
-
-- Dữ liệu môi trường, giáo dục và năng lượng tồn tại rời rạc ở nhiều nguồn khác nhau, khó truy cập và thiếu chuẩn hóa.
-
-- Chính quyền thiếu công cụ phân tích tổng hợp để ra quyết định quy hoạch cây xanh, năng lượng tái tạo hay giáo dục bền vững dựa trên dữ liệu khoa học.
-
-- Người dân và trường học không có nguồn thông tin đáng tin cậy, trực quan về chất lượng môi trường và các hoạt động xanh quanh khu vực mình.
-
-GreenEduMap ra đời để giải quyết những vấn đề đó, hướng tới một đô thị minh bạch hơn, thông minh hơn và bền vững hơn thông qua dữ liệu mở và giáo dục xanh.
+Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI, GIS, OpenData và dashboard thời gian thực để tạo nên hệ sinh thái đô thị minh bạch, xanh và có khả năng mở rộng cho nhiều địa phương.
 
 ---
 
 ## 👥 Dự án này dành cho ai?
 
-![Banner](assets/images/Du_an_nay_cho_ai_greenedumap.png)
+![Banner](assets/images/doi_tuong_chinh.jpg)
 
-1. **Người dân** → xem chất lượng sống và nhận gợi ý hành động xanh, cung cấp thông tin môi trường cho lối sống xanh.
-
+1. **Người dân** → xem chất lượng sống và nhận gợi ý hành động xanh, cung cấp thông tin môi trường .
 2. **Chính quyền** → ra quyết định dựa trên dữ liệu, sử dụng dữ liệu để quản lý đô thị hiệu quả.
-
 3. **Trường học** → triển khai giáo dục xanh (Green Skills), tích hợp dữ liệu vào giáo dục môi trường.
-
-4. **Nhà nghiên cứu** → truy cập dữ liệu mở chuẩn hóa để nghiên cứu và đổi mới, xây dựng mô hình AI/ML.
-
-5. **Doanh nghiệp xanh** → tìm vị trí thích hợp để đầu tư CSR hoặc năng lượng tái tạo, sử dụng dữ liệu cho các sáng kiến bền vững.
-
-6. **Tổ chức môi trường** → sử dụng dữ liệu cho vận động và giám sát, xây dựng chiến dịch truyền thông dựa trên dữ liệu thật.
-
+4. **Tổ chức môi trường** → sử dụng dữ liệu cho và giám sát, xây dựng chiến dịch truyền thông dựa trên dữ liệu thật.
+5. **Nhà nghiên cứu** → truy cập dữ liệu mở chuẩn hóa để nghiên cứu và đổi mới, xây dựng mô hình AI/ML.
 ---
 
-## ✨ Có gì đặc biệt?
+## ✨ Modules chính của GreenEduMap
 
-![Banner](assets/images/tinh_nang_chinh_greenedumap.png)
+### 1. 📱 Module tương tác người dân
 
-- **AI GreenBot**: Tự động phân tích dữ liệu để đọc hiểu dữ liệu môi trường – giáo dục, phát hiện mẫu bất thường và gợi ý các hành động xanh cụ thể cho từng khu vực.
+🌍 Xem dữ liệu môi trường realtime (chất lượng không khí, nhiệt độ, cảnh báo ô nhiễm)
 
-- **Bản đồ Realtime**: Người dùng có thể xem nhanh bức tranh “sức khỏe đô thị” trên bản đồ 3D, cập nhật theo thời gian thực với nhiều lớp dữ liệu
+🏫 Tìm kiếm trường học xanh và khóa học bền vững (Green Skills)
 
-- **Đa nền tảng**: Web Dashboard cho chính quyền/trường học và Mobile App cho người dân.
+📊 Theo dõi chất lượng sống theo từng khu vực
 
-- **Dữ liệu mở & tương thích quốc tế**: Dữ liệu giúp dễ dàng chia sẻ, tái sử dụng và phục vụ nghiên cứu.
+💡 Nhận gợi ý hành động xanh từ AI GreenBot
 
----
+### 2. 🤖 Module phân tích AI & Dữ liệu
 
-## 🎯 Mục tiêu dự án
+🧠 **AI GreenBot**: Phân tích tương quan môi trường ↔ giáo dục, phát hiện mẫu bất thường
 
-![Banner](assets/images/muc_tieu_GreenEduMap.png)
+📈 Clustering khu vực (Xanh – Vàng – Đỏ) dựa trên chỉ số môi trường
 
-### 🎯 Mục tiêu tổng thể
+🔮 Dự báo xu hướng ô nhiễm và biến động mảng xanh
 
-Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → hành động xanh → cải thiện chất lượng sống.
+⭐ Đánh giá và gợi ý hành động xanh tự động cho từng khu vực
 
-### 🎯 Mục tiêu cụ thể
+### 3. 🗺️ Module quản lý dữ liệu môi trường & giáo dục
 
-- Tăng tính minh bạch dữ liệu đô thị — công khai dữ liệu môi trường, giáo dục, năng lượng theo từng khu vực.
-- Xây dựng hệ thống dữ liệu mở theo chuẩn NGSI-LD và Linked Open Data.
-- Tối ưu hóa quy trình ra quyết định bằng AI (phân tích tương quan, gợi ý hành động xanh).
-- Thúc đẩy giáo dục bền vững (Green Skills) — cung cấp dữ liệu môi trường thật và hệ sinh thái khóa học xanh.
-- Khuyến khích cộng đồng đóng góp và mở rộng — mã nguồn mở (GPL v3), API mở, hỗ trợ triển khai đa thành phố.
-- Hỗ trợ nghiên cứu và phát triển giải pháp thông minh cho đô thị.
-- Xây dựng hệ sinh thái đô thị thông minh, hỗ trợ mô phỏng và dự báo.
+🌡️ Thu thập và quản lý dữ liệu môi trường (OpenAQ, OpenWeather, Sentinel)
 
----
+🏫 Quản lý trường học, khóa học xanh và tính toán Green Score
 
-## 💫 Thách thức mà dự án hướng tới?
+🗺️ Bản đồ 3D realtime hiển thị dữ liệu môi trường – giáo dục theo từng phường/xã
 
-- Dữ liệu đô thị hiện tại rời rạc, khó truy cập, thiếu chuẩn hóa.
-- Chính quyền thiếu công cụ phân tích nhiệt độ – ô nhiễm – năng lượng – giáo dục theo từng phường/xã.
-- Trường học cần dữ liệu thật để dạy kỹ năng xanh.
-- Người dân không có nguồn thông tin đáng tin cậy về chất lượng sống quanh mình.
-- Cộng đồng thiếu hành vi xanh vì không biết bắt đầu từ đâu.
+📊 Dashboard trực quan cho chính quyền và trường học
 
----
+### 4. 📊 Module quản trị hệ thống & OpenData
 
-## 🛠️ Giải pháp của dự án
+📉 Dashboard tổng quan và báo cáo KPI cho cơ quan quản lý
 
-![Banner](assets/images/Giai_phap_greenedumap.png)
+🔗 API mở theo chuẩn NGSI-LD và Linked Open Data
 
-- Bản đồ 3D tương tác hiển thị dữ liệu môi trường, giáo dục, năng lượng theo từng phường/xã với các lớp dữ liệu đa tầng.
+📥 Export dữ liệu đa định dạng (JSON, CSV, GeoJSON, RDF)
 
-- ETL Pipeline tích hợp và chuẩn hóa dữ liệu từ nhiều nguồn mở (OpenAQ, OpenWeather, Sentinel, OpenStreetMap).
-
-- AI phân tích tương quan môi trường ↔ giáo dục, clustering khu vực (Xanh – Vàng – Đỏ), và gợi ý hành động xanh dựa trên dữ liệu.
-
-- Dashboard trực quan cho từng đối tượng: chính quyền (phân tích KPI, điểm nóng), trường học (quản lý khóa học xanh), người dân (theo dõi chất lượng sống).
-
-- Hệ thống giáo dục bền vững (Green Skills) — quản lý khóa học, hoạt động xanh, và đánh giá chỉ số "Trường học xanh".
-
-- API mở theo chuẩn NGSI-LD và Linked Open Data (RDF/JSON-LD) để tích hợp với hệ thống thành phố và bên thứ ba.
-
-- Digital Twin đô thị xanh — tạo bản sao số cho từng phường/xã với dữ liệu real-time, hỗ trợ mô phỏng và dự báo xu hướng.
-
-- Mã nguồn mở (GPL v3) với quy trình đóng góp rõ ràng, hỗ trợ triển khai đa thành phố và mở rộng cộng đồng.
-
----
-
-## 👥 Vai trò & phân quyền
-
-| Vai trò    | Khả năng                                 | Màn hình                      |
-| ---------- | ---------------------------------------- | ----------------------------- |
-| 👨‍💻 Admin   | Quản lý dữ liệu, phân quyền, cấu hình AI | Dashboard, Wards, Users, Logs |
-| 🧑‍🏫 School  | Khóa học xanh, học viên, báo cáo         | Courses, Students, Activities |
-| 👩‍💼 Citizen | Bản đồ, phản hồi, nhận gợi ý AI          | Map, Feedback, Actions, Stats |
+⚙️ Phân quyền, quản lý người dùng và giám sát hệ thống
 
 ---
 
@@ -129,7 +87,7 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 | Thành phần         | Công nghệ sử dụng                                       |
 | ------------------ | ------------------------------------------------------- |
 | **Mobile App**     | React Native (iOS & Android)                            |
-| **Web Dashboard**  | Next.js 15                                              |
+| **Web**  | Next.js 15                                              |
 | **Backend Core**   | Laravel (PHP), Redis (Cache)                            |
 | **AI Services**    | FastAPI (Python) cho NLP, Computer Vision, scikit-learn |
 | **API Gateway**    | Traefik, Keycloak (Auth)                                |
@@ -138,35 +96,83 @@ Xây dựng bản đồ tri thức đô thị xanh nơi dữ liệu → AI → h
 | **Database**       | PostgreSQL + PostGIS (GeoData), OpenSearch              |
 | **Semantic**       | FiWARE Orion-LD, MongoDB                                |
 
-### Các lớp (Layers) chính
+---
 
-#### 📥 Frontend Layer
-- **Web Dashboard**: Next.js 15 với TypeScript, TailwindCSS, Chart.js/ECharts
-- **Mobile App**: React Native với Expo, API consumption, offline-first
-- **Map Visualization**: Mapbox GL JS / Cesium.js cho bản đồ 3D tương tác
+## 🔗 Linked Open Data - NGSI-LD
 
-#### 🔬 Backend Layer
-- **API Gateway**: Traefik routing, load balancing
-- **Authentication**: Keycloak OpenID Connect, JWT tokens
-- **Core Services**: Laravel microservices (User, School, Feedback, Analytics)
-- **Cache Layer**: Redis cho session, real-time data
-- **Message Queue**: Kafka cho async processing, MQTT cho IoT sensors
+GreenEduMap tuân thủ chuẩn **NGSI-LD** (ETSI GS CIM 009) nhằm chia sẻ dữ liệu đô thị xanh theo hướng Linked Open Data và tương thích với hệ sinh thái **FiWARE Orion-LD** đang được nhiều thành phố thông minh sử dụng.
 
-#### 🧠 AI & Data Layer
-- **NLP Service**: FastAPI + spaCy, transformers cho phân tích feedback
-- **Computer Vision**: OpenCV + YOLO cho phân tích ảnh vệ tinh
-- **ML Pipeline**: scikit-learn, pandas, numpy cho clustering & prediction
-- **Time Series**: Prophet, LSTM cho dự báo dữ liệu môi trường
+### Vì sao NGSI-LD cho GreenEduMap?
+- **Chuẩn quốc tế**: NGSI-LD bảo đảm dữ liệu môi trường – giáo dục tuân thủ đặc tả ETSI, dễ dàng kết nối với nền tảng Smart City khác.
+- **Interoperability**: Entity có URI chuẩn (`urn:ngsi-ld:AirQuality:...`, `urn:ngsi-ld:School:...`) nên tích hợp song song với GIS, dashboard của địa phương.
+- **Linked Data**: JSON-LD cho phép gắn ngữ nghĩa (SOSA/SSN, Smart Data Models) giúp AI phân tích quan hệ môi trường ↔ giáo dục.
+- **Open Data**: API công khai phục vụ nhà nghiên cứu, startup xây ứng dụng xanh mà không cần phụ thuộc vào nền tảng độc quyền.
 
-#### 💾 Data Layer
-- **Relational**: PostgreSQL + PostGIS (spatial queries, geometries)
-- **Search**: OpenSearch/Elasticsearch (full-text search, aggregations)
-- **Semantic**: MongoDB (JSON-LD storage), FiWARE Orion-LD (NGSI-LD entities)
-- **Real-time**: Redis Pub/Sub (WebSocket broadcasts)
+### API endpoints chính
+```http
+# Liệt kê entity Linked Data
+GET    /api/ngsi-ld/v1/entities
+GET    /api/ngsi-ld/v1/entities?type=AirQuality
+GET    /api/ngsi-ld/v1/entities?type=School
+
+# Chi tiết & truy vấn thời gian
+GET    /api/ngsi-ld/v1/entities/{id}
+GET    /api/ngsi-ld/v1/temporal/entities/{id}
+
+# Ghi/đăng ký
+POST   /api/ngsi-ld/v1/entities              (Content-Type: application/ld+json)
+PATCH  /api/ngsi-ld/v1/entities/{id}/attrs
+POST   /api/ngsi-ld/v1/subscriptions         (webhook khi AQI hoặc điểm xanh thay đổi)
+```
+
+### Smart Data Models tiêu biểu
+
+- `AirQualityObservation` (FiWARE Smart Data Models): thuộc tính `aqi`, `pm25`, `observedAt`, `location` (GeoProperty - GeoJSON Point), `source`.
+- `School`/`GreenSchool`: thuộc tính `greenScore`, `facilities`, `courseCatalog`, `address`, `status`.
+
+
+> 📚 Chi tiết cấu trúc NGSI-LD và context JSON-LD được mô tả trong `PROJECT_WORK.md` và các tài liệu trong thư mục `docs/`.
 
 ---
 
-## 🚀 Quick Start
+## 🧩 Hướng Phát Triển
+
+Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh, không chỉ dừng lại ở hiển thị dữ liệu mà còn mở rộng khả năng dự báo, tự động hóa và kết nối cộng đồng.
+
+### 🌐 Mở rộng & Kết nối
+
+- Triển khai đa đô thị: Mở rộng GreenEduMap cho nhiều thành phố, hỗ trợ đa ngôn ngữ
+- Bản đồ 3D thời gian thực: Hiển thị lớp dữ liệu môi trường – giáo dục – năng lượng với vùng cảnh báo.
+- Nền tảng cộng đồng xanh: Kết nối người dân – trường học – doanh nghiệp thông qua dữ liệu mở và hoạt động xanh.
+
+### 🧠 Nâng cấp AI & Dữ liệu
+
+- Dự báo xu hướng đô thị: Phân tích dữ liệu lịch sử để dự đoán ô nhiễm không khí, nhiệt độ và biến động mảng xanh.
+- AI GreenBot nâng cao: Học từ dữ liệu người dùng đóng góp và cảm biến IoT môi trường.
+- Phân tích hình ảnh vệ tinh: Tự động nhận diện thay đổi cây xanh, bê tông hóa từ ảnh Sentinel.
+
+### 🔗 Dữ liệu mở & Minh bạch
+
+- Chuẩn hóa dữ liệu mở: Áp dụng NGSI-LD, RDF/JSON-LD để chia sẻ dữ liệu môi trường và giáo dục.
+- API mở: Cho phép sinh viên, nhà nghiên cứu và startup phát triển các ứng dụng xanh trên nền tảng.
+- Quản lý chất lượng dữ liệu: Theo dõi nguồn gốc dữ liệu (data lineage) và độ tin cậy.
+
+### 🌍 Tầm nhìn dài hạn
+
+- Xây dựng bản sao số đô thị xanh 3D, mô phỏng môi trường – giáo dục – năng lượng, dự báo xu hướng và gợi ý giải pháp tối ưu.
+- Kết nối người dân, trường học, doanh nghiệp và chính quyền trong một hệ sinh thái dữ liệu mở.
+- Ứng dụng AI dự báo ô nhiễm, thay đổi cây xanh và năng lượng, giúp ra quyết định nhanh và bền vững.
+- Triển khai GreenEduMap tại nhiều thành phố Đông Nam Á, chuẩn hóa dữ liệu theo NGSI-LD và Linked Open Data, trở thành trung tâm dữ liệu đô thị xanh mã nguồn mở hàng đầu khu vực.
+
+---
+
+## ⚖️ Quy Tắc Ứng Xử
+
+Dự án này tuân theo bộ quy tắc ứng xử cho cộng đồng. Xem file [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) để biết thêm chi tiết về các quy tắc và hành vi được chấp nhận.
+
+---
+
+## 🚀 Cài Đặt Hệ Thống
 
 ### Yêu cầu hệ thống
 - **Node.js** 18+ (Next.js web)
@@ -219,75 +225,6 @@ Xem chi tiết tại `docs/guides/setup.md`
 
 ---
 
-## 🔄 Cách hoạt động
-
-Quy trình đơn giản như sau:
-
-**Người dùng** 📱 → Xem bản đồ 3D, dashboard, hoặc gửi phản hồi qua App.
-
-**Hệ thống thu thập dữ liệu** 🌐 → ETL tự động lấy dữ liệu từ OpenAQ, OpenWeather, Sentinel, OpenStreetMap → Làm sạch & chuẩn hóa
-
-**AI phân tích & xử lý** 🤖 → Phân tích tương quan môi trường ↔ giáo dục, clustering khu vực, gợi ý hành động xanh → Cập nhật NGSI-LD Entities.
-
-**Hiển thị** 🗺️ → Bản đồ 3D realtime, dashboard, thống kê → Người dùng nhận gợi ý xanh
-
----
-
-## 🧩 Hướng Phát Triển
-
-Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh, không chỉ dừng lại ở hiển thị dữ liệu mà còn mở rộng khả năng dự báo, tự động hóa và kết nối cộng đồng.
-
-### 🌐 Mở rộng & Kết nối
-
-- Triển khai đa đô thị: Mở rộng GreenEduMap cho nhiều thành phố, hỗ trợ đa ngôn ngữ
-- Bản đồ 3D thời gian thực: Hiển thị lớp dữ liệu môi trường – giáo dục – năng lượng với vùng cảnh báo “điểm nóng”.
-- Nền tảng cộng đồng xanh: Kết nối người dân – trường học – doanh nghiệp thông qua dữ liệu mở và hoạt động xanh.
-
-### 🧠 Nâng cấp AI & Dữ liệu
-
-- Dự báo xu hướng đô thị: Phân tích dữ liệu lịch sử để dự đoán ô nhiễm không khí, nhiệt độ và biến động mảng xanh.
-- AI GreenBot nâng cao: Học từ dữ liệu người dùng đóng góp và cảm biến IoT môi trường.
-- Phân tích hình ảnh vệ tinh: Tự động nhận diện thay đổi cây xanh, bê tông hóa từ ảnh Sentinel.
-
-### 🔗 Dữ liệu mở & Minh bạch
-
-- Chuẩn hóa dữ liệu mở: Áp dụng NGSI-LD, RDF/JSON-LD để chia sẻ dữ liệu môi trường và giáo dục.
-- API mở: Cho phép sinh viên, nhà nghiên cứu và startup phát triển các ứng dụng xanh trên nền tảng.
-- Quản lý chất lượng dữ liệu: Theo dõi nguồn gốc dữ liệu (data lineage) và độ tin cậy.
-
-### 🌍 Tầm nhìn dài hạn
-
-- Xây dựng bản sao số đô thị xanh 3D, mô phỏng môi trường – giáo dục – năng lượng, dự báo xu hướng và gợi ý giải pháp tối ưu.
-- Kết nối người dân, trường học, doanh nghiệp và chính quyền trong một hệ sinh thái dữ liệu mở.
-- Ứng dụng AI dự báo ô nhiễm, thay đổi cây xanh và năng lượng, giúp ra quyết định nhanh và bền vững.
-- Triển khai GreenEduMap tại nhiều thành phố Đông Nam Á, chuẩn hóa dữ liệu theo NGSI-LD và Linked Open Data, trở thành trung tâm dữ liệu đô thị xanh mã nguồn mở hàng đầu khu vực.
-
-## 🌿 Lợi ích mang lại
-
-### 🌍 Minh bạch dữ liệu đô thị
-
-Dữ liệu phân tán → chuẩn hóa → hiển thị trực quan.
-
-### 🏛 Hỗ trợ quyết định cho chính quyền
-
-- Xác định điểm nóng đô thị
-- Quy hoạch cây xanh / năng lượng tái tạo
-- Ưu tiên ngân sách theo mức độ rủi ro
-
-### 🎓 Thúc đẩy giáo dục xanh
-
-- Khóa học Green Skills
-- Hoạt động dựa trên dữ liệu thật
-- Chỉ số "Trường học xanh"
-
-### 👨‍👩‍👧 Người dân chủ động hành động xanh
-
-- Nhận cảnh báo môi trường
-- Gợi ý hành động theo khu vực
-- Theo dõi chất lượng sống quanh mình
-
----
-
 ## 📁 Cấu trúc thư mục
 
 ```
@@ -301,19 +238,6 @@ GreenEduMap
 ├── scripts/            # ETL, LOD exports
 └── .github/workflows/  # CI/CD pipelines
 ```
-
----
-
-## 🗂 Dữ liệu & mô hình
-
-- `users` – Admin, School, Citizen
-- `schools`, `courses`, `enrollments`
-- `air_quality`, `weather`, `energy_data`
-- `citizen_feedback`
-- `ai_analysis`, `ai_clusters`
-
-**Bảng GIS:** `geometry(Point, 4326)` + GiST Index  
-**LOD Export:** JSON-LD / Turtle / RDF-XML, FiWARE Smart Data Models, W3C SOSA/SSN
 
 ---
 
@@ -340,26 +264,76 @@ npm run test
 
 ---
 
-## 🤝 Đóng góp
+## 🤝 Đóng Góp Cho Dự Án
 
-1. Fork repo
-2. Tạo branch `git checkout -b feature/my-feature`
-3. Viết test + cập nhật docs
-4. `git commit -m "feat: add xyz"`
-5. `git push` & mở Pull Request
+Dự án này là mã nguồn mở, được phát triển bởi đội **DTU-DZ_2** đến từ **Đại học Duy Tân** để tham gia cuộc thi **Olympic Tin học Sinh viên – Khối Mã nguồn mở năm 2025** nên rất hoan nghênh cộng đồng tham gia đóng góp!
 
-Tuân thủ Conventional Commits & Code Style của dự án.
+### 🌱 Quy Trình Đóng Góp
+
+#### 1. Fork Repository
+
+```bash
+# Fork repository trên GitHub
+# Clone về máy local
+git clone https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ.git
+cd GreenEduMap-DTUDZ
+```
+
+#### 2. Tạo Branch Mới
+
+```bash
+# Tạo và chuyển sang branch mới
+git checkout -b feat/<new-feature>
+
+# Ví dụ
+git checkout -b feat/air-quality-api
+```
+
+#### 3. Commit Thay Đổi
+
+```bash
+# Thêm file đã thay đổi
+git add .
+
+# Commit với message rõ ràng
+git commit -m "feat: add air quality API module"
+```
+
+#### 4. Push Branch
+
+```bash
+# Push lên repository của bạn
+git push -u origin feat/<new-feature>
+```
+
+#### 5. Tạo Pull Request
+
+- Truy cập repository gốc tại GitHub
+- Chọn "New Pull Request"
+- Chọn branch của bạn để merge
+- Điền thông tin mô tả chi tiết
+
+### 📝 Issues
+
+Báo cáo lỗi và đề xuất tính năng mới tại [GitHub Issues](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/issues)
+
+Xem thêm hướng dẫn đóng góp tại [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
 
-## 👥 Team Members
+## 👥 Người Hướng Dẫn
 
-| Vai trò   | Thành viên        | Email                      |
-| --------- | ----------------- | -------------------------- |
-| Leader    | Nguyễn Quốc Long  | quoclongdng@gmail.com      |
-| Developer | Trần Xuân Trường  | xuantruong081205@gmail.com |
-| Developer | Hồ Dương Quốc Huy | huyho2782005@gmail.com     |
-| Developer | Lê Tuấn Minh      | llttminh@gmail.com         |
+| 👨‍🏫 Vai Trò | 📧 Thông Tin |
+| ----------- | ------------ |
+| **Giảng Viên** | **Nguyễn Quốc Long**<br>Email: quoclongdng@gmail.com |
+
+### 📞 Liên hệ Team DTU-DZ2
+
+Nếu cần trao đổi gì thêm, vui lòng liên hệ:
+
+- **Trần Xuân Trường**: xuantruong081205@gmail.com
+- **Hồ Dương Quốc Huy**: huyho2782005@gmail.com
+- **Lê Tuấn Minh**: llttminh@gmail.com
 
 ---
 
@@ -369,5 +343,5 @@ Dự án này được phân phối dưới [GNU General Public License v3.0](LI
 
 ---
 
-🎉 **GreenEduMap – Built for OLP 2025 Smart City Challenge**  
-🌿 _Empowering sustainable cities through open data and education._
+© 2025 **GreenEduMap** - Dữ liệu mở dẫn lối đô thị xanh 🌱  
+
