@@ -1,42 +1,216 @@
 version: '3.8'
 
 services:
+  # ================================
+  # DATABASE LAYER
+  # ================================
+  
   postgres:
     image: postgis/postgis:16-3.4
     container_name: greenedumap-postgres
     environment:
-      POSTGRES_DB: greenedumap
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-greenedumap}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+      TZ: Asia/Ho_Chi_Minh
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d  # SQL init scripts
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     container_name: greenedumap-redis
+    command: redis-server --appendonly yes
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 5
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
 
   mongodb:
     image: mongo:7
     container_name: greenedumap-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-greenedumap}
+      TZ: Asia/Ho_Chi_Minh
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT:-27017}:27017"
     volumes:
       - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+
+  # ================================
+  # ADMINER (Database UI)
+  # ================================
+  
+  adminer:
+    image: adminer:latest
+    container_name: greenedumap-adminer
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+      ADMINER_DESIGN: nette
+    depends_on:
+      - postgres
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+
+  # ================================
+  # CORE SERVICES
+  # ================================
+  
+  auth-service:
+    build:
+      context: ../../modules/auth-service
+      dockerfile: Dockerfile
+    container_name: greenedumap-auth-service
+    environment:
+      # Database
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      
+      # JWT
+      SECRET_KEY: ${JWT_SECRET_KEY:-your-super-secret-key-change-this-in-production-min-32-chars}
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      REFRESH_TOKEN_EXPIRE_DAYS: ${REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      
+      # App
+      DEBUG: ${DEBUG:-true}
+      HOST: 0.0.0.0
+      PORT: 8001
+      
+      # CORS
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000","http://localhost:8080"]'
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ================================
+  # API GATEWAY
+  # ================================
+  
+  api-gateway:
+    build:
+      context: ../../modules/api-gateway
+      dockerfile: Dockerfile
+    container_name: greenedumap-api-gateway
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:8001
+      ENVIRONMENT_SERVICE_URL: http://environment-service:8007
+      HOST: 0.0.0.0
+      PORT: 8000
+      DEBUG: ${DEBUG:-true}
+      REDIS_URL: redis://redis:6379/0
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000","*"]'
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ================================
+  # ENVIRONMENT SERVICE
+  # ================================
+  
+  environment-service:
+    build:
+      context: ../../modules
+      dockerfile: environment-service/Dockerfile
+    container_name: greenedumap-environment-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      OPENAQ_API_URL: https://api.openaq.org/v2
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      OPENWEATHER_API_URL: https://api.openweathermap.org/data/2.5
+      HOST: 0.0.0.0
+      PORT: 8007
+      DEBUG: ${DEBUG:-true}
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
+      FETCH_AIR_QUALITY_INTERVAL: ${FETCH_AIR_QUALITY_INTERVAL:-3600}
+      FETCH_WEATHER_INTERVAL: ${FETCH_WEATHER_INTERVAL:-1800}
+    ports:
+      - "8007:8007"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8007/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# ================================
+# NETWORKS
+# ================================
+
+networks:
+  greenedumap-network:
+    driver: bridge
+    name: greenedumap-network
+
+# ================================
+# VOLUMES
+# ================================
 
 volumes:
   postgres_data:
+    name: greenedumap-postgres-data
+  redis_data:
+    name: greenedumap-redis-data
   mongodb_data:
+    name: greenedumap-mongodb-data

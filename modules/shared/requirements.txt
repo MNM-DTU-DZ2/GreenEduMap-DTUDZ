@@ -1,0 +1,14 @@
+# Shared dependencies for GreenEduMap microservices
+
+# Database
+sqlalchemy==2.0.25
+asyncpg==0.29.0
+geoalchemy2==0.14.3
+psycopg2-binary==2.9.9
+
+# FastAPI (for services using this)
+fastapi==0.109.0
+pydantic[email]==2.5.0
+
+# Utilities
+python-dotenv==1.0.0
