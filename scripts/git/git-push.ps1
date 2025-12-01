@@ -3,6 +3,7 @@
 
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::InputEncoding = [System.Text.Encoding]::UTF8
 
 function Write-Color {
     param(
@@ -35,6 +36,8 @@ Write-Host ""
 # Check if in git repo
 try {
     git rev-parse --git-dir 2>&1 | Out-Null
+    $gitRoot = git rev-parse --show-toplevel
+    Set-Location $gitRoot
 }
 catch {
     Write-Color "[ERROR] Not a git repository" "Red"
