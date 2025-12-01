@@ -1,33 +1,17 @@
-﻿# CHANGELOG
+# [0.2.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.1.0...v0.2.0) (2025-12-01)
 
-## 02/12/2025 - 01h24
 
-### School Map, Search & Details Integration
+### Bug Fixes
 
-**New Features:**
-- tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống
-- project): tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống
+* **script:** Sửa file Script Auto git ([a0469c4](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/a0469c4c1602bf01bc3209c9885c691e6f0dc011))
 
-**Bug Fixes:**
-- script): Sửa file Script Auto git
 
-**Documentation:**
-- update CHANGELOG.md [skip ci]
-- fix changelog workflow and restore content [skip ci]
-- update CHANGELOG.md [skip ci]
-- restore full changelog for v0.1.0 [skip ci]
-- update CHANGELOG.md [skip ci]
+### Features
 
-**Other Changes:**
-- shared): fix lint errors and format code
+* **project:** tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống ([3180677](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/31806776e8bb99b8791328ab20a1f420f21f6216))
+* tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống ([c46eddb](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/c46eddbdefc2fd856398858c34e06ebfedc7938c))
 
-**Technical Details:**
-- Tag: v0.2.0
-- Commits: 9
-- Released from: main branch
-- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v0.2.0
 
----
 
 # [0.1.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v0.1.0) (2025-12-01)
 
