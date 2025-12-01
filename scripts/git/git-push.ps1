@@ -260,9 +260,10 @@ try {
     
     Write-Color "[2/3] Committing..." "White"
     
-    # Create temp file for commit message
+    # Create temp file for commit message (No BOM)
     $tempFile = [System.IO.Path]::GetTempFileName()
-    $fullMessage | Out-File -FilePath $tempFile -Encoding UTF8 -NoNewline
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($tempFile, $fullMessage, $utf8NoBom)
     
     git commit -F $tempFile
     Remove-Item $tempFile

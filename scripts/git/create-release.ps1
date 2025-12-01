@@ -51,7 +51,8 @@ try {
     if ([string]::IsNullOrWhiteSpace($latestTag)) {
         $latestTag = "v0.0.0"
         Write-Color "[!] No tags found, starting from v0.0.0" "Yellow"
-    } else {
+    }
+    else {
         Write-Color "[*] Latest tag: $latestTag" "Green"
     }
     
@@ -101,7 +102,8 @@ try {
     $commits = @()
     if ($latestTag -ne "v0.0.0") {
         $commits = git log "$latestTag..HEAD" --pretty=format:"%s|||%an" --no-merges
-    } else {
+    }
+    else {
         $commits = git log --pretty=format:"%s|||%an" --no-merges -20
     }
     
@@ -119,20 +121,20 @@ try {
         $msg = $parts[0]
         $author = if ($parts.Length -gt 1) { $parts[1] } else { "Unknown" }
         
-        if ($msg -match '^feat[\(\!]|^feat:') {
-            $cleanMsg = $msg -replace '^feat[\(\!:].*?[:\)]?\s*', ''
+        if ($msg -match '^\W*feat[\(\!:]') {
+            $cleanMsg = $msg -replace '^\W*feat[\(\!:].*?[:\)]?\s*', ''
             $features += "- $cleanMsg"
         }
-        elseif ($msg -match '^fix[\(\!]|^fix:') {
-            $cleanMsg = $msg -replace '^fix[\(\!:].*?[:\)]?\s*', ''
+        elseif ($msg -match '^\W*fix[\(\!:]') {
+            $cleanMsg = $msg -replace '^\W*fix[\(\!:].*?[:\)]?\s*', ''
             $fixes += "- $cleanMsg"
         }
-        elseif ($msg -match '^docs[\(\!]|^docs:') {
-            $cleanMsg = $msg -replace '^docs[\(\!:].*?[:\)]?\s*', ''
+        elseif ($msg -match '^\W*docs[\(\!:]') {
+            $cleanMsg = $msg -replace '^\W*docs[\(\!:].*?[:\)]?\s*', ''
             $docs += "- $cleanMsg"
         }
         else {
-            $cleanMsg = $msg -replace '^[a-z]+[\(\!:].*?[:\)]?\s*', ''
+            $cleanMsg = $msg -replace '^\W*[a-z]+[\(\!:].*?[:\)]?\s*', ''
             $others += "- $cleanMsg"
         }
         
@@ -214,7 +216,8 @@ try {
     if (Test-Path $changelogPath) {
         $existing = Get-Content $changelogPath -Raw -Encoding UTF8
         $newContent = "# CHANGELOG`n`n$changelogEntry$existing"
-    } else {
+    }
+    else {
         $newContent = "# CHANGELOG`n`nAll notable changes to GreenEduMap will be documented in this file.`n`n$changelogEntry"
     }
     
@@ -255,10 +258,12 @@ try {
     Write-Host ""
     Write-Host "View at: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/$newVersion" -ForegroundColor Cyan
     
-} catch {
+}
+catch {
     Write-Color "[X] Error: $_" "Red"
     exit 1
-} finally {
+}
+finally {
     Write-Host ""
     Write-Color "[*] Returning to $originalBranch..." "Blue"
     git checkout $originalBranch
