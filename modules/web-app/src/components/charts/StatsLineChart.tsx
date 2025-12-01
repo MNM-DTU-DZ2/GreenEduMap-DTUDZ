@@ -99,9 +99,8 @@ export default function StatsLineChart({ data }: StatsLineChartProps) {
       fontFamily: "Outfit",
       fontSize: "12px",
       markers: {
-        width: 12,
-        height: 12,
-        radius: 6,
+        size: 6,
+        strokeWidth: 0,
       },
     },
   };

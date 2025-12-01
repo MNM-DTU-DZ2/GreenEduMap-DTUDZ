@@ -256,6 +256,28 @@ services:
       retries: 3
       start_period: 40s
 
+  # ================================
+  # WEB APPLICATION (Frontend)
+  # ================================
+
+  web-app:
+    build:
+      context: ../../modules/web-app
+      dockerfile: Dockerfile
+    container_name: greenedumap-web-app
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_MAPBOX_TOKEN: ${NEXT_PUBLIC_MAPBOX_TOKEN:-pk.eyJ1IjoidmlldHZvMzcxIiwiYSI6ImNtZ3ZxazFmbDBndnMyanIxMzN0dHV1eGcifQ.lhk4cDYUEIozqnFfkSebaw}
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+
 # ================================
 # NETWORKS
 # ================================
