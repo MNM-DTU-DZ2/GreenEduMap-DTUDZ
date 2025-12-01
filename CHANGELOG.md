@@ -1,45 +1,11 @@
-﻿# CHANGELOG
+# [1.0.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v1.0.0) (2025-12-01)
 
-## 01/12/2025 - 22h11
 
-### Release v1.0.0
+### Bug Fixes
 
-**New Features:**
-- api): tich hop education service va opendata api
-
-**Bug Fixes:**
-- Architecture picture
-- Architecture Diagram
-- ci): generate dummy package.json for changelog workflow
-
-**Documentation:**
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG for v0.0.3
-- update CHANGELOG.md [skip ci]
-
-**Other Changes:**
-- ﻿fix(aotu): fix script
-- ﻿feat(api): implement thuat toan green score va bulk import
-- ﻿feat(service): tich hop education service va them seed data
-- ﻿feat(service): Tao Education Service - quan ly truong hoc va khoa hoc xanh
-- ﻿feat(api): implement education service foundation (Day 1/10)
-- ﻿feat(feat): 🎯 Cải tiến Backend:
-- ﻿feat(resource): khởi tạo resource service
-- Changelog.md
-- ﻿fix(scripts): sửa lỗi encoding và cập nhật branch main
-- ﻿fix(scripts): sửa lỗi encoding và cập nhật branch main
-
-**Technical Details:**
-- Tag: v1.0.0
-- Commits: 19
-- Released from: main branch
-- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.0.0
-
----
-
-## [0.0.3](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v0.0.3) (2025-12-01)
+* Architecture Diagram ([d961e50](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/d961e50ed08bcbd9e3bd59efe029045f768f9176))
+* Architecture picture ([db99f90](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/db99f90ea7f21f6fcd6ed12b2428c0ca6668568d))
+* **ci:** generate dummy package.json for changelog workflow ([66668ba](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/66668baee7f7a9954d389b241f00f14a3996d17a))
 
 
 
