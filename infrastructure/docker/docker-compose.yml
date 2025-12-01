@@ -225,6 +225,36 @@ services:
       retries: 3
       start_period: 40s
 
+  # ================================
+  # EDUCATION SERVICE
+  # ================================
+  
+  education-service:
+    build:
+      context: ../../modules/education-service
+      dockerfile: Dockerfile
+    container_name: greenedumap-education-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      HOST: 0.0.0.0
+      PORT: 8008
+      DEBUG: ${DEBUG:-true}
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
+    ports:
+      - "8008:8008"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
 # ================================
 # NETWORKS
 # ================================
