@@ -23,15 +23,26 @@ function Test-Endpoint {
     }
 }
 
+# 0. Cleanup Test Data (Auto-cleanup before tests)
+Write-Host "`n=== 0. Cleanup Test Data ===" -ForegroundColor Cyan
+try {
+    $cleanup = docker exec greenedumap-postgres psql -U postgres -d greenedumap -c "TRUNCATE TABLE rescue_centers, resources CASCADE;" 2>&1
+    Write-Host "Database cleaned successfully" -ForegroundColor Green
+} catch {
+    Write-Host "Warning: Could not cleanup database (continuing anyway...)" -ForegroundColor Yellow
+}
+
 # 1. Health Check
 Write-Host "`n=== 1. Health Check ===" -ForegroundColor Cyan
 Test-Endpoint "http://localhost:8002/health"
 
-# 2. Create Center
+# 2. Create Center (with random code to avoid duplicates)
 Write-Host "`n=== 2. Create Center ===" -ForegroundColor Cyan
+$timestamp = Get-Date -Format "yyyyMMddHHmmss"
+$randomSuffix = Get-Random -Maximum 9999
 $center = @{
-    name = "Test Center 1"
-    code = "TC001"
+    name = "Test Center $randomSuffix"
+    code = "TC-$timestamp"
     latitude = 16.0544
     longitude = 108.2022
     address = "Da Nang, Vietnam"

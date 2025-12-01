@@ -30,8 +30,27 @@ class RescueCenter(Base):
     facilities = Column(JSONB, nullable=True)
     meta_data = Column(JSONB, nullable=True)
     
-    # created_at = Column(DateTime(timezone=True), nullable=True)
-    # updated_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now(), nullable=True)
 
     # Relationships
     resources = relationship("Resource", back_populates="center", cascade="all, delete-orphan")
+    
+    @property
+    def latitude(self) -> float:
+        """Extract latitude from location Geography field"""
+        if self.location is None:
+            return None
+        from geoalchemy2.shape import to_shape
+        point = to_shape(self.location)
+        return point.y
+    
+    @property
+    def longitude(self) -> float:
+        """Extract longitude from location Geography field"""
+        if self.location is None:
+            return None
+        from geoalchemy2.shape import to_shape
+        point = to_shape(self.location)
+        return point.x
+

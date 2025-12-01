@@ -136,7 +136,7 @@ services:
     container_name: greenedumap-api-gateway
     environment:
       AUTH_SERVICE_URL: http://auth-service:8001
-      RESOURCE_SERVICE_URL: http://resource-service:8002
+      RESOURCE_SERVICE_URL: http://resource-service:8000
       ENVIRONMENT_SERVICE_URL: http://environment-service:8007
       HOST: 0.0.0.0
       PORT: 8000
