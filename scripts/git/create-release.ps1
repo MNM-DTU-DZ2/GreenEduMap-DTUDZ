@@ -29,7 +29,7 @@ try {
     git checkout main
     git pull origin main
     
-    # Merge develop into master
+    # Merge develop into main
     Write-Host ""
     Write-Color "[*] Merging develop into main..." "Yellow"
     git merge develop --no-ff -m "chore: merge develop into main for release"
@@ -238,7 +238,7 @@ try {
     # Push
     Write-Host ""
     Write-Color "[*] Pushing changes..." "Blue"
-    git push origin master
+    git push origin main
     git push origin $newVersion
     
     # Success
