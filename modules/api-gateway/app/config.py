@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # Service URLs
     AUTH_SERVICE_URL: str = "http://localhost:8001"
     ENVIRONMENT_SERVICE_URL: str = "http://localhost:8007"
-    RESOURCE_SERVICE_URL: str = "http://localhost:8004"
+    RESOURCE_SERVICE_URL: str = "http://localhost:8002"
     EDUCATION_SERVICE_URL: str = "http://localhost:8008"
     AI_SERVICE_URL: str = "http://localhost:8006"
     

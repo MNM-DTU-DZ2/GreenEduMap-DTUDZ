@@ -2,6 +2,7 @@
 # Usage: .\scripts\create-release.ps1
 
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function Write-Color {
     param([string]$Text, [string]$Color = "White")
@@ -24,14 +25,14 @@ try {
     git pull origin develop
     
     Write-Host ""
-    Write-Color "[*] Updating master..." "Blue"
-    git checkout master
-    git pull origin master
+    Write-Color "[*] Updating main..." "Blue"
+    git checkout main
+    git pull origin main
     
-    # Merge develop into master
+    # Merge develop into main
     Write-Host ""
-    Write-Color "[*] Merging develop into master..." "Yellow"
-    git merge develop --no-ff -m "chore: merge develop into master for release"
+    Write-Color "[*] Merging develop into main..." "Yellow"
+    git merge develop --no-ff -m "chore: merge develop into main for release"
     
     if ($LASTEXITCODE -ne 0) {
         Write-Color "[X] Merge failed! Resolve conflicts and try again." "Red"
@@ -39,7 +40,7 @@ try {
     }
     
     Write-Color "[OK] Merge successful!" "Green"
-    git push origin master
+    git push origin main
     
     # Detect latest tag
     Write-Host ""
@@ -183,7 +184,7 @@ try {
     $changelogEntry += "**Technical Details:**`n"
     $changelogEntry += "- Tag: $newVersion`n"
     $changelogEntry += "- Commits: $($commits.Count)`n"
-    $changelogEntry += "- Released from: master branch`n"
+    $changelogEntry += "- Released from: main branch`n"
     $changelogEntry += "- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/$newVersion`n`n"
     $changelogEntry += "---`n`n"
     
@@ -211,7 +212,7 @@ try {
     $changelogPath = "CHANGELOG.md"
     
     if (Test-Path $changelogPath) {
-        $existing = Get-Content $changelogPath -Raw
+        $existing = Get-Content $changelogPath -Raw -Encoding UTF8
         $newContent = "# CHANGELOG`n`n$changelogEntry$existing"
     } else {
         $newContent = "# CHANGELOG`n`nAll notable changes to GreenEduMap will be documented in this file.`n`n$changelogEntry"
@@ -237,7 +238,7 @@ try {
     # Push
     Write-Host ""
     Write-Color "[*] Pushing changes..." "Blue"
-    git push origin master
+    git push origin main
     git push origin $newVersion
     
     # Success

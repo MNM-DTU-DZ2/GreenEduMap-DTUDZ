@@ -2,6 +2,7 @@
 # Fast commit + push with conventional commits
 
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function Write-Color {
     param(
@@ -11,7 +12,8 @@ function Write-Color {
     )
     if ($NoNewline) {
         Write-Host $Text -ForegroundColor $Color -NoNewline
-    } else {
+    }
+    else {
         Write-Host $Text -ForegroundColor $Color
     }
 }
@@ -33,7 +35,8 @@ Write-Host ""
 # Check if in git repo
 try {
     git rev-parse --git-dir 2>&1 | Out-Null
-} catch {
+}
+catch {
     Write-Color "[ERROR] Not a git repository" "Red"
     Read-Host "Press Enter to exit"
     exit 1
@@ -46,7 +49,7 @@ Write-Color $currentBranch "Green"
 Write-Host ""
 
 # Check for changes
-$hasChanges = git diff-index --quiet HEAD -- 2>&1
+$null = git diff-index --quiet HEAD -- 2>&1
 if ($LASTEXITCODE -eq 0) {
     Write-Color "[WARNING] No changes to commit!" "Yellow"
     Read-Host "Press Enter to exit"
@@ -77,15 +80,15 @@ Write-Host ""
 $typeChoice = Read-Host "Select [1-10]"
 
 $typeMap = @{
-    "1" = "feat"
-    "2" = "fix"
-    "3" = "docs"
-    "4" = "style"
-    "5" = "refactor"
-    "6" = "perf"
-    "7" = "test"
-    "8" = "build"
-    "9" = "ci"
+    "1"  = "feat"
+    "2"  = "fix"
+    "3"  = "docs"
+    "4"  = "style"
+    "5"  = "refactor"
+    "6"  = "perf"
+    "7"  = "test"
+    "8"  = "build"
+    "9"  = "ci"
     "10" = "chore"
 }
 
@@ -109,7 +112,8 @@ $scope = Read-Host "Scope (press Enter to skip)"
 
 if ($scope) {
     Write-Color "[OK] Scope: $scope" "Green"
-} else {
+}
+else {
     Write-Color "No scope" "Gray"
 }
 Write-Host ""
@@ -136,23 +140,37 @@ Write-Host ""
 Write-Color "=========================================================" "Cyan"
 Write-Color "STEP 4: Detailed Description (Optional)" "Cyan"
 Write-Color "---------------------------------------------------------" "DarkGray"
-Write-Color "Enter multiple lines. Press Enter on empty line to finish." "Gray"
+Write-Color "PASTE your full message here (Ctrl+V), then press Enter TWICE to finish" "Yellow"
+Write-Color "TIP: You can paste multi-line text with bullet points (-)!" "Gray"
 Write-Host ""
 
 $bodyLines = @()
-$lineNum = 1
+$emptyLineCount = 0
 
 while ($true) {
-    $line = Read-Host "Line $lineNum (or Enter to skip)"
-    if (-not $line) { break }
-    $bodyLines += $line
-    $lineNum++
+    try {
+        $line = [Console]::ReadLine()
+        if (-not $line) {
+            $emptyLineCount++
+            if ($emptyLineCount -ge 2) { break }  # Two consecutive empty lines = done
+        }
+        else {
+            $emptyLineCount = 0
+            $bodyLines += $line
+        }
+    }
+    catch {
+        break
+    }
 }
 
 $body = ""
 if ($bodyLines.Count -gt 0) {
     $body = $bodyLines -join "`n"
     Write-Color "[OK] Body added ($($bodyLines.Count) lines)" "Green"
+}
+else {
+    Write-Color "No body text added" "Gray"
 }
 Write-Host ""
 
@@ -189,13 +207,16 @@ Write-Host ""
 $commitHeader = if ($scope) {
     if ($isBreaking -match "^[Yy]$") {
         "${type}(${scope})!: ${message}"
-    } else {
+    }
+    else {
         "${type}(${scope}): ${message}"
     }
-} else {
+}
+else {
     if ($isBreaking -match "^[Yy]$") {
         "${type}!: ${message}"
-    } else {
+    }
+    else {
         "${type}: ${message}"
     }
 }
@@ -250,6 +271,14 @@ try {
         throw "Commit failed"
     }
     
+    Write-Color "[2.5/3] Pulling latest changes..." "White"
+    git pull origin $currentBranch
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Color "[ERROR] Pull failed! You may have conflicts." "Red"
+        throw "Pull failed"
+    }
+
     Write-Color "[3/3] Pushing to $currentBranch..." "White"
     git push origin $currentBranch
     
@@ -301,12 +330,14 @@ try {
                 Write-Color $currentBranch "Green"
                 Write-Color "Merged to: " "White" -NoNewline
                 Write-Color "develop" "Green"
-            } else {
+            }
+            else {
                 Write-Color "[ERROR] Merge conflict! Resolve manually." "Red"
                 Read-Host "Press Enter to exit"
                 exit 1
             }
-        } else {
+        }
+        else {
             Write-Color "Skipped merge" "Gray"
         }
     }
@@ -316,7 +347,8 @@ try {
     Write-Color "View: .github/workflows/changelog.yml" "Gray"
     Write-Host ""
     
-} catch {
+}
+catch {
     Write-Color "[ERROR] Error: $_" "Red"
     Read-Host "Press Enter to exit"
     exit 1

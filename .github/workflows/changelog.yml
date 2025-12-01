@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - master
       - develop
   
   # Chạy khi tạo Pull Request (preview CHANGELOG)
@@ -13,7 +12,6 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - main
-      - master
   
   # Cho phép chạy manual
   workflow_dispatch:
@@ -42,6 +40,17 @@ jobs:
       - name: Install conventional-changelog-cli
         run: npm install -g conventional-changelog-cli
       
+      - name: Create package.json for versioning
+        run: |
+          # Get latest tag or default to 0.0.0
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          VERSION=${LATEST_TAG#v}
+          echo "Current version: $VERSION"
+          
+          # Create dummy package.json
+          echo "{\"name\": \"greenedumap\", \"version\": \"$VERSION\"}" > package.json
+          echo "✅ Created package.json with version $VERSION"
+
       - name: Generate CHANGELOG.md
         run: |
           # Generate changelog from git history

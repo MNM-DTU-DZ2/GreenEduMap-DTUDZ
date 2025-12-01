@@ -136,7 +136,9 @@ services:
     container_name: greenedumap-api-gateway
     environment:
       AUTH_SERVICE_URL: http://auth-service:8001
+      RESOURCE_SERVICE_URL: http://resource-service:8000
       ENVIRONMENT_SERVICE_URL: http://environment-service:8007
+      EDUCATION_SERVICE_URL: http://education-service:8008
       HOST: 0.0.0.0
       PORT: 8000
       DEBUG: ${DEBUG:-true}
@@ -156,6 +158,36 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
+
+  # ================================
+  # RESOURCE SERVICE
+  # ================================
+  
+  resource-service:
+    build:
+      context: ../../modules/resource-service
+      dockerfile: Dockerfile
+    container_name: greenedumap-resource-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      HOST: 0.0.0.0
+      PORT: 8002
+      DEBUG: ${DEBUG:-true}
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
+    ports:
+      - "8002:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # ================================
   # ENVIRONMENT SERVICE
@@ -189,6 +221,36 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8007/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ================================
+  # EDUCATION SERVICE
+  # ================================
+  
+  education-service:
+    build:
+      context: ../../modules/education-service
+      dockerfile: Dockerfile
+    container_name: greenedumap-education-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      HOST: 0.0.0.0
+      PORT: 8008
+      DEBUG: ${DEBUG:-true}
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
+    ports:
+      - "8008:8008"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
       interval: 30s
       timeout: 10s
       retries: 3

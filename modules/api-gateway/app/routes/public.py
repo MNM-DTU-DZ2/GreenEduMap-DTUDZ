@@ -132,3 +132,49 @@ async def get_data_catalog():
             }
         ]
     }
+
+
+# ============================================
+# Centers & Resources Endpoints
+# ============================================
+
+@router.get("/centers")
+async def get_public_centers(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=1000)
+):
+    """Get public rescue centers"""
+    try:
+        async with httpx.AsyncClient() as client:
+            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/centers/"
+            params = {"skip": skip, "limit": limit}
+            response = await client.get(url, params=params, timeout=30.0)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPError as e:
+        logger.error(f"Error fetching centers: {e}")
+        raise HTTPException(status_code=503, detail="Service unavailable")
+
+
+@router.get("/centers/nearby")
+async def get_nearby_centers(
+    latitude: float = Query(..., ge=-90, le=90),
+    longitude: float = Query(..., ge=-180, le=180),
+    radius_km: float = Query(10.0, ge=0.1, le=100)
+):
+    """Get rescue centers near a location"""
+    try:
+        async with httpx.AsyncClient() as client:
+            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/centers/nearby"
+            params = {
+                "latitude": latitude,
+                "longitude": longitude,
+                "radius_km": radius_km
+            }
+            response = await client.get(url, params=params, timeout=30.0)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPError as e:
+        logger.error(f"Error fetching nearby centers: {e}")
+        raise HTTPException(status_code=503, detail="Service unavailable")
+
