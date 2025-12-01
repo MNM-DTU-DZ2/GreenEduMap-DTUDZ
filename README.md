@@ -88,7 +88,7 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 
 ## 🧱 Kiến trúc hệ thống
 
-![Banner](assets/images/kien_truc_he_thong_greenedumap.png)
+![Banner](assets/images/GreenedumapArchitecture.png)
 
 ### Thành phần và công nghệ sử dụng
 
