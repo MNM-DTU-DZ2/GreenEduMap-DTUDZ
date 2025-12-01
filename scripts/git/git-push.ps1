@@ -2,6 +2,7 @@
 # Fast commit + push with conventional commits
 
 $ErrorActionPreference = "Stop"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 function Write-Color {
     param(
