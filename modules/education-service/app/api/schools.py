@@ -69,6 +69,41 @@ async def list_schools(
     return schools
 
 
+@router.get("/schools/nearby", response_model=List[SchoolResponse])
+async def get_nearby_schools(
+    latitude: float = Query(..., ge=-90, le=90),
+    longitude: float = Query(..., ge=-180, le=180),
+    radius_km: float = Query(10.0, ge=0.1, le=100),
+    db: AsyncSession = Depends(get_db)
+):
+    """Find schools near a location"""
+    # Create point from coordinates
+    point = func.ST_GeogFromText(f"SRID=4326;POINT({longitude} {latitude})")
+    
+    # Query schools within radius
+    query = select(School).where(
+        func.ST_DWithin(School.location, point, radius_km * 1000)  # meters
+    ).order_by(
+        func.ST_Distance(School.location, point)
+    )
+    
+    result = await db.execute(query)
+    schools = result.scalars().all()
+    return schools
+
+
+@router.get("/schools/rankings", response_model=List[SchoolResponse])
+async def get_school_rankings(
+    limit: int = Query(10, ge=1, le=100),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get schools ranked by green score"""
+    query = select(School).order_by(School.green_score.desc()).limit(limit)
+    result = await db.execute(query)
+    schools = result.scalars().all()
+    return schools
+
+
 @router.get("/schools/{school_id}", response_model=SchoolResponse)
 async def get_school(school_id: UUID, db: AsyncSession = Depends(get_db)):
     """Get a specific school by ID"""
@@ -125,41 +160,6 @@ async def delete_school(school_id: UUID, db: AsyncSession = Depends(get_db)):
     await db.execute(delete(School).where(School.id == school_id))
     await db.commit()
     return None
-
-
-@router.get("/schools/nearby", response_model=List[SchoolResponse])
-async def get_nearby_schools(
-    latitude: float = Query(..., ge=-90, le=90),
-    longitude: float = Query(..., ge=-180, le=180),
-    radius_km: float = Query(10.0, ge=0.1, le=100),
-    db: AsyncSession = Depends(get_db)
-):
-    """Find schools near a location"""
-    # Create point from coordinates
-    point = func.ST_GeogFromText(f"SRID=4326;POINT({longitude} {latitude})")
-    
-    # Query schools within radius
-    query = select(School).where(
-        func.ST_DWithin(School.location, point, radius_km * 1000)  # meters
-    ).order_by(
-        func.ST_Distance(School.location, point)
-    )
-    
-    result = await db.execute(query)
-    schools = result.scalars().all()
-    return schools
-
-
-@router.get("/schools/rankings", response_model=List[SchoolResponse])
-async def get_school_rankings(
-    limit: int = Query(10, ge=1, le=100),
-    db: AsyncSession = Depends(get_db)
-):
-    """Get schools ranked by green score"""
-    query = select(School).order_by(School.green_score.desc()).limit(limit)
-    result = await db.execute(query)
-    schools = result.scalars().all()
-    return schools
 
 
 # ========================================
