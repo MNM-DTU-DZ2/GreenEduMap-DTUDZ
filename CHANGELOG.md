@@ -1,3 +1,46 @@
+﻿# CHANGELOG
+
+## 01/12/2025 - 22h22
+
+### Release v0.1.0
+
+**New Features:**
+- api): tich hop education service va opendata api
+- api): implement thuat toan green score va bulk import
+- service): tich hop education service va them seed data
+- service): Tao Education Service - quan ly truong hoc va khoa hoc xanh
+- api): implement education service foundation (Day 1/10)
+- feat): 🎯 Cải tiến Backend:
+- resource): khởi tạo resource service
+
+**Bug Fixes:**
+- aotu): fix script
+- Architecture picture
+- Architecture Diagram
+- ci): generate dummy package.json for changelog workflow
+- scripts): sửa lỗi encoding và cập nhật branch main
+- scripts): sửa lỗi encoding và cập nhật branch main
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG for v1.0.0
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG for v0.0.3
+- update CHANGELOG.md [skip ci]
+
+**Other Changes:**
+- Changelog.md
+
+**Technical Details:**
+- Tag: v0.1.0
+- Commits: 21
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v0.1.0
+
+---
+
 # [1.0.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v1.0.0) (2025-12-01)
 
 
