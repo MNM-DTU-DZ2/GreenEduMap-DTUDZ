@@ -12,8 +12,10 @@ from app.core.database import get_db
 from app.models.school import School, GreenCourse
 from app.schemas.school import (
     SchoolCreate, SchoolUpdate, SchoolResponse,
-    GreenCourseCreate, GreenCourseUpdate, GreenCourseResponse
+    GreenCourseCreate, GreenCourseUpdate, GreenCourseResponse,
+    BulkImportResponse
 )
+from app.services.green_score import GreenScoreService
 
 router = APIRouter(prefix="/api/v1", tags=["Education"])
 
@@ -21,6 +23,67 @@ router = APIRouter(prefix="/api/v1", tags=["Education"])
 # ========================================
 # Schools Endpoints
 # ========================================
+
+@router.post("/schools/{school_id}/calculate-score", response_model=SchoolResponse)
+async def calculate_school_score(school_id: UUID, db: AsyncSession = Depends(get_db)):
+    """Force recalculate Green Score for a school"""
+    await GreenScoreService.calculate_score(school_id, db)
+    
+    # Fetch updated school
+    result = await db.execute(select(School).where(School.id == school_id))
+    school = result.scalar_one_or_none()
+    
+    if not school:
+        raise HTTPException(status_code=404, detail="School not found")
+        
+    return school
+
+
+@router.post("/schools/bulk-import", response_model=BulkImportResponse, status_code=201)
+async def bulk_import_schools(schools: List[SchoolCreate], db: AsyncSession = Depends(get_db)):
+    """Bulk import schools from JSON list"""
+    response = BulkImportResponse(total=len(schools), success=0, failed=0)
+    
+    for school_data in schools:
+        try:
+            # Check if code exists
+            existing = await db.execute(select(School).where(School.code == school_data.code))
+            if existing.scalar_one_or_none():
+                response.failed += 1
+                response.errors.append(f"School code {school_data.code} already exists")
+                continue
+                
+            # Create Point geometry
+            location = func.ST_GeogFromText(f"SRID=4326;POINT({school_data.longitude} {school_data.latitude})")
+            
+            db_school = School(
+                name=school_data.name,
+                code=school_data.code,
+                location=location,
+                address=school_data.address,
+                type=school_data.type,
+                green_score=school_data.green_score,
+                is_public=school_data.is_public,
+                data_uri=school_data.data_uri,
+                facilities=school_data.facilities,
+                meta_data=school_data.meta_data
+            )
+            db.add(db_school)
+            await db.flush() # Get ID without committing yet
+            
+            # Calculate score
+            await GreenScoreService.calculate_score(db_school.id, db)
+            
+            response.success += 1
+            response.ids.append(db_school.id)
+            
+        except Exception as e:
+            response.failed += 1
+            response.errors.append(f"Error importing {school_data.name}: {str(e)}")
+            
+    await db.commit()
+    return response
+
 
 @router.post("/schools", response_model=SchoolResponse, status_code=201)
 async def create_school(school: SchoolCreate, db: AsyncSession = Depends(get_db)):
@@ -34,7 +97,7 @@ async def create_school(school: SchoolCreate, db: AsyncSession = Depends(get_db)
         location=location,
         address=school.address,
         type=school.type,
-        green_score=school.green_score,
+        green_score=school.green_score, # Initial score
         is_public=school.is_public,
         data_uri=school.data_uri,
         facilities=school.facilities,
@@ -43,6 +106,11 @@ async def create_school(school: SchoolCreate, db: AsyncSession = Depends(get_db)
     db.add(db_school)
     await db.commit()
     await db.refresh(db_school)
+    
+    # Calculate real score based on facilities
+    await GreenScoreService.calculate_score(db_school.id, db)
+    await db.refresh(db_school)
+    
     return db_school
 
 
@@ -144,7 +212,11 @@ async def update_school(
         setattr(db_school, field, value)
     
     await db.commit()
+    
+    # Recalculate score
+    await GreenScoreService.calculate_score(school_id, db)
     await db.refresh(db_school)
+    
     return db_school
 
 
@@ -178,6 +250,10 @@ async def create_green_course(course: GreenCourseCreate, db: AsyncSession = Depe
     db.add(db_course)
     await db.commit()
     await db.refresh(db_course)
+    
+    # Recalculate school score
+    await GreenScoreService.calculate_score(course.school_id, db)
+    
     return db_course
 
 
@@ -240,6 +316,10 @@ async def update_green_course(
     
     await db.commit()
     await db.refresh(db_course)
+    
+    # Recalculate school score
+    await GreenScoreService.calculate_score(db_course.school_id, db)
+    
     return db_course
 
 
@@ -252,6 +332,11 @@ async def delete_green_course(course_id: UUID, db: AsyncSession = Depends(get_db
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
     
+    school_id = course.school_id
     await db.execute(delete(GreenCourse).where(GreenCourse.id == course_id))
     await db.commit()
+    
+    # Recalculate school score
+    await GreenScoreService.calculate_score(school_id, db)
+    
     return None
