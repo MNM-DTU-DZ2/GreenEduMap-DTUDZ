@@ -1,3 +1,34 @@
+﻿# CHANGELOG
+
+## 02/12/2025 - 01h24
+
+### School Map, Search & Details Integration
+
+**New Features:**
+- tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống
+- project): tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống
+
+**Bug Fixes:**
+- script): Sửa file Script Auto git
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+- fix changelog workflow and restore content [skip ci]
+- update CHANGELOG.md [skip ci]
+- restore full changelog for v0.1.0 [skip ci]
+- update CHANGELOG.md [skip ci]
+
+**Other Changes:**
+- shared): fix lint errors and format code
+
+**Technical Details:**
+- Tag: v0.2.0
+- Commits: 9
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v0.2.0
+
+---
+
 # [0.1.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v0.1.0) (2025-12-01)
 
 
