@@ -49,7 +49,7 @@ Write-Color $currentBranch "Green"
 Write-Host ""
 
 # Check for changes
-$hasChanges = git diff-index --quiet HEAD -- 2>&1
+$null = git diff-index --quiet HEAD -- 2>&1
 if ($LASTEXITCODE -eq 0) {
     Write-Color "[WARNING] No changes to commit!" "Yellow"
     Read-Host "Press Enter to exit"
@@ -271,6 +271,14 @@ try {
         throw "Commit failed"
     }
     
+    Write-Color "[2.5/3] Pulling latest changes..." "White"
+    git pull origin $currentBranch
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Color "[ERROR] Pull failed! You may have conflicts." "Red"
+        throw "Pull failed"
+    }
+
     Write-Color "[3/3] Pushing to $currentBranch..." "White"
     git push origin $currentBranch
     
