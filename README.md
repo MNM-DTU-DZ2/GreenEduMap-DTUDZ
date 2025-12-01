@@ -88,7 +88,7 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 
 ## 🧱 Kiến trúc hệ thống
 
-![Banner](assets/images/Kien_truc_he_thong_GreenEduMap.png)
+![Banner](assets/images/GreenedumapArchitecture.png)
 
 ### Thành phần và công nghệ sử dụng
 
@@ -96,10 +96,10 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 | ------------------ | ------------------------------------------------------- |
 | **Mobile App**     | React Native (iOS & Android)                            |
 | **Web**  | Next.js 15                                              |
-| **Backend Core**   | Laravel (PHP), Redis (Cache)                            |
+| **Backend Core**   | FastAPI (Python), Redis (Cache)                            |
 | **AI Services**    | FastAPI (Python) cho NLP, Computer Vision, scikit-learn |
 | **API Gateway**    | Traefik, Keycloak (Auth)                                |
-| **Message Broker** | Apache Kafka, MQTT (EMQX/Mosquitto)                     |
+| **Message Broker** | RabbitMQ, MQTT (EMQX/Mosquitto)                     |
 | **Realtime**       | Reverb (WebSocket)                                      |
 | **Database**       | PostgreSQL + PostGIS (GeoData), OpenSearch              |
 | **Semantic**       | FiWARE Orion-LD, MongoDB                                |
