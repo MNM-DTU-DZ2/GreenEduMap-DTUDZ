@@ -8,6 +8,7 @@ import logging
 
 from .config import settings
 from .routes.public import router as public_router
+from .routes.resources import router as resources_router
 
 # Configure logging
 logging.basicConfig(
@@ -38,6 +39,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(public_router)
+app.include_router(resources_router)
 
 
 @app.get("/")
