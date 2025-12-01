@@ -1,5 +1,22 @@
 ﻿# CHANGELOG
 
+## 01/12/2025 - 16h06
+
+### Release v0.0.3
+
+**Other Changes:**
+- Changelog.md
+
+**Technical Details:**
+- Tag: v0.0.3
+- Commits: 1
+- Released from: master branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v0.0.3
+
+---
+
+# CHANGELOG
+
 Tất cả những thay đổi đáng chú ý của dự án **GreenEduMap** sẽ được ghi lại tại đây.
 
 Định dạng dựa trên **Keep a Changelog**, và dự án này tuân theo **Semantic Versioning**.
