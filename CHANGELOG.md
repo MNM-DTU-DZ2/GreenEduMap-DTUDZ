@@ -1,23 +1,9 @@
-# [](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v) (2025-12-01)
+# [](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.3...v) (2025-12-01)
 
-## 01/12/2025 - 16h06
 
-### Release v0.0.3
 
-**Other Changes:**
-- Changelog.md
+## [0.0.3](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v0.0.3) (2025-12-01)
 
-**Technical Details:**
-- Tag: v0.0.3
-- Commits: 1
-- Released from: master branch
-- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v0.0.3
-
----
-
-# CHANGELOG
-
-Tất cả những thay đổi đáng chú ý của dự án **GreenEduMap** sẽ được ghi lại tại đây.
 
 
 ## [0.0.2](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/b7e8a61c23e6040a0dfe80220762dbff1c33c06e...v0.0.2) (2025-12-01)
