@@ -10,6 +10,8 @@ from app.models.school import GreenCourse, School
 from app.schemas.school import (BulkImportResponse, GreenCourseCreate,
                                 GreenCourseResponse, GreenCourseUpdate,
                                 SchoolCreate, SchoolResponse, SchoolUpdate)
+from app.schemas.review import ReviewCreate, ReviewResponse
+from app.models.review import Review
 from app.services.green_score import GreenScoreService
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import delete, func, select
@@ -215,12 +217,25 @@ async def get_school_rankings(
 
 @router.get("/schools/{school_id}", response_model=SchoolResponse)
 async def get_school(school_id: UUID, db: AsyncSession = Depends(get_db)):
-    """Get a specific school by ID"""
+    """Get a specific school by ID with rating stats"""
     result = await db.execute(select(School).where(School.id == school_id))
     school = result.scalar_one_or_none()
 
     if not school:
         raise HTTPException(status_code=404, detail="School not found")
+
+    # Calculate rating stats
+    stats_query = select(
+        func.avg(Review.rating).label("average_rating"),
+        func.count(Review.id).label("total_reviews")
+    ).where(Review.school_id == school_id)
+    
+    stats_result = await db.execute(stats_query)
+    stats = stats_result.one()
+    
+    # Attach stats to school object for Pydantic serialization
+    school.average_rating = float(stats.average_rating) if stats.average_rating else 0.0
+    school.total_reviews = stats.total_reviews
 
     return school
 
@@ -271,6 +286,48 @@ async def delete_school(school_id: UUID, db: AsyncSession = Depends(get_db)):
     await db.execute(delete(School).where(School.id == school_id))
     await db.commit()
     return None
+
+
+@router.post("/schools/{school_id}/reviews", response_model=ReviewResponse, status_code=201)
+async def create_review(
+    school_id: UUID, review: ReviewCreate, db: AsyncSession = Depends(get_db)
+):
+    """Create a new review for a school"""
+    # Verify school exists
+    result = await db.execute(select(School).where(School.id == school_id))
+    if not result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="School not found")
+
+    db_review = Review(**review.model_dump(), school_id=school_id)
+    db.add(db_review)
+    await db.commit()
+    await db.refresh(db_review)
+    return db_review
+
+
+@router.get("/schools/{school_id}/reviews", response_model=List[ReviewResponse])
+async def list_reviews(
+    school_id: UUID,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=1000),
+    db: AsyncSession = Depends(get_db),
+):
+    """List reviews for a school"""
+    # Verify school exists
+    result = await db.execute(select(School).where(School.id == school_id))
+    if not result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="School not found")
+
+    query = (
+        select(Review)
+        .where(Review.school_id == school_id)
+        .order_by(Review.created_at.desc())
+        .offset(skip)
+        .limit(limit)
+    )
+    result = await db.execute(query)
+    reviews = result.scalars().all()
+    return reviews
 
 
 # ========================================
