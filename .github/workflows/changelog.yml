@@ -53,11 +53,11 @@ jobs:
 
       - name: Generate CHANGELOG.md
         run: |
-          # Generate changelog from git history
-          conventional-changelog -p angular -i CHANGELOG.md -s -r 0
-          echo "✅ CHANGELOG.md generated"
-          echo "📋 First 20 lines of CHANGELOG.md:"
-          head -n 20 CHANGELOG.md
+          # Generate changelog with Unreleased section
+          npx conventional-changelog -p angular -i CHANGELOG.md -s -u
+          echo "✅ CHANGELOG.md generated with Unreleased changes"
+          echo "📋 First 30 lines of CHANGELOG.md:"
+          head -n 30 CHANGELOG.md
       
       - name: Check if CHANGELOG changed
         id: changelog-check
