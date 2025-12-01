@@ -9,6 +9,7 @@ import logging
 from .config import settings
 from .routes.public import router as public_router
 from .routes.resources import router as resources_router
+from .routes.education import router as education_router, opendata_router as education_opendata_router
 
 # Configure logging
 logging.basicConfig(
@@ -40,6 +41,8 @@ app.add_middleware(
 # Include routers
 app.include_router(public_router)
 app.include_router(resources_router)
+app.include_router(education_router)
+app.include_router(education_opendata_router)
 
 
 @app.get("/")
@@ -70,6 +73,8 @@ async def health_check():
     services = {
         "environment": f"{settings.ENVIRONMENT_SERVICE_URL}/health",
         "auth": f"{settings.AUTH_SERVICE_URL}/health",
+        "education": f"{settings.EDUCATION_SERVICE_URL}/health",
+        "resource": f"{settings.RESOURCE_SERVICE_URL}/health",
     }
     
     async with httpx.AsyncClient(timeout=5.0) as client:
@@ -99,6 +104,7 @@ async def startup_event():
     logger.info(f"Starting {settings.APP_NAME} v{settings.VERSION}")
     logger.info(f"Environment Service: {settings.ENVIRONMENT_SERVICE_URL}")
     logger.info(f"Auth Service: {settings.AUTH_SERVICE_URL}")
+    logger.info(f"Education Service: {settings.EDUCATION_SERVICE_URL}")
 
 
 @app.on_event("shutdown")

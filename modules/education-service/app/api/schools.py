@@ -137,6 +137,45 @@ async def list_schools(
     return schools
 
 
+@router.get("/schools/geojson")
+async def get_schools_geojson(
+    limit: int = Query(100, ge=1, le=1000),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get schools in GeoJSON format"""
+    query = select(School).limit(limit)
+    result = await db.execute(query)
+    schools = result.scalars().all()
+    
+    features = []
+    for school in schools:
+        # Extract lat/lon from location (assuming it's a Point)
+        # Note: In a real app, we might use ST_AsGeoJSON, but here we have properties
+        
+        feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [school.longitude, school.latitude]
+            },
+            "properties": {
+                "id": str(school.id),
+                "name": school.name,
+                "code": school.code,
+                "type": school.type,
+                "green_score": school.green_score,
+                "address": school.address,
+                "is_public": school.is_public
+            }
+        }
+        features.append(feature)
+        
+    return {
+        "type": "FeatureCollection",
+        "features": features
+    }
+
+
 @router.get("/schools/nearby", response_model=List[SchoolResponse])
 async def get_nearby_schools(
     latitude: float = Query(..., ge=-90, le=90),
