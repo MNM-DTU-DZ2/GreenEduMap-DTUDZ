@@ -131,14 +131,21 @@ class AuthService:
         
         user_id = payload.get("sub")
         
-        # Verify refresh token in database
+        # Get all refresh tokens for this user
         result = await self.db.execute(
             select(RefreshToken).where(
                 RefreshToken.user_id == user_id,
                 RefreshToken.is_revoked == False
             )
         )
-        stored_token = result.scalar_one_or_none()
+        stored_tokens = result.scalars().all()
+        
+        # Verify refresh token hash
+        stored_token = None
+        for token in stored_tokens:
+            if verify_password(refresh_token_str, token.token_hash):
+                stored_token = token
+                break
         
         if not stored_token:
             raise HTTPException(

@@ -148,11 +148,11 @@ async def get_current_user_info(
 
 @app.get("/api/v1/users", response_model=List[UserResponse], tags=["Users"])
 async def list_users(
+    user_service: Annotated[UserService, Depends(get_user_service)],
+    current_user: Annotated[User, Depends(require_role("admin"))],  # Admin only
     skip: int = 0,
     limit: int = 100,
     role: str = None,
-    user_service: Annotated[UserService, Depends(get_user_service)],
-    current_user: Annotated[User, Depends(require_role("admin"))],  # Admin only
 ):
     """
     List all users (Admin only).
