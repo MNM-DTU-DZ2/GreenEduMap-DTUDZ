@@ -1,53 +1,121 @@
-name: Auto CHANGELOG
+name: Generate Changelog
 
 on:
+  # Chạy khi push vào main/master/develop (CHANGELOG chính thức)
   push:
-    branches: [develop, main]
-    paths-ignore:
-      - 'CHANGELOG.md'
+    branches:
+      - main
+      - master
+      - develop
+  
+  # Chạy khi tạo Pull Request (preview CHANGELOG)
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - master
+  
+  # Cho phép chạy manual
   workflow_dispatch:
 
 jobs:
   changelog:
-    name: 📝 Generate CHANGELOG
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'docs: update CHANGELOG')"
+    
+    permissions:
+      contents: write
+      pull-requests: write
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate CHANGELOG with git-cliff
-        uses: orhun/git-cliff-action@v2
+          fetch-depth: 0  # Fetch all history for changelog
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref_name }}  # Ensure correct branch
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          config: cliff.toml
-          args: --verbose
-        env:
-          OUTPUT: CHANGELOG.md
-
+          node-version: '20'
+      
+      - name: Install conventional-changelog-cli
+        run: npm install -g conventional-changelog-cli
+      
+      - name: Generate CHANGELOG.md
+        run: |
+          # Generate changelog from git history
+          conventional-changelog -p angular -i CHANGELOG.md -s -r 0
+          echo "✅ CHANGELOG.md generated"
+          echo "📋 First 20 lines of CHANGELOG.md:"
+          head -n 20 CHANGELOG.md
+      
       - name: Check if CHANGELOG changed
-        id: check_changes
+        id: changelog-check
         run: |
           if git diff --quiet CHANGELOG.md; then
             echo "changed=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No changes detected in CHANGELOG.md"
           else
             echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ CHANGELOG.md has changes"
+            echo "📝 Changes:"
+            git diff CHANGELOG.md
           fi
-
-      - name: Commit and push CHANGELOG
-        if: steps.check_changes.outputs.changed == 'true'
+      
+      - name: Preview CHANGELOG for PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+            
+            // Extract only the new changes (before first "---" or "## [")
+            const lines = changelog.split('\n');
+            let previewContent = [];
+            let foundChanges = false;
+            
+            for (const line of lines) {
+              if (foundChanges && (line.startsWith('## [') || line.startsWith('---'))) {
+                break;
+              }
+              if (line.startsWith('## [Unreleased]') || foundChanges) {
+                foundChanges = true;
+                previewContent.push(line);
+              }
+            }
+            
+            const preview = previewContent.join('\n');
+            
+            const body = `## 📋 CHANGELOG Preview\n\n${preview}\n\n---\n*This preview will be added to CHANGELOG.md when merged.*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+      
+      - name: Configure Git
+        if: github.event_name == 'push'
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      
+      - name: Commit CHANGELOG.md
+        if: github.event_name == 'push' && steps.changelog-check.outputs.changed == 'true'
+        run: |
           git add CHANGELOG.md
-          git commit -m "docs: update CHANGELOG [skip ci]"
-          git push origin ${{ github.ref_name }}
-
-      - name: Notify
-        if: steps.check_changes.outputs.changed == 'true'
+          git commit -m "docs: update CHANGELOG.md [skip ci]"
+          echo "✅ CHANGELOG.md committed"
+      
+      - name: Push changes
+        if: github.event_name == 'push' && steps.changelog-check.outputs.changed == 'true'
         run: |
-          echo "✅ CHANGELOG updated successfully!"
-          echo "Branch: ${{ github.ref_name }}"
+          echo "🚀 Pushing CHANGELOG.md to ${{ github.ref_name }}"
+          git push origin HEAD:${{ github.ref_name }}
+          echo "✅ Successfully pushed CHANGELOG.md"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
