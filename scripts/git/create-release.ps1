@@ -24,28 +24,6 @@ try {
     git checkout develop
     git pull origin develop
     
-    Write-Host ""
-    Write-Color "[*] Updating main..." "Blue"
-    git checkout main
-    git pull origin main
-    
-    # Merge develop into main
-    Write-Host ""
-    Write-Color "[*] Merging develop into main..." "Yellow"
-    git merge develop --no-ff -m "chore: merge develop into main for release"
-    
-    if ($LASTEXITCODE -ne 0) {
-        Write-Color "[X] Merge failed! Resolve conflicts and try again." "Red"
-        exit 1
-    }
-    
-    Write-Color "[OK] Merge successful!" "Green"
-    git push origin main
-    
-    # Detect latest tag
-    Write-Host ""
-    Write-Color "[*] Detecting latest tag..." "Cyan"
-    
     $latestTag = git describe --tags --abbrev=0 2>$null
     
     if ([string]::IsNullOrWhiteSpace($latestTag)) {
