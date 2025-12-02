@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.0.0...9884ffe4ba4367ac144438a9a3b24e603eba2e5f) (2025-12-02)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.0.0...aa3b56a518ecc158677b91d4c52b7912db3e3c81) (2025-12-02)
 
 
 ### Bug Fixes
@@ -10,6 +10,7 @@
 ### Features
 
 * **deploy:** add VPS deployment scripts and production config ([78157b7](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/78157b7e45aad48ba450368116917982e352ad6a))
+* **docker:** complete port isolation from other services for VPS deployment ([aa3b56a](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/aa3b56a518ecc158677b91d4c52b7912db3e3c81))
 
 
 

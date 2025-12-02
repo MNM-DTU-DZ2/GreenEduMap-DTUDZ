@@ -72,7 +72,7 @@ services:
     image: adminer:latest
     container_name: greenedumap-adminer
     ports:
-      - "${ADMINER_PORT:-8080}:8080"
+      - "${ADMINER_PORT:-8081}:8080"
     environment:
       ADMINER_DEFAULT_SERVER: postgres
       ADMINER_DESIGN: nette
@@ -108,8 +108,7 @@ services:
       
       # CORS
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000","http://localhost:8080"]'
-    ports:
-      - "8001:8001"
+    # No external port exposure - accessed via API Gateway only
     depends_on:
       postgres:
         condition: service_healthy
@@ -145,7 +144,7 @@ services:
       REDIS_URL: redis://redis:6379/0
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000","*"]'
     ports:
-      - "8000:8000"
+      - "${API_GATEWAY_PORT:-10000}:8000"
     depends_on:
       redis:
         condition: service_healthy
@@ -174,8 +173,7 @@ services:
       PORT: 8002
       DEBUG: ${DEBUG:-true}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
-    ports:
-      - "8002:8000"
+    # No external port exposure - accessed via API Gateway only
     depends_on:
       postgres:
         condition: service_healthy
@@ -209,8 +207,7 @@ services:
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
       FETCH_AIR_QUALITY_INTERVAL: ${FETCH_AIR_QUALITY_INTERVAL:-3600}
       FETCH_WEATHER_INTERVAL: ${FETCH_WEATHER_INTERVAL:-1800}
-    ports:
-      - "8007:8007"
+    # No external port exposure - accessed via API Gateway only
     depends_on:
       postgres:
         condition: service_healthy
@@ -241,8 +238,7 @@ services:
       PORT: 8008
       DEBUG: ${DEBUG:-true}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
-    ports:
-      - "8008:8008"
+    # No external port exposure - accessed via API Gateway only
     depends_on:
       postgres:
         condition: service_healthy

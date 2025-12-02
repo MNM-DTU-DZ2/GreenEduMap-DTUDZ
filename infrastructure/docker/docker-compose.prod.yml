@@ -177,7 +177,7 @@ services:
       dockerfile: Dockerfile
     container_name: greenedumap-api-gateway
     ports:
-      - "${API_GATEWAY_PORT:-8000}:8000"
+      - "${API_GATEWAY_PORT:-10000}:8000"
     environment:
       AUTH_SERVICE_URL: ${AUTH_SERVICE_URL}
       EDUCATION_SERVICE_URL: ${EDUCATION_SERVICE_URL}
@@ -213,7 +213,7 @@ services:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     container_name: greenedumap-web-app
     ports:
-      - "${WEB_APP_PORT:-3000}:3000"
+      - "${WEB_APP_PORT:-4000}:3000"
     environment:
       NODE_ENV: production
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
