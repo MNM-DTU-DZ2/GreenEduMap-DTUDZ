@@ -1,12 +1,12 @@
-﻿# CHANGELOG
+# CHANGELOG
 
 ## 02/12/2025 - 12h58
 
 ### Release v1.1.1
 
 **Bug Fixes:**
-- docker): update web-app port to use WEB_APP_PORT env var (default 4000)"
-- deploy): quote all environment variables to handle special characters
+- docker: update web-app port to use WEB_APP_PORT env var (default 4000)"
+- deploy: quote all environment variables to handle special characters
 
 **Documentation:**
 - update CHANGELOG.md [skip ci]
@@ -26,6 +26,7 @@
 ### Bug Fixes
 
 * **deploy:** quote all environment variables to handle special characters ([4758735](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/47587356df9ee7786eb0d86a5c2d3de73e0b49f2))
+* **docker:** update web-app port to use WEB_APP_PORT env var (default 4000)" ([3bc4d91](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/3bc4d91c145904da01c167abcb3459064eceadf2))
 
 
 
