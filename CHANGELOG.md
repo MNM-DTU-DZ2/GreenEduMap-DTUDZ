@@ -1,4 +1,19 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...9884ffe4ba4367ac144438a9a3b24e603eba2e5f) (2025-12-02)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.0.0...9884ffe4ba4367ac144438a9a3b24e603eba2e5f) (2025-12-02)
+
+
+### Bug Fixes
+
+* **deploy:** update all ports in deploy.sh to match docker-compose changes ([9884ffe](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/9884ffe4ba4367ac144438a9a3b24e603eba2e5f))
+* **docker:** change default ports to avoid conflicts with CityResQ360 ([a754d60](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/a754d60ee58c5cd505725d0e4ea9bb0771c0b076))
+
+
+### Features
+
+* **deploy:** add VPS deployment scripts and production config ([78157b7](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/78157b7e45aad48ba450368116917982e352ad6a))
+
+
+
+# [1.0.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...v1.0.0) (2025-12-02)
 
 
 ### Bug Fixes
@@ -11,7 +26,6 @@
 ### Features
 
 * **auth:** implement  user authentication and profile system ([f9a7316](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f9a73167a897dfe8a17db3e74525bdb2728291c3)), closes [#8](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/issues/8)
-* **deploy:** add VPS deployment scripts and production config ([78157b7](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/78157b7e45aad48ba450368116917982e352ad6a))
 * **reviews,testing:** implement user reviews system and E2E testing ([f51d710](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f51d7108708cbe76f8c6b6ab087917ae9132b419))
 
 
