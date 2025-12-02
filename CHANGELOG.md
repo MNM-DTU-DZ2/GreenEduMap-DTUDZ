@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...00e7991d3036604c6f98ac11344c8c60447bb7b4) (2025-12-02)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...f9a73167a897dfe8a17db3e74525bdb2728291c3) (2025-12-02)
 
 
 ### Bug Fixes
@@ -8,6 +8,7 @@
 
 ### Features
 
+* **auth:** implement  user authentication and profile system ([f9a7316](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f9a73167a897dfe8a17db3e74525bdb2728291c3)), closes [#8](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/issues/8)
 * **reviews,testing:** implement user reviews system and E2E testing ([f51d710](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f51d7108708cbe76f8c6b6ab087917ae9132b419))
 
 
