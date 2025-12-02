@@ -1,3 +1,33 @@
+﻿# CHANGELOG
+
+## 02/12/2025 - 12h22
+
+### Docker
+
+**New Features:**
+- docker): complete port isolation from other services for VPS deployment
+- deploy): add VPS deployment scripts and production config
+
+**Bug Fixes:**
+- deploy): update all ports in deploy.sh to match docker-compose changes
+- docker): change default ports to avoid conflicts with CityResQ360
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+
+**Technical Details:**
+- Tag: v1.1.0
+- Commits: 10
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.1.0
+
+---
+
 # [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.0.0...aa3b56a518ecc158677b91d4c52b7912db3e3c81) (2025-12-02)
 
 
