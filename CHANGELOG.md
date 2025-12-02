@@ -1,3 +1,23 @@
+﻿# CHANGELOG
+
+## 02/12/2025 - 12h40
+
+### Release v1.1.1
+
+**Bug Fixes:**
+- deploy): quote all environment variables to handle special characters
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+
+**Technical Details:**
+- Tag: v1.1.1
+- Commits: 2
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.1.1
+
+---
+
 # Unreleased (2025-12-02)
 
 
