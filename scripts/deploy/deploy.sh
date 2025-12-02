@@ -182,7 +182,7 @@ JWT_REFRESH_TOKEN_EXPIRE=2592000
 
 # API Gateway
 API_GATEWAY_HOST=0.0.0.0
-API_GATEWAY_PORT=9000
+API_GATEWAY_PORT=10000
 
 # Web App
 WEB_APP_PORT=4000
@@ -225,11 +225,11 @@ JWT_REFRESH_TOKEN_EXPIRE=2592000
 
 # API Gateway
 API_GATEWAY_HOST=0.0.0.0
-API_GATEWAY_PORT=9000
+API_GATEWAY_PORT=10000
 
 # Web App
 WEB_APP_PORT=4000
-NEXT_PUBLIC_API_URL=http://${SERVER_IP}:9000
+NEXT_PUBLIC_API_URL=http://${SERVER_IP}:10000
 
 # Service URLs (internal Docker network)
 AUTH_SERVICE_URL=http://auth-service:8001
@@ -323,7 +323,7 @@ server {
     server_name ${API_DOMAIN};
 
     location / {
-        proxy_pass http://localhost:9000;
+        proxy_pass http://localhost:10000;
         proxy_http_version 1.1;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
@@ -378,8 +378,8 @@ if [ "$USE_DOMAIN" = true ]; then
 else
     echo -e "${CYAN}🖥️  Your application is available at:${NC}"
     echo -e "   Main site: http://${SERVER_IP}:4000"
-    echo -e "   API: http://${SERVER_IP}:9000"
-    echo -e "   API Docs: http://${SERVER_IP}:9000/docs"
+    echo -e "   API: http://${SERVER_IP}:10000"
+    echo -e "   API Docs: http://${SERVER_IP}:10000/docs"
 fi
 
 echo ""
