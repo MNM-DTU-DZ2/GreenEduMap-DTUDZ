@@ -21,6 +21,11 @@ lerna-debug.log*
 /.nyc_output
 /.jest-cache
 
+# Playwright
+/playwright-report
+/test-results
+/playwright/.cache
+
 # Turbo
 .turbo
 

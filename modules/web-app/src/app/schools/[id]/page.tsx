@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Award, BookOpen, Leaf } from "lucide-react";
+import { ArrowLeft, MapPin, Award, BookOpen, Leaf, Star } from "lucide-react";
+import SchoolReviews from "@/components/reviews/SchoolReviews";
 
 async function getSchool(id: string) {
     try {
@@ -21,9 +22,24 @@ async function getSchool(id: string) {
     }
 }
 
+async function getReviews(id: string) {
+    try {
+        const res = await fetch(`http://api-gateway:8000/api/v1/schools/${id}/reviews`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) return [];
+        return res.json();
+    } catch (error) {
+        console.error("Error fetching reviews:", error);
+        return [];
+    }
+}
+
 export default async function SchoolDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const school = await getSchool(id);
+    const reviews = await getReviews(id);
 
     if (!school) {
         notFound();
@@ -52,6 +68,19 @@ export default async function SchoolDetailsPage({ params }: { params: Promise<{ 
                             </div>
                             <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
                                 {school.type}
+                            </div>
+                            <div className="flex items-center gap-1 mt-2">
+                                <div className="flex">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star
+                                            key={i}
+                                            className={`w-4 h-4 ${i < Math.round(school.average_rating || 0) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                                        />
+                                    ))}
+                                </div>
+                                <span className="text-sm font-medium text-gray-700 ml-1">
+                                    {school.average_rating ? Number(school.average_rating).toFixed(1) : "0.0"} ({school.total_reviews || 0} đánh giá)
+                                </span>
                             </div>
                         </div>
 
@@ -119,6 +148,11 @@ export default async function SchoolDetailsPage({ params }: { params: Promise<{ 
                             <p className="text-gray-500 italic">Chưa có khóa học xanh nào.</p>
                         )}
                     </div>
+                </div>
+
+                {/* Reviews Section */}
+                <div className="mt-8">
+                    <SchoolReviews schoolId={id} initialReviews={reviews} />
                 </div>
             </div>
         </div>

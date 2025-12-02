@@ -1,0 +1,74 @@
+feat(auth): implement Day 8 user authentication and profile system
+
+## Backend Changes
+- Add authentication routes to API Gateway (`/api/v1/auth/*`)
+  - POST /auth/register - User registration with JWT
+  - POST /auth/login - User login with access & refresh tokens
+  - POST /auth/refresh - Token refresh mechanism
+  - GET /auth/me - Get current authenticated user
+  - PUT /auth/profile - Update user profile
+- Integrate existing auth-service with API Gateway
+- Auth-service includes JWT-based authentication, role-based access control (admin, volunteer, citizen, developer, school)
+
+## Frontend Changes
+- **AuthContext**: Global authentication state management
+  - Auto-load user from localStorage on mount
+  - Login, register, logout functions
+  - Token management (access & refresh tokens)
+- **Auth Pages**:
+  - `/auth/login` - Login page with email/password form
+  - `/auth/register` - Registration page with validation
+  - `/profile` - User profile page with account info
+- **UI Components**:
+  - Navbar component with auth state display
+  - Login/logout buttons based on auth status
+  - User dropdown menu (username, profile link)
+- **Integration**:
+  - ReviewForm auto-fills username for authenticated users
+  - Protected routes via AuthContext
+  - JWT token sent with authenticated requests
+
+## Testing & Documentation
+- Create API test script (`scripts/test/test-api.ps1`)
+- All auth endpoints verified (5/5 tests pass)
+- Add comprehensive API documentation (`docs/API_ENDPOINTS.md`)
+- List all 21 available endpoints with usage details
+
+## Dependencies
+- Add `lucide-react` for UI icons
+
+## Test Results
+```
+✅ Health Check - Gateway healthy
+✅ List Schools - Found 3 schools  
+✅ Auth Register - User created
+✅ Auth Login - Got JWT token
+✅ Get Current User - Auth working
+```
+
+## Files Changed
+**Backend:**
+- modules/api-gateway/app/routes/auth.py (NEW)
+- modules/api-gateway/app/main.py (MODIFIED)
+
+**Frontend:**
+- modules/web-app/src/contexts/AuthContext.tsx (NEW)
+- modules/web-app/src/app/auth/login/page.tsx (NEW)
+- modules/web-app/src/app/auth/register/page.tsx (NEW)
+- modules/web-app/src/app/profile/page.tsx (NEW)
+- modules/web-app/src/components/layout/Navbar.tsx (NEW)
+- modules/web-app/src/components/reviews/ReviewForm.tsx (MODIFIED)
+- modules/web-app/src/providers/ClientProviders.tsx (MODIFIED)
+- modules/web-app/package.json (MODIFIED)
+
+**Testing & Docs:**
+- scripts/test/test-api.ps1 (NEW)
+- docs/API_ENDPOINTS.md (NEW)
+
+## Breaking Changes
+None
+
+## Known Issues
+- User review history API endpoint not yet implemented (deferred to Day 9)
+
+Closes #8

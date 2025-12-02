@@ -47,6 +47,8 @@ class SchoolResponse(SchoolBase):
     ngsi_ld_uri: Optional[str] = None
     created_at: datetime
     updated_at: Optional[datetime] = None
+    average_rating: Optional[float] = None
+    total_reviews: Optional[int] = 0
 
     class Config:
         from_attributes = True

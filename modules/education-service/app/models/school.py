@@ -41,6 +41,7 @@ class School(Base):
 
     # Relationships
     green_courses = relationship("GreenCourse", back_populates="school", cascade="all, delete-orphan")
+    reviews = relationship("Review", back_populates="school", cascade="all, delete-orphan")
     
     @property
     def latitude(self) -> float:
