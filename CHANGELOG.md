@@ -1,4 +1,13 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...78157b7e45aad48ba450368116917982e352ad6a) (2025-12-02)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.0.0...78157b7e45aad48ba450368116917982e352ad6a) (2025-12-02)
+
+
+### Features
+
+* **deploy:** add VPS deployment scripts and production config ([78157b7](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/78157b7e45aad48ba450368116917982e352ad6a))
+
+
+
+# [1.0.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...v1.0.0) (2025-12-02)
 
 
 ### Bug Fixes
@@ -9,7 +18,6 @@
 ### Features
 
 * **auth:** implement  user authentication and profile system ([f9a7316](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f9a73167a897dfe8a17db3e74525bdb2728291c3)), closes [#8](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/issues/8)
-* **deploy:** add VPS deployment scripts and production config ([78157b7](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/78157b7e45aad48ba450368116917982e352ad6a))
 * **reviews,testing:** implement user reviews system and E2E testing ([f51d710](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f51d7108708cbe76f8c6b6ab087917ae9132b419))
 
 
