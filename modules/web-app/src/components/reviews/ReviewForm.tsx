@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star, Send } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
 
 interface ReviewFormProps {
     schoolId: string;
@@ -9,11 +11,19 @@ interface ReviewFormProps {
 }
 
 export default function ReviewForm({ schoolId, onReviewSubmitted }: ReviewFormProps) {
+    const { user, isAuthenticated } = useAuth();
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState("");
     const [userName, setUserName] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState("");
+
+    // Auto-fill username if user is authenticated
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            setUserName(user.full_name || user.username);
+        }
+    }, [isAuthenticated, user]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,12 +37,20 @@ export default function ReviewForm({ schoolId, onReviewSubmitted }: ReviewFormPr
         }
 
         try {
+            // Get access token if user is authenticated
+            const token = localStorage.getItem('accessToken');
+            const headers: HeadersInit = {
+                "Content-Type": "application/json",
+            };
+
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
             // Use client-side fetch to API Gateway (localhost:8000)
             const response = await fetch(`http://localhost:8000/api/v1/schools/${schoolId}/reviews`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers,
                 body: JSON.stringify({
                     rating,
                     comment,
@@ -87,11 +105,21 @@ export default function ReviewForm({ schoolId, onReviewSubmitted }: ReviewFormPr
 
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tên của bạn</label>
+                {!isAuthenticated && (
+                    <p className="text-sm text-gray-500 mb-2">
+                        <Link href="/auth/login" className="text-green-600 hover:text-green-700 underline">
+                            Đăng nhập
+                        </Link>
+                        {' '}để tự động điền thông tin
+                    </p>
+                )}
                 <input
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+                    readOnly={isAuthenticated}
+                    className={`w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none ${isAuthenticated ? 'bg-gray-50 cursor-not-allowed' : ''
+                        }`}
                     placeholder="Nhập tên hiển thị..."
                     required
                 />

@@ -2,6 +2,7 @@
 
 import { ToastProvider } from "@/context/ToastContext";
 import QueryProvider from "@/providers/QueryProvider";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export default function ClientProviders({
   children,
@@ -9,9 +10,10 @@ export default function ClientProviders({
   children: React.ReactNode;
 }) {
   return (
-    <ToastProvider>
-      <QueryProvider>{children}</QueryProvider>
-    </ToastProvider>
+    <AuthProvider>
+      <ToastProvider>
+        <QueryProvider>{children}</QueryProvider>
+      </ToastProvider>
+    </AuthProvider>
   );
 }
-
