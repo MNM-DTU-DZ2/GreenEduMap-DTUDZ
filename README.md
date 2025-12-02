@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://MNM-DTU-DZ2.github.io/GreenEduMap-DTUDZ/)
+[![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](docs/index.md)
 
 </div>
 
