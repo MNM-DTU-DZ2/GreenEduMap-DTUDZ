@@ -1,33 +1,8 @@
-﻿# CHANGELOG
+# Unreleased (2025-12-02)
 
-## 02/12/2025 - 10h52
 
-### Deloy
 
-**New Features:**
-- auth): implement  user authentication and profile system
-- reviews,testing): implement user reviews system and E2E testing
-
-**Bug Fixes:**
-- ci): add -r 0 flag to regenerate full changelog with unreleased
-
-**Documentation:**
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-
-**Other Changes:**
-- update changelog workflow to generate Unreleased section
-
-**Technical Details:**
-- Tag: v1.0.0
-- Commits: 7
-- Released from: main branch
-- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.0.0
-
----
-
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...f9a73167a897dfe8a17db3e74525bdb2728291c3) (2025-12-02)
+# [1.0.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...v1.0.0) (2025-12-02)
 
 
 ### Bug Fixes
