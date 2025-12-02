@@ -1,3 +1,25 @@
+﻿# CHANGELOG
+
+## 02/12/2025 - 12h58
+
+### Release v1.1.1
+
+**Bug Fixes:**
+- docker): update web-app port to use WEB_APP_PORT env var (default 4000)"
+- deploy): quote all environment variables to handle special characters
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+
+**Technical Details:**
+- Tag: v1.1.1
+- Commits: 4
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.1.1
+
+---
+
 # [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.1.0...47587356df9ee7786eb0d86a5c2d3de73e0b49f2) (2025-12-02)
 
 
