@@ -97,7 +97,7 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 | **Mobile App**     | React Native (iOS & Android)                            |
 | **Web**  | Next.js 15                                              |
 | **Backend Core**   | FastAPI (Python), Redis (Cache)                            |
-| **AI Services**    | FastAPI (Python) cho NLP, Computer Vision, scikit-learn |
+| **AI Services**    | FastAPI (Python) cho NLP, scikit-learn |
 | **API Gateway**    | Traefik, Keycloak (Auth)                                |
 | **Message Broker** | RabbitMQ, MQTT (EMQX/Mosquitto)                     |
 | **Realtime**       | Reverb (WebSocket)                                      |
