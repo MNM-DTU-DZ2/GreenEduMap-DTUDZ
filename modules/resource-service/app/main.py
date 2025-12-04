@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import centers, resources
+from app.api import green_zones_router, green_resources_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -23,8 +23,8 @@ def health_check():
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to Resource Service"}
+    return {"message": "Welcome to Resource Service - Green Zones"}
 
-app.include_router(centers.router, prefix=f"{settings.API_V1_STR}/centers", tags=["centers"])
-app.include_router(resources.router, prefix=f"{settings.API_V1_STR}/resources", tags=["resources"])
+app.include_router(green_zones_router, prefix=settings.API_V1_STR)
+app.include_router(green_resources_router, prefix=settings.API_V1_STR)
 

@@ -1,32 +1,26 @@
-"""
-Configuration for Education Service
-"""
-
 from pydantic_settings import BaseSettings
 
-
 class Settings(BaseSettings):
-    """Education Service settings"""
-    
-    # App Info
-    APP_NAME: str = "GreenEduMap - Education Service"
-    VERSION: str = "1.0.0"
-    HOST: str = "0.0.0.0"
-    PORT: int = 8008
-    DEBUG: bool = False
+    PROJECT_NAME: str = "GreenEduMap - Education Service"
+    API_V1_STR: str = "/api/v1"
     
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@postgres:5432/greenedumap"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/greenedumap"
     
-    # CORS
-    CORS_ORIGINS: list[str] = [
-        "http://localhost:3000",
-        "http://localhost:8000",
-    ]
+    # Optional individual fields (for flexibility)
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_PORT: int = 5432
+    POSTGRES_DB: str = "greenedumap"
+    
+    # Server
+    HOST: str = "0.0.0.0"
+    PORT: int = 8000
+    DEBUG: bool = True
     
     class Config:
-        env_file = ".env"
         case_sensitive = True
-
+        env_file = ".env"
 
 settings = Settings()
