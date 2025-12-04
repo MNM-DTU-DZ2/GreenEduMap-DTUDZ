@@ -1,0 +1,12 @@
+{
+    "name": "Công viên Sơn Trà",
+    "code": "GZ-ST-001",
+    "latitude": 16.0544,
+    "longitude": 108.2022,
+    "address": "Đà Nẵng",
+    "zone_type": "park",
+    "area_sqm": 50000,
+    "tree_count": 1200,
+    "vegetation_coverage": 85.5,
+    "is_public": true
+}

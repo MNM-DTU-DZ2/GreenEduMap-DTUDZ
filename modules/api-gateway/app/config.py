@@ -34,6 +34,9 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
     RATE_LIMIT_PER_MINUTE: int = 100
     
+    # Message Broker
+    RABBITMQ_URL: str = "amqp://admin:admin123@localhost:5672/greenedumap"
+    
     class Config:
         env_file = ".env"
         case_sensitive = True

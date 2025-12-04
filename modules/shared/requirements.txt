@@ -10,5 +10,9 @@ psycopg2-binary==2.9.9
 fastapi==0.109.0
 pydantic[email]==2.5.0
 
+# Message Brokers
+aio-pika==9.4.0      # RabbitMQ async client
+aiomqtt==2.0.0       # MQTT async client
+
 # Utilities
 python-dotenv==1.0.0

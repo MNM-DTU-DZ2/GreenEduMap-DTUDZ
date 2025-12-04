@@ -3,7 +3,7 @@ Configuration management for Environment Service
 """
 
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Optional
 
 
 class Settings(BaseSettings):
@@ -24,6 +24,16 @@ class Settings(BaseSettings):
     OPENWEATHER_API_KEY: str = ""
     OPENWEATHER_API_URL: str = "https://api.openweathermap.org/data/2.5"
     
+    # RabbitMQ
+    RABBITMQ_URL: str = "amqp://admin:admin123@localhost:5672/greenedumap"
+    
+    # MQTT (EMQX)
+    MQTT_BROKER_HOST: str = "localhost"
+    MQTT_BROKER_PORT: int = 1883
+    MQTT_CLIENT_ID: str = "environment-service"
+    MQTT_USERNAME: Optional[str] = None
+    MQTT_PASSWORD: Optional[str] = None
+    
     # CORS
     CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
@@ -37,6 +47,10 @@ class Settings(BaseSettings):
     # Data Retention (days)
     AIR_QUALITY_RETENTION_DAYS: int = 90
     WEATHER_RETENTION_DAYS: int = 30
+    
+    # Alert Thresholds
+    AQI_WARNING_THRESHOLD: float = 100.0  # AQI > 100 = unhealthy
+    AQI_CRITICAL_THRESHOLD: float = 150.0  # AQI > 150 = very unhealthy
     
     # Default locations to fetch (Vietnam cities)
     DEFAULT_LOCATIONS: List[dict] = [

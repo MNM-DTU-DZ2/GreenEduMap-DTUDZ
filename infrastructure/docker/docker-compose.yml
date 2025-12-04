@@ -65,6 +65,56 @@ services:
     restart: unless-stopped
 
   # ================================
+  # MESSAGE BROKERS
+  # ================================
+  
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: greenedumap-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-admin123}
+      RABBITMQ_DEFAULT_VHOST: greenedumap
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"      # AMQP protocol
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"  # Management UI
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+
+  emqx:
+    image: emqx/emqx:5.5
+    container_name: greenedumap-emqx
+    environment:
+      EMQX_NAME: greenedumap
+      EMQX_HOST: 0.0.0.0
+      EMQX_DASHBOARD__DEFAULT_USERNAME: ${EMQX_DASHBOARD_USER:-admin}
+      EMQX_DASHBOARD__DEFAULT_PASSWORD: ${EMQX_DASHBOARD_PASS:-admin123}
+    ports:
+      - "${MQTT_PORT:-1883}:1883"          # MQTT TCP
+      - "${MQTT_WS_PORT:-8083}:8083"       # MQTT WebSocket
+      - "${MQTT_WSS_PORT:-8084}:8084"      # MQTT WebSocket SSL
+      - "${EMQX_DASHBOARD_PORT:-18083}:18083"  # EMQX Dashboard
+    volumes:
+      - emqx_data:/opt/emqx/data
+      - emqx_log:/opt/emqx/log
+    healthcheck:
+      test: ["CMD", "emqx", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+
+  # ================================
   # ADMINER (Database UI)
   # ================================
   
@@ -143,10 +193,14 @@ services:
       DEBUG: ${DEBUG:-true}
       REDIS_URL: redis://redis:6379/0
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000","*"]'
+      # Message Broker for async tasks
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672/greenedumap
     ports:
       - "${API_GATEWAY_PORT:-10000}:8000"
     depends_on:
       redis:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     networks:
       - greenedumap-network
@@ -173,7 +227,8 @@ services:
       PORT: 8002
       DEBUG: ${DEBUG:-true}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
-    # No external port exposure - accessed via API Gateway only
+    ports:
+      - "8002:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -207,11 +262,20 @@ services:
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
       FETCH_AIR_QUALITY_INTERVAL: ${FETCH_AIR_QUALITY_INTERVAL:-3600}
       FETCH_WEATHER_INTERVAL: ${FETCH_WEATHER_INTERVAL:-1800}
+      # Message Brokers
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672/greenedumap
+      MQTT_BROKER_HOST: emqx
+      MQTT_BROKER_PORT: 1883
+      MQTT_CLIENT_ID: environment-service
     # No external port exposure - accessed via API Gateway only
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      emqx:
         condition: service_healthy
     networks:
       - greenedumap-network
@@ -235,10 +299,11 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
       HOST: 0.0.0.0
-      PORT: 8008
+      PORT: 8000
       DEBUG: ${DEBUG:-true}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
-    # No external port exposure - accessed via API Gateway only
+    ports:
+      - "8003:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -246,7 +311,7 @@ services:
       - greenedumap-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -294,3 +359,9 @@ volumes:
     name: greenedumap-redis-data
   mongodb_data:
     name: greenedumap-mongodb-data
+  rabbitmq_data:
+    name: greenedumap-rabbitmq-data
+  emqx_data:
+    name: greenedumap-emqx-data
+  emqx_log:
+    name: greenedumap-emqx-log
