@@ -6,15 +6,14 @@ from uuid import UUID
 class SchoolBase(BaseModel):
     name: str
     code: str
-    latitude: float = Field(..., ge=-90, le=90)
-    longitude: float = Field(..., ge=-180, le=180)
     address: Optional[str] = None
-    school_type: str  # elementary, middle, high, university
+    city: Optional[str] = None
+    district: Optional[str] = None
+    type: str  # elementary, middle, high, university
     total_students: int = Field(default=0, ge=0)
     total_teachers: int = Field(default=0, ge=0)
     total_trees: int = Field(default=0, ge=0)
     green_area: float = Field(default=0.0, ge=0)
-    principal_name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
     website: Optional[str] = None
@@ -29,15 +28,14 @@ class SchoolCreate(SchoolBase):
 class SchoolUpdate(BaseModel):
     name: Optional[str] = None
     code: Optional[str] = None
-    latitude: Optional[float] = Field(None, ge=-90, le=90)
-    longitude: Optional[float] = Field(None, ge=-180, le=180)
     address: Optional[str] = None
-    school_type: Optional[str] = None
+    city: Optional[str] = None
+    district: Optional[str] = None
+    type: Optional[str] = None
     total_students: Optional[int] = Field(None, ge=0)
     total_teachers: Optional[int] = Field(None, ge=0)
     total_trees: Optional[int] = Field(None, ge=0)
     green_area: Optional[float] = Field(None, ge=0)
-    principal_name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
     website: Optional[str] = None

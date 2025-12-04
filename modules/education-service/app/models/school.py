@@ -13,15 +13,14 @@ class School(Base):
     name = Column(String, nullable=False)
     code = Column(String, unique=True, nullable=False)
     
-    # Coordinates (for serialization and queries)
-    latitude = Column(Float, nullable=False)
-    longitude = Column(Float, nullable=False)
+    # Location (PostGIS Geography)
+    location = Column(Geography('POINT', srid=4326), nullable=False)
     address = Column(String, nullable=True)
-    
-    # Note: location Geography column exists in DB but not loaded by ORM to avoid serialization issues
+    city = Column(String, nullable=True)
+    district = Column(String, nullable=True)
     
     # School Information
-    school_type = Column(String, nullable=False)  # elementary, middle, high, university
+    type = Column(String, nullable=False)  # elementary, middle, high, university
     total_students = Column(Integer, default=0)
     total_teachers = Column(Integer, default=0)
     
@@ -30,8 +29,7 @@ class School(Base):
     total_trees = Column(Integer, default=0)
     green_area = Column(Float, default=0.0)
     
-    # Management
-    principal_name = Column(String, nullable=True)
+    # Contact
     phone = Column(String, nullable=True)
     email = Column(String, nullable=True)
     website = Column(String, nullable=True)

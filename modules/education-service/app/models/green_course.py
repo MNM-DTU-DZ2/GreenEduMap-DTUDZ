@@ -13,23 +13,17 @@ class GreenCourse(Base):
     
     title = Column(String, nullable=False)
     description = Column(Text, nullable=True)
-    category = Column(String, nullable=False)  # environment, energy, sustainability, recycling, conservation
+    category = Column(String, nullable=False)  # environment, energy, sustainability, recycling, climate, biodiversity
     
     # Course Details
-    duration_hours = Column(Integer, nullable=True)
-    max_students = Column(Integer, default=30)
-    enrolled_students = Column(Integer, default=0)
-    
-    instructor_name = Column(String, nullable=True)
-    start_date = Column(DateTime(timezone=True), nullable=True)
-    end_date = Column(DateTime(timezone=True), nullable=True)
+    max_students = Column(Integer, nullable=True)
+    duration_weeks = Column(Integer, nullable=True)
     
     # Content
-    syllabus = Column(JSONB, nullable=True)  # Course outline by weeks
-    learning_outcomes = Column(JSONB, nullable=True)  # Expected learning outcomes
+    syllabus = Column(JSONB, nullable=True)  # Course outline
+    meta_data = Column(JSONB, nullable=True)  # Additional metadata
     
     # Status
-    status = Column(String, default='draft')  # draft, active, completed, cancelled
     is_public = Column(Boolean, default=True, nullable=False)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

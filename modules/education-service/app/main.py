@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api import schools_router
+from app.api.courses import router as courses_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -23,6 +24,7 @@ def health_check():
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to Education Service - Green Schools"}
+    return {"message": "Welcome to Education Service - Green Schools & Green Courses"}
 
 app.include_router(schools_router, prefix=settings.API_V1_STR)
+app.include_router(courses_router, prefix=settings.API_V1_STR)

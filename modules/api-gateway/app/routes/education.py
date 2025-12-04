@@ -30,8 +30,8 @@ async def list_schools(
 ):
     """List schools (Proxy)"""
     try:
-        async with httpx.AsyncClient() as client:
-            url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/schools"
+        async with httpx.AsyncClient(follow_redirects=True) as client:
+            url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/schools/"  # Added trailing slash
             params = dict(request.query_params)
             response = await client.get(url, params=params, timeout=30.0)
             return Response(
@@ -93,8 +93,8 @@ async def list_green_courses(
 ):
     """List green courses (Proxy)"""
     try:
-        async with httpx.AsyncClient() as client:
-            url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/green-courses"
+        async with httpx.AsyncClient(follow_redirects=True) as client:
+            url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/courses/"  # Fixed endpoint with trailing slash
             params = dict(request.query_params)
             response = await client.get(url, params=params, timeout=30.0)
             return Response(
@@ -125,16 +125,9 @@ async def get_opendata_schools(
     - geojson: GeoJSON FeatureCollection
     """
     try:
-        async with httpx.AsyncClient() as client:
-            # If geojson is requested, we might need a specific endpoint in the service
-            # For now, let's assume the service handles it or we proxy to standard list
-            # TODO: Implement /api/v1/schools/geojson in Education Service
-
-            if format == "geojson":
-                # Provisional: proxy to a new endpoint we will create
-                url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/schools/geojson"
-            else:
-                url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/schools"
+        async with httpx.AsyncClient(follow_redirects=True) as client:
+            # For now just return json, geojson to be implemented later
+            url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/schools/"  # Added trailing slash
 
             response = await client.get(url, params={"limit": limit}, timeout=30.0)
             return Response(

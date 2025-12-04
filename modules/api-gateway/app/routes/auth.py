@@ -4,9 +4,25 @@ from fastapi.responses import JSONResponse
 import httpx
 from typing import Optional
 
-router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
+router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
 AUTH_SERVICE_URL = "http://auth-service:8001"
+
+@router.get("/health")
+async def health_check():
+    """Health check proxy to auth service"""
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(f"{AUTH_SERVICE_URL}/health", timeout=5.0)
+            return JSONResponse(
+                content=response.json() if response.status_code == 200 else {"status": "error"},
+                status_code=response.status_code
+            )
+        except httpx.RequestError:
+            return JSONResponse(
+                content={"status": "unavailable"},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE
+            )
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
