@@ -1,14 +1,7 @@
-"""Pydantic schemas for Education Service"""
-
 from pydantic import BaseModel, Field
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 from datetime import datetime
 from uuid import UUID
-
-
-# ========================================
-# School Schemas
-# ========================================
 
 class SchoolBase(BaseModel):
     name: str
@@ -16,17 +9,22 @@ class SchoolBase(BaseModel):
     latitude: float = Field(..., ge=-90, le=90)
     longitude: float = Field(..., ge=-180, le=180)
     address: Optional[str] = None
-    type: str  # elementary, middle, high, university
-    green_score: float = Field(default=0.0, ge=0.0, le=100.0)
+    school_type: str  # elementary, middle, high, university
+    total_students: int = Field(default=0, ge=0)
+    total_teachers: int = Field(default=0, ge=0)
+    total_trees: int = Field(default=0, ge=0)
+    green_area: float = Field(default=0.0, ge=0)
+    principal_name: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    website: Optional[str] = None
     is_public: bool = True
     data_uri: Optional[str] = None
     facilities: Optional[Dict[str, Any]] = None
     meta_data: Optional[Dict[str, Any]] = None
 
-
 class SchoolCreate(SchoolBase):
     pass
-
 
 class SchoolUpdate(BaseModel):
     name: Optional[str] = None
@@ -34,68 +32,26 @@ class SchoolUpdate(BaseModel):
     latitude: Optional[float] = Field(None, ge=-90, le=90)
     longitude: Optional[float] = Field(None, ge=-180, le=180)
     address: Optional[str] = None
-    type: Optional[str] = None
-    green_score: Optional[float] = Field(None, ge=0.0, le=100.0)
+    school_type: Optional[str] = None
+    total_students: Optional[int] = Field(None, ge=0)
+    total_teachers: Optional[int] = Field(None, ge=0)
+    total_trees: Optional[int] = Field(None, ge=0)
+    green_area: Optional[float] = Field(None, ge=0)
+    principal_name: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    website: Optional[str] = None
     is_public: Optional[bool] = None
     data_uri: Optional[str] = None
     facilities: Optional[Dict[str, Any]] = None
     meta_data: Optional[Dict[str, Any]] = None
 
-
 class SchoolResponse(SchoolBase):
     id: UUID
+    green_score: float
     ngsi_ld_uri: Optional[str] = None
     created_at: datetime
     updated_at: Optional[datetime] = None
-    average_rating: Optional[float] = None
-    total_reviews: Optional[int] = 0
 
     class Config:
         from_attributes = True
-
-
-# ========================================
-# Green Course Schemas
-# ========================================
-
-class GreenCourseBase(BaseModel):
-    title: str
-    description: Optional[str] = None
-    category: str  # environment, energy, sustainability, recycling
-    max_students: Optional[int] = None
-    duration_weeks: Optional[int] = None
-    is_public: bool = True
-    syllabus: Optional[Dict[str, Any]] = None
-    meta_data: Optional[Dict[str, Any]] = None
-
-
-class GreenCourseCreate(GreenCourseBase):
-    school_id: UUID
-
-
-class GreenCourseUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
-    max_students: Optional[int] = None
-    duration_weeks: Optional[int] = None
-    is_public: Optional[bool] = None
-    syllabus: Optional[Dict[str, Any]] = None
-    meta_data: Optional[Dict[str, Any]] = None
-
-
-class GreenCourseResponse(GreenCourseBase):
-    id: UUID
-    school_id: UUID
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-
-    class Config:
-        from_attributes = True
-
-class BulkImportResponse(BaseModel):
-    total: int
-    success: int
-    failed: int
-    errors: List[str] = []
-    ids: List[UUID] = []

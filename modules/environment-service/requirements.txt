@@ -8,9 +8,6 @@ sqlalchemy==2.0.25
 asyncpg==0.29.0
 geoalchemy2==0.14.3
 psycopg2-binary==2.9.9
-shapely==2.0.2
-geoalchemy2==0.14.3
-psycopg2-binary==2.9.9
 
 # HTTP Client
 httpx==0.26.0
@@ -22,6 +19,10 @@ pydantic-settings==2.1.0
 
 # Scheduler
 apscheduler==3.10.4
+
+# Message Brokers
+aio-pika==9.4.0      # RabbitMQ async client
+aiomqtt==2.0.0       # MQTT async client
 
 # Utilities
 python-dotenv==1.0.0

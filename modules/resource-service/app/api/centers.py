@@ -12,14 +12,19 @@ router = APIRouter()
 
 @router.post("/", response_model=RescueCenterResponse, status_code=201)
 async def create_center(center: RescueCenterCreate, db: AsyncSession = Depends(get_db)):
-    # Create Point geometry from lat/lon
-    # Use ST_GeogFromText for Geography type
-    location = func.ST_GeogFromText(f"SRID=4326;POINT({center.longitude} {center.latitude})")
+    # Create Point using Shapely, then convert to Geography
+    from shapely.geometry import Point
+    from geoalchemy2.shape import from_shape
+    
+    # Create Shapely Point (longitude, latitude)
+    point = Point(center.longitude, center.latitude)
+    # Convert to WKB for Geography column
+    location_wkb = from_shape(point, srid=4326)
     
     db_center = RescueCenter(
         name=center.name,
         code=center.code,
-        location=location,
+        location=location_wkb,
         address=center.address,
         total_capacity=center.total_capacity,
         current_occupancy=center.current_occupancy,
@@ -80,7 +85,11 @@ async def update_center(center_id: UUID, center_update: RescueCenterUpdate, db: 
     
     # Handle location update if lat/lon provided
     if "latitude" in update_data and "longitude" in update_data:
-        update_data["location"] = func.ST_GeogFromText(f"SRID=4326;POINT({update_data['longitude']} {update_data['latitude']})")
+        from shapely.geometry import Point
+        from geoalchemy2.shape import from_shape
+        
+        point = Point(update_data['longitude'], update_data['latitude'])
+        update_data["location"] = from_shape(point, srid=4326)
         del update_data["latitude"]
         del update_data["longitude"]
     elif "latitude" in update_data or "longitude" in update_data:

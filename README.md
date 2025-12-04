@@ -10,11 +10,11 @@
 
 <div align="center">
 
-[![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://MNM-DTU-DZ2.github.io/GreenEduMap-DTUDZ/)
+[![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://hoduongquochuy278.github.io/GreenEduMap-DTUDZ-documents/intro/)
 
 </div>
 
-![Banner](assets/images/banner_greenedu.png)
+![Banner](assets/images/banner_greenedumap.png)
 
 > _"Xanh hơn mỗi ngày – Dữ liệu vì cộng đồng xanh 🌍"_
 
@@ -33,7 +33,7 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 
 ## 👥 Dự án này dành cho ai?
 
-![Banner](assets/images/doi_tuong_chinh.jpg)
+![Banner](assets/images/doi_tuong_huong_den_greenedumap.png)
 
 1. **Người dân** → xem chất lượng sống và nhận gợi ý hành động xanh, cung cấp thông tin môi trường .
 2. **Chính quyền** → ra quyết định dựa trên dữ liệu, sử dụng dữ liệu để quản lý đô thị hiệu quả.
@@ -97,7 +97,7 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 | **Mobile App**     | React Native (iOS & Android)                            |
 | **Web**  | Next.js 15                                              |
 | **Backend Core**   | FastAPI (Python), Redis (Cache)                            |
-| **AI Services**    | FastAPI (Python) cho NLP, Computer Vision, scikit-learn |
+| **AI Services**    | FastAPI (Python) cho NLP, scikit-learn |
 | **API Gateway**    | Traefik, Keycloak (Auth)                                |
 | **Message Broker** | RabbitMQ, MQTT (EMQX/Mosquitto)                     |
 | **Realtime**       | Reverb (WebSocket)                                      |
@@ -175,62 +175,219 @@ Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh,
 
 ---
 
-## ⚖️ Quy Tắc Ứng Xử
+# 📘 Hướng dẫn cài đặt GreenEduMap
 
-Dự án này tuân theo bộ quy tắc ứng xử cho cộng đồng. Xem file [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) để biết thêm chi tiết về các quy tắc và hành vi được chấp nhận.
+## 📋 Yêu cầu hệ thống
+
+### Phần mềm cần thiết
+
+| Công cụ | Phiên bản tối thiểu | Mục đích |
+|---------|---------------------|----------|
+| **Docker** | 20.10+ | Container runtime |
+| **Docker Compose** | 2.0+ | Orchestration |
+| **Git** | 2.30+ | Version control |
+
+### Phần cứng khuyến nghị
+
+- **CPU**: 4 cores trở lên
+- **RAM**: 8GB tối thiểu, 16GB khuyến nghị
+- **Disk**: 50GB trống
+- **Network**: Kết nối internet ổn định
 
 ---
 
-## 🚀 Cài Đặt Hệ Thống
+## 🚀 Cài đặt và Khởi chạy
 
-### Yêu cầu hệ thống
-- **Node.js** 18+ (Next.js web)
-- **Python** 3.9+ (FastAPI services)
-- **PHP** 8.2+ (Laravel backend)
-- **PostgreSQL** 14+ + PostGIS extension
-- **Docker & Docker Compose** (for containerized deployment)
-- **Redis** 7+
-
-### Cài đặt nhanh (Local Development)
+### 1. Clone repository
 
 ```bash
-# Clone repository
-git clone https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ.git
+# Clone dự án
+git clone https://github.com/HoDuongQuocHuy278/GreenEduMap-DTUDZ.git
 cd GreenEduMap-DTUDZ
-
-# Setup environment
-cp .env.example .env
-cp .env.local.example .env.local
-
-# Docker Compose (recommended)
-docker-compose -f infrastructure/docker/docker-compose.yml up -d
-
-# Web App Setup
-cd modules/web-app
-npm install
-npm run dev  # Runs on http://localhost:3000
-
-# Backend Setup (if running locally)
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
-
-# Seed database
-cd modules/web-app
-npx prisma migrate dev
-npx prisma db seed
 ```
 
-### Verify Installation
+### 2. Cấu hình môi trường
+
 ```bash
-# Check all services are running
-curl http://localhost:3000          # Web app
-curl http://localhost:8000          # API Gateway
-curl http://localhost:5432          # PostgreSQL
-curl http://localhost:6379          # Redis
+# Copy file môi trường mẫu
+cp .env.example .env
+
+# Chỉnh sửa file .env với thông tin của bạn
+nano .env
 ```
 
-Xem chi tiết tại `docs/guides/setup.md`
+**Các biến môi trường quan trọng:**
+
+```env
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=greenedumap
+DB_USER=postgres
+DB_PASSWORD=your_password
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# API Keys
+OPENAQ_API_KEY=your_openaq_key
+OPENWEATHER_API_KEY=your_openweather_key
+SENTINEL_API_KEY=your_sentinel_key
+
+# Authentication
+KEYCLOAK_URL=http://localhost:8080
+JWT_SECRET=your_jwt_secret
+
+# Frontend
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+### 3. Khởi động với Docker Compose
+
+```bash
+# Build và khởi động tất cả services
+docker-compose up -d
+
+# Kiểm tra trạng thái
+docker-compose ps
+
+# Xem logs
+docker-compose logs -f
+```
+
+Hệ thống sẽ tự động khởi động các thành phần:
+- **Frontend**: Next.js (Web) & React Native (Mobile support)
+- **Backend**: FastAPI (Python)
+- **Database**: PostgreSQL + PostGIS
+- **Message Broker**: RabbitMQ
+- **AI Services**: Python Services
+- **Gateway**: Traefik
+- **Auth**: Keycloak
+- **Semantic**: FiWARE Orion-LD & MongoDB
+
+---
+
+## ✅ Kiểm tra cài đặt
+
+### Health Check Script
+
+```bash
+#!/bin/bash
+# health-check.sh
+
+echo "Checking services..."
+
+# Frontend
+curl -f http://localhost:3000 && echo "✅ Frontend OK" || echo "❌ Frontend Failed"
+
+# Backend
+curl -f http://localhost:8000/health && echo "✅ Backend OK" || echo "❌ Backend Failed"
+
+# AI Services
+curl -f http://localhost:8001/health && echo "✅ AI Services OK" || echo "❌ AI Services Failed"
+
+# Database
+pg_isready -h localhost -p 5432 && echo "✅ Database OK" || echo "❌ Database Failed"
+
+# Redis
+redis-cli ping && echo "✅ Redis OK" || echo "❌ Redis Failed"
+
+# RabbitMQ
+curl -f http://localhost:15672 && echo "✅ RabbitMQ OK" || echo "❌ RabbitMQ Failed"
+```
+
+---
+
+## 🐛 Xử lý sự cố
+
+### Lỗi thường gặp
+
+**1. Port đã được sử dụng**
+```bash
+# Kiểm tra port đang sử dụng
+netstat -ano | findstr :3000
+
+# Dừng process
+taskkill /PID <process_id> /F
+```
+
+**2. Docker container không khởi động**
+```bash
+# Xem logs chi tiết
+docker logs <container_name>
+
+# Restart container
+docker restart <container_name>
+
+# Xóa và tạo lại
+docker-compose down
+docker-compose up -d --force-recreate
+```
+
+**3. Database connection failed**
+```bash
+# Kiểm tra PostgreSQL đang chạy
+docker ps | grep postgres
+
+# Test connection
+psql -h localhost -U postgres -d greenedumap
+```
+
+---
+
+## 🔐 Cấu hình bảo mật
+
+### SSL/TLS Certificate
+
+```bash
+# Tạo self-signed certificate cho development
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout ./certs/key.pem \
+  -out ./certs/cert.pem
+```
+
+### Firewall Rules
+
+```bash
+# Mở ports cần thiết
+sudo ufw allow 3000/tcp  # Frontend
+sudo ufw allow 8000/tcp  # Backend
+sudo ufw allow 5432/tcp  # PostgreSQL
+sudo ufw allow 6379/tcp  # Redis
+```
+
+---
+
+## 📊 Monitoring & Logging
+
+### Prometheus + Grafana
+
+```bash
+# Khởi động monitoring stack
+docker-compose -f docker-compose.monitoring.yml up -d
+```
+
+**Grafana Dashboard:** http://localhost:3001
+
+### Log Aggregation
+
+```bash
+# Xem logs tất cả services
+docker-compose logs -f
+
+# Xem logs một service cụ thể
+docker-compose logs -f backend
+```
+
+---
+
+##  Tài liệu tham khảo
+
+- [Architecture](./Architecture.md) - Kiến trúc hệ thống
+- [API Documentation](./api/README.md) - Tài liệu API
+- [Contributing](../CONTRIBUTING.md) - Hướng dẫn đóng góp
+- [Troubleshooting](../TROUBLESHOOTING.md) - Xử lý sự cố
 
 ---
 
@@ -329,6 +486,10 @@ Báo cáo lỗi và đề xuất tính năng mới tại [GitHub Issues](https:/
 Xem thêm hướng dẫn đóng góp tại [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
+
+## ⚖️ Quy Tắc Ứng Xử
+
+Dự án này tuân theo bộ quy tắc ứng xử cho cộng đồng. Xem file [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) để biết thêm chi tiết về các quy tắc và hành vi được chấp nhận.
 
 ## 👥 Người Hướng Dẫn
 
