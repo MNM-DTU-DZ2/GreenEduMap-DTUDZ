@@ -187,7 +187,7 @@ services:
       AUTH_SERVICE_URL: http://auth-service:8001
       RESOURCE_SERVICE_URL: http://resource-service:8000
       ENVIRONMENT_SERVICE_URL: http://environment-service:8007
-      EDUCATION_SERVICE_URL: http://education-service:8008
+      EDUCATION_SERVICE_URL: http://education-service:8000
       HOST: 0.0.0.0
       PORT: 8000
       DEBUG: ${DEBUG:-true}
@@ -312,6 +312,64 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ================================
+  # AI SERVICE (Machine Learning)
+  # ================================
+  
+  ai-service:
+    build:
+      context: ../../modules/ai-service
+      dockerfile: Dockerfile
+    container_name: greenedumap-ai-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672/greenedumap
+      DEBUG: ${DEBUG:-true}
+      CLUSTERING_N_CLUSTERS: 3
+      PREDICTION_FORECAST_DAYS: 7
+      CORRELATION_MIN_SAMPLES: 10
+    # No external port - service runs as background worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+
+  # ================================
+  # OPENDATA SERVICE (NGSI-LD, DCAT-AP, Export)
+  # ================================
+  
+  opendata-service:
+    build:
+      context: ../../modules/opendata-service
+      dockerfile: Dockerfile
+    container_name: greenedumap-opendata-service
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-greenedumap}
+      BASE_URL: http://localhost:8009
+      DATA_BASE_URI: http://greenedumap.vn/data
+      DEBUG: ${DEBUG:-true}
+      API_V1_STR: /api/v1
+      MAX_PAGE_SIZE: 1000
+      DEFAULT_PAGE_SIZE: 100
+    ports:
+      - "8009:8009"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - greenedumap-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8009/health"]
       interval: 30s
       timeout: 10s
       retries: 3

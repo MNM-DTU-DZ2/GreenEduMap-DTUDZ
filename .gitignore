@@ -35,6 +35,11 @@ scripts/api-keys.env
 *.log
 logs/
 
+# Test results & generated files
+scripts/test_results.csv
+scripts/*.csv
+test-results*.log
+
 # OS
 .DS_Store
 Thumbs.db

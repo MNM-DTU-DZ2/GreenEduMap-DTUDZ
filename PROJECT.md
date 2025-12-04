@@ -644,22 +644,30 @@ CREATE INDEX idx_air_quality_location ON air_quality_data(latitude, longitude);
 | **Shared Module** | | |
 | Messaging utilities | ✅ | RabbitMQ + MQTT clients |
 | Event definitions | ✅ | EventTypes enum |
+| **AI Service** | | |
+| Clustering (K-Means) | ✅ | Green/Yellow/Red zones |
+| Prediction (ARIMA) | ✅ | 7-day AQI forecast |
+| Correlation Analysis | ✅ | Environment ↔ Education |
+| RabbitMQ consumers | ✅ | 3 task queues |
+| **OpenData Service** | | |
+| NGSI-LD entities | ✅ | 4 entity types (School, AQI, Zone, Course) |
+| DCAT-AP catalog | ✅ | 4 datasets, 13 distributions |
+| JSON-LD context | ✅ | 41 vocabulary mappings |
+| CSV Export | ✅ | All datasets |
+| GeoJSON Export | ✅ | Geographic data |
+| RDF Export | ✅ | Turtle, N-Triples, JSON-LD, RDF/XML |
 
 ### 6.2 Đang Phát Triển 🚧
 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Green score calculation | 🚧 | Formula cần tinh chỉnh |
-| OpenData endpoints | 🚧 | NGSI-LD format |
 | Web app features | 🚧 | Dashboard, filters |
 
 ### 6.3 Chưa Bắt Đầu ❌
 
 | Component | Priority | Notes |
 |-----------|----------|-------|
-| AI Service | HIGH | Clustering, prediction, correlation |
-| Export Service | MEDIUM | CSV, GeoJSON, RDF export |
-| OpenData Service | HIGH | NGSI-LD, JSON-LD, catalog |
 | Notification Service | LOW | Email, push notifications |
 | Mobile App | LOW | Viết riêng, chưa push |
 
@@ -669,55 +677,7 @@ CREATE INDEX idx_air_quality_location ON air_quality_data(latitude, longitude);
 
 ### 7.1 Priority HIGH - Cần Làm Trước
 
-#### 7.1.1 AI Service (`modules/ai-service/`)
-
-**Chức năng cần implement:**
-
-1. **Clustering** - Phân vùng xanh/vàng/đỏ
-   ```python
-   # Consumer for ai.clustering queue
-   # Input: environment data + education data
-   # Output: Cluster assignments (green/yellow/red zones)
-   # Algorithm: K-Means hoặc DBSCAN
-   ```
-
-2. **Prediction** - Dự báo chất lượng không khí
-   ```python
-   # Consumer for ai.prediction queue
-   # Input: Historical AQI data
-   # Output: AQI forecast (24h, 7 days)
-   # Algorithm: ARIMA, LSTM, hoặc Prophet
-   ```
-
-3. **Correlation Analysis** - Phân tích tương quan
-   ```python
-   # Consumer for ai.correlation queue
-   # Input: Environment data IDs + Education data IDs
-   # Output: Correlation coefficients, scatter plots
-   # Algorithm: Pearson, Spearman, Linear Regression
-   ```
-
-**File structure:**
-```
-ai-service/
-├── app/
-│   ├── main.py
-│   ├── config.py
-│   ├── consumers/
-│   │   ├── clustering.py
-│   │   ├── prediction.py
-│   │   └── correlation.py
-│   ├── models/
-│   │   ├── clustering.py     # ML models
-│   │   ├── prediction.py
-│   │   └── correlation.py
-│   └── utils/
-│       └── data_loader.py
-├── Dockerfile
-└── requirements.txt
-```
-
-#### 7.1.2 OpenData Service
+#### 7.1.1 OpenData Service
 
 **Chức năng:**
 

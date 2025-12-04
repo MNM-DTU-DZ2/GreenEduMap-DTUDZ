@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List, Union
 from datetime import datetime
 from uuid import UUID
 
@@ -17,7 +17,7 @@ class GreenZoneBase(BaseModel):
     phone: Optional[str] = None
     is_public: bool = True
     data_uri: Optional[str] = None
-    facilities: Optional[Dict[str, Any]] = None
+    facilities: Optional[Union[Dict[str, Any], List[str]]] = None  # Accept both dict and list
     meta_data: Optional[Dict[str, Any]] = None
 
 class GreenZoneCreate(GreenZoneBase):
@@ -37,7 +37,7 @@ class GreenZoneUpdate(BaseModel):
     phone: Optional[str] = None
     is_public: Optional[bool] = None
     data_uri: Optional[str] = None
-    facilities: Optional[Dict[str, Any]] = None
+    facilities: Optional[Union[Dict[str, Any], List[str]]] = None  # Accept both dict and list
     meta_data: Optional[Dict[str, Any]] = None
 
 class GreenZoneResponse(GreenZoneBase):
