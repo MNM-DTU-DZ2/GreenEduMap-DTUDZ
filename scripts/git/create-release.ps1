@@ -211,14 +211,22 @@ try {
     Write-Host ""
     Write-Color "[*] Creating tag $newVersion..." "Blue"
     
-    $tagMsg = "$releaseTitle`n`nAuto-generated from commits.`nReleased: $timestamp"
-    git tag -a $newVersion -m $tagMsg
-    
-    Write-Color "[OK] Tag created!" "Green"
+    if (git tag -l $newVersion) {
+        Write-Color "[!] Tag $newVersion already exists. Skipping creation." "Yellow"
+    }
+    else {
+        $tagMsg = "$releaseTitle`n`nAuto-generated from commits.`nReleased: $timestamp"
+        git tag -a $newVersion -m $tagMsg
+        Write-Color "[OK] Tag created!" "Green"
+    }
     
     # Push
     Write-Host ""
     Write-Color "[*] Pushing changes..." "Blue"
+    
+    # Pull latest main to avoid rejection
+    git pull origin main --rebase
+    
     git push origin main
     git push origin $newVersion
     

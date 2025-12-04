@@ -1,10 +1,17 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.1.0...3bc4d91c145904da01c167abcb3459064eceadf2) (2025-12-02)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.1.0...290fb5d6a9022615a326d0e05b836aee5fd99d3e) (2025-12-04)
 
 
 ### Bug Fixes
 
+* change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
 * **deploy:** quote all environment variables to handle special characters ([4758735](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/47587356df9ee7786eb0d86a5c2d3de73e0b49f2))
 * **docker:** update web-app port to use WEB_APP_PORT env var (default 4000)" ([3bc4d91](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/3bc4d91c145904da01c167abcb3459064eceadf2))
+* **script:** Fix script ([273bc98](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/273bc98f393f5823fa96cc92be7c364c27ef9202))
+
+
+### Features
+
+* **messaging:** integrate RabbitMQ and EMQX message brokers ([290fb5d](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/290fb5d6a9022615a326d0e05b836aee5fd99d3e))
 
 
 

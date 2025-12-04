@@ -1,0 +1,19 @@
+{
+    "name": "Đại học Duy Tân",
+    "code": "DTU-DN-001",
+    "latitude": 16.0544,
+    "longitude": 108.2022,
+    "address": "Quang Trung, Hải Châu, Đà Nẵng",
+    "city": "Đà Nẵng",
+    "district": "Hải Châu",
+    "type": "university",
+    "total_students": 15000,
+    "total_teachers": 800,
+    "total_trees": 500,
+    "green_area": 10000.0,
+    "principal_name": "GS. TS. Lê Công Cơ",
+    "phone": "0236 3650 403",
+    "email": "contact@duytan.edu.vn",
+    "website": "https://duytan.edu.vn",
+    "is_public": true
+}

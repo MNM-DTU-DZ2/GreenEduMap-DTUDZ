@@ -2,8 +2,10 @@
 API Gateway - Main Application
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from typing import Optional
 import logging
 
 from .config import settings
@@ -20,6 +22,31 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan manager"""
+    # Startup
+    logger.info(f"Starting {settings.APP_NAME} v{settings.VERSION}")
+    logger.info(f"Environment Service: {settings.ENVIRONMENT_SERVICE_URL}")
+    logger.info(f"Auth Service: {settings.AUTH_SERVICE_URL}")
+    logger.info(f"Education Service: {settings.EDUCATION_SERVICE_URL}")
+    
+    # Connect to RabbitMQ
+    from .messaging import task_publisher
+    rabbitmq_connected = await task_publisher.connect()
+    if rabbitmq_connected:
+        logger.info("RabbitMQ task publisher ready")
+    else:
+        logger.warning("RabbitMQ not available - async tasks will not work")
+    
+    yield
+    
+    # Shutdown
+    logger.info("Shutting down API Gateway")
+    await task_publisher.close()
+
+
 # Create FastAPI app
 app = FastAPI(
     title=settings.APP_NAME,
@@ -27,7 +54,8 @@ app = FastAPI(
     description="Central API Gateway for GreenEduMap microservices",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    openapi_url="/openapi.json",
+    lifespan=lifespan
 )
 
 # CORS middleware
@@ -50,6 +78,8 @@ app.include_router(auth_router)
 @app.get("/")
 async def root():
     """Root endpoint"""
+    from .messaging import task_publisher
+    
     return {
         "service": "GreenEduMap API Gateway",
         "version": settings.VERSION,
@@ -57,7 +87,11 @@ async def root():
         "endpoints": {
             "docs": "/docs",
             "opendata": "/api/open-data",
-            "health": "/health"
+            "health": "/health",
+            "tasks": "/api/v1/tasks"
+        },
+        "messaging": {
+            "rabbitmq": "connected" if task_publisher.is_connected else "disconnected"
         }
     }
 
@@ -68,6 +102,7 @@ async def health_check():
     Health check endpoint - aggregates health from all services
     """
     import httpx
+    from .messaging import task_publisher
     
     services_health = {}
     
@@ -96,23 +131,89 @@ async def health_check():
     return {
         "status": "healthy" if all_healthy else "degraded",
         "gateway": "healthy",
-        "services": services_health
+        "services": services_health,
+        "messaging": {
+            "rabbitmq": "connected" if task_publisher.is_connected else "disconnected"
+        }
     }
 
 
-@app.on_event("startup")
-async def startup_event():
-    """Startup event"""
-    logger.info(f"Starting {settings.APP_NAME} v{settings.VERSION}")
-    logger.info(f"Environment Service: {settings.ENVIRONMENT_SERVICE_URL}")
-    logger.info(f"Auth Service: {settings.AUTH_SERVICE_URL}")
-    logger.info(f"Education Service: {settings.EDUCATION_SERVICE_URL}")
+# ================================
+# Async Task Endpoints
+# ================================
+
+@app.post("/api/v1/tasks/ai/clustering")
+async def queue_clustering_task(
+    data_type: str = "environment",
+    n_clusters: int = 3,
+    method: str = "kmeans"
+):
+    """Queue AI clustering task"""
+    from .messaging import task_publisher
+    
+    task_id = await task_publisher.queue_clustering_task(
+        data_type=data_type,
+        n_clusters=n_clusters,
+        method=method
+    )
+    
+    if task_id:
+        return {"status": "queued", "task_id": task_id}
+    return {"status": "failed", "error": "RabbitMQ not available"}
 
 
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Shutdown event"""
-    logger.info("Shutting down API Gateway")
+@app.post("/api/v1/tasks/ai/prediction")
+async def queue_prediction_task(
+    prediction_type: str = "air_quality",
+    location_id: Optional[str] = None
+):
+    """Queue AI prediction task"""
+    from .messaging import task_publisher
+    
+    task_id = await task_publisher.queue_prediction_task(
+        prediction_type=prediction_type,
+        location_id=location_id
+    )
+    
+    if task_id:
+        return {"status": "queued", "task_id": task_id}
+    return {"status": "failed", "error": "RabbitMQ not available"}
+
+
+@app.post("/api/v1/tasks/ai/correlation")
+async def queue_correlation_task(
+    analysis_type: str = "pearson"
+):
+    """Queue AI correlation analysis task"""
+    from .messaging import task_publisher
+    
+    task_id = await task_publisher.queue_correlation_task(
+        environment_ids=[],
+        education_ids=[],
+        analysis_type=analysis_type
+    )
+    
+    if task_id:
+        return {"status": "queued", "task_id": task_id}
+    return {"status": "failed", "error": "RabbitMQ not available"}
+
+
+@app.post("/api/v1/tasks/export")
+async def queue_export_task(
+    data_type: str = "schools",
+    format: str = "csv"
+):
+    """Queue data export task"""
+    from .messaging import task_publisher
+    
+    task_id = await task_publisher.queue_export_task(
+        data_type=data_type,
+        format=format
+    )
+    
+    if task_id:
+        return {"status": "queued", "task_id": task_id}
+    return {"status": "failed", "error": "RabbitMQ not available"}
 
 
 if __name__ == "__main__":
