@@ -28,6 +28,66 @@ router = APIRouter(prefix="/api/v1/air-quality", tags=["Air Quality"])
 logger = logging.getLogger(__name__)
 
 
+@router.get("/")
+async def list_air_quality(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=1000),
+    db: AsyncSession = Depends(get_session)
+):
+    """List all air quality measurements"""
+    try:
+        from sqlalchemy import text
+        
+        # Use raw SQL to extract lat/lon from Geography
+        query = """
+            SELECT 
+                id,
+                ST_Y(location::geometry) as latitude,
+                ST_X(location::geometry) as longitude,
+                aqi, pm25, pm10, co, no2, o3, so2,
+                source, station_name, station_id,
+                measurement_date, created_at
+            FROM air_quality
+            WHERE is_public = true
+            ORDER BY measurement_date DESC
+            LIMIT :limit OFFSET :skip
+        """
+        
+        result = await db.execute(text(query), {"limit": limit, "skip": skip})
+        rows = result.fetchall()
+        
+        data = []
+        for row in rows:
+            data.append({
+                "id": str(row[0]),
+                "latitude": float(row[1]) if row[1] else None,
+                "longitude": float(row[2]) if row[2] else None,
+                "aqi": float(row[3]) if row[3] else None,
+                "pm25": float(row[4]) if row[4] else None,
+                "pm10": float(row[5]) if row[5] else None,
+                "co": float(row[6]) if row[6] else None,
+                "no2": float(row[7]) if row[7] else None,
+                "o3": float(row[8]) if row[8] else None,
+                "so2": float(row[9]) if row[9] else None,
+                "source": row[10],
+                "station_name": row[11],
+                "station_id": row[12],
+                "measurement_date": row[13].isoformat() if row[13] else None,
+                "created_at": row[14].isoformat() if row[14] else None
+            })
+        
+        return {
+            "total": len(data),
+            "skip": skip,
+            "limit": limit,
+            "data": data
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching air quality: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 @router.get("/latest")
 async def get_latest_air_quality(
     limit: int = Query(100, ge=1, le=1000),
@@ -35,23 +95,52 @@ async def get_latest_air_quality(
 ):
     """Get latest air quality measurements"""
     try:
+        from sqlalchemy import text
+        
         # Get latest measurements from last 24 hours
         since = datetime.utcnow() - timedelta(days=1)
         
-        stmt = (
-            select(AirQuality)
-            .where(AirQuality.measurement_date >= since)
-            .where(AirQuality.is_public == True)
-            .order_by(AirQuality.measurement_date.desc())
-            .limit(limit)
-        )
+        query = """
+            SELECT 
+                id,
+                ST_Y(location::geometry) as latitude,
+                ST_X(location::geometry) as longitude,
+                aqi, pm25, pm10, co, no2, o3, so2,
+                source, station_name, station_id,
+                measurement_date, created_at
+            FROM air_quality
+            WHERE is_public = true
+              AND measurement_date >= :since
+            ORDER BY measurement_date DESC
+            LIMIT :limit
+        """
         
-        result = await db.execute(stmt)
-        measurements = result.scalars().all()
+        result = await db.execute(text(query), {"since": since, "limit": limit})
+        rows = result.fetchall()
+        
+        data = []
+        for row in rows:
+            data.append({
+                "id": str(row[0]),
+                "latitude": float(row[1]) if row[1] else None,
+                "longitude": float(row[2]) if row[2] else None,
+                "aqi": float(row[3]) if row[3] else None,
+                "pm25": float(row[4]) if row[4] else None,
+                "pm10": float(row[5]) if row[5] else None,
+                "co": float(row[6]) if row[6] else None,
+                "no2": float(row[7]) if row[7] else None,
+                "o3": float(row[8]) if row[8] else None,
+                "so2": float(row[9]) if row[9] else None,
+                "source": row[10],
+                "station_name": row[11],
+                "station_id": row[12],
+                "measurement_date": row[13].isoformat() if row[13] else None,
+                "created_at": row[14].isoformat() if row[14] else None
+            })
         
         return {
-            "total": len(measurements),
-            "data": [m.to_dict() for m in measurements]
+            "total": len(data),
+            "data": data
         }
         
     except Exception as e:

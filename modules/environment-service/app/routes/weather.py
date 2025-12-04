@@ -27,6 +27,68 @@ router = APIRouter(prefix="/api/v1/weather", tags=["Weather"])
 logger = logging.getLogger(__name__)
 
 
+@router.get("/")
+async def list_weather(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=1000),
+    db: AsyncSession = Depends(get_session)
+):
+    """List all weather observations"""
+    try:
+        from sqlalchemy import text
+        
+        query = """
+            SELECT 
+                id,
+                ST_Y(location::geometry) as latitude,
+                ST_X(location::geometry) as longitude,
+                city_name, temperature, feels_like, humidity, pressure,
+                wind_speed, wind_direction, clouds, visibility,
+                weather_main, weather_description,
+                source, observation_time, created_at
+            FROM weather
+            WHERE is_public = true
+            ORDER BY observation_time DESC
+            LIMIT :limit OFFSET :skip
+        """
+        
+        result = await db.execute(text(query), {"limit": limit, "skip": skip})
+        rows = result.fetchall()
+        
+        data = []
+        for row in rows:
+            data.append({
+                "id": str(row[0]),
+                "latitude": float(row[1]) if row[1] else None,
+                "longitude": float(row[2]) if row[2] else None,
+                "city_name": row[3],
+                "temperature": float(row[4]) if row[4] else None,
+                "feels_like": float(row[5]) if row[5] else None,
+                "humidity": int(row[6]) if row[6] else None,
+                "pressure": int(row[7]) if row[7] else None,
+                "wind_speed": float(row[8]) if row[8] else None,
+                "wind_direction": int(row[9]) if row[9] else None,
+                "clouds": int(row[10]) if row[10] else None,
+                "visibility": int(row[11]) if row[11] else None,
+                "weather_main": row[12],
+                "weather_description": row[13],
+                "source": row[14],
+                "observation_time": row[15].isoformat() if row[15] else None,
+                "created_at": row[16].isoformat() if row[16] else None
+            })
+        
+        return {
+            "total": len(data),
+            "skip": skip,
+            "limit": limit,
+            "data": data
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching weather: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 @router.get("/current")
 async def get_current_weather(
     lat: float = Query(..., ge=-90, le=90),
