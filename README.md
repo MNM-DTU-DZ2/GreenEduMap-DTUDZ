@@ -175,7 +175,7 @@ Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh,
 
 ---
 
-# � Hướng dẫn cài đặt GreenEduMap
+# 📘 Hướng dẫn cài đặt GreenEduMap
 
 ## 📋 Yêu cầu hệ thống
 
@@ -359,7 +359,7 @@ sudo ufw allow 6379/tcp  # Redis
 
 ---
 
-## � Monitoring & Logging
+## 📊 Monitoring & Logging
 
 ### Prometheus + Grafana
 
