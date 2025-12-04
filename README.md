@@ -14,7 +14,7 @@
 
 </div>
 
-![Banner](assets/images/banner_greenedu.png)
+![Banner](assets/images/banner_greenedumap.png)
 
 > _"Xanh hơn mỗi ngày – Dữ liệu vì cộng đồng xanh 🌍"_
 
@@ -33,7 +33,7 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 
 ## 👥 Dự án này dành cho ai?
 
-![Banner](assets/images/doi_tuong_chinh.jpg)
+![Banner](assets/images/doi_tuong_huong_den_greenedumap.png)
 
 1. **Người dân** → xem chất lượng sống và nhận gợi ý hành động xanh, cung cấp thông tin môi trường .
 2. **Chính quyền** → ra quyết định dựa trên dữ liệu, sử dụng dữ liệu để quản lý đô thị hiệu quả.
@@ -172,12 +172,6 @@ Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh,
 - Kết nối người dân, trường học, doanh nghiệp và chính quyền trong một hệ sinh thái dữ liệu mở.
 - Ứng dụng AI dự báo ô nhiễm, thay đổi cây xanh và năng lượng, giúp ra quyết định nhanh và bền vững.
 - Triển khai GreenEduMap tại nhiều thành phố Đông Nam Á, chuẩn hóa dữ liệu theo NGSI-LD và Linked Open Data, trở thành trung tâm dữ liệu đô thị xanh mã nguồn mở hàng đầu khu vực.
-
----
-
-## ⚖️ Quy Tắc Ứng Xử
-
-Dự án này tuân theo bộ quy tắc ứng xử cho cộng đồng. Xem file [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) để biết thêm chi tiết về các quy tắc và hành vi được chấp nhận.
 
 ---
 
@@ -329,6 +323,10 @@ Báo cáo lỗi và đề xuất tính năng mới tại [GitHub Issues](https:/
 Xem thêm hướng dẫn đóng góp tại [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
+
+## ⚖️ Quy Tắc Ứng Xử
+
+Dự án này tuân theo bộ quy tắc ứng xử cho cộng đồng. Xem file [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) để biết thêm chi tiết về các quy tắc và hành vi được chấp nhận.
 
 ## 👥 Người Hướng Dẫn
 
