@@ -15,6 +15,7 @@ from app.dependencies import (
 from app.schemas import (
     UserCreate,
     UserResponse,
+    UserUpdate,
     LoginRequest,
     TokenResponse,
     TokenRefreshRequest,
@@ -142,9 +143,29 @@ async def get_current_user_info(
     return current_user
 
 
+@app.patch("/api/v1/auth/profile", response_model=UserResponse, tags=["Auth"])
+async def update_profile(
+    profile_update: UserUpdate,
+    current_user: Annotated[User, Depends(get_current_active_user)],
+    user_service: Annotated[UserService, Depends(get_user_service)],
+):
+    """
+    Update current user's profile.
+    
+    Requires: Bearer token in Authorization header
+    """
+    updated_user = await user_service.update_user(
+        user_id=current_user.id,
+        user_data=profile_update
+    )
+    return updated_user
+
+
+
 # ================================
 # User Management Endpoints
 # ================================
+
 
 @app.get("/api/v1/users", response_model=List[UserResponse], tags=["Users"])
 async def list_users(

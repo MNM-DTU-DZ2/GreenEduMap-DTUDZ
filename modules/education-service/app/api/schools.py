@@ -126,11 +126,14 @@ async def find_nearby_schools(
 ):
     """Tìm trường học gần vị trí (raw SQL geospatial search)"""
     
-    # Build dynamic SQL to avoid NULL type issues
+    # Build dynamic SQL - extract lat/lon from location Geography column
     base_sql = """
-        SELECT id, name, code, latitude, longitude, address, school_type, 
+        SELECT id, name, code, 
+               ST_Y(location::geometry) as latitude, 
+               ST_X(location::geometry) as longitude,
+               address, city, district, type as school_type, 
                total_students, total_teachers, total_trees, green_area,
-               principal_name, phone, email, website, green_score, is_public, 
+               phone, email, website, green_score, is_public, 
                data_uri, ngsi_ld_uri, facilities, meta_data, created_at, updated_at
         FROM schools
         WHERE ST_DWithin(
@@ -146,31 +149,46 @@ async def find_nearby_schools(
     }
     
     if school_type:
-        base_sql += " AND school_type = :school_type"
+        base_sql += " AND type = :school_type"
         params["school_type"] = school_type
     
     base_sql += " ORDER BY green_score DESC"
     
     result = await db.execute(text(base_sql), params)
     
-    # Manually map rows to School objects
+    # Map rows to dict
     schools = []
     for row in result:
-        school = School(
-            id=row.id, name=row.name, code=row.code,
-            latitude=row.latitude, longitude=row.longitude, address=row.address,
-            school_type=row.school_type, total_students=row.total_students,
-            total_teachers=row.total_teachers, total_trees=row.total_trees,
-            green_area=row.green_area, principal_name=row.principal_name,
-            phone=row.phone, email=row.email, website=row.website,
-            green_score=row.green_score, is_public=row.is_public,
-            data_uri=row.data_uri, ngsi_ld_uri=row.ngsi_ld_uri,
-            facilities=row.facilities, meta_data=row.meta_data,
-            created_at=row.created_at, updated_at=row.updated_at
-        )
-        schools.append(school)
+        school_dict = {
+            "id": row.id,
+            "name": row.name,
+            "code": row.code,
+            "latitude": float(row.latitude) if row.latitude else None,
+            "longitude": float(row.longitude) if row.longitude else None,
+            "address": row.address,
+            "city": getattr(row, 'city', None),
+            "district": getattr(row, 'district', None),
+            "type": row.school_type,
+            "total_students": row.total_students or 0,
+            "total_teachers": row.total_teachers or 0,
+            "total_trees": row.total_trees or 0,
+            "green_area": float(row.green_area) if row.green_area else 0.0,
+            "phone": row.phone,
+            "email": row.email,
+            "website": row.website,
+            "green_score": float(row.green_score) if row.green_score else 0.0,
+            "is_public": row.is_public if row.is_public is not None else True,
+            "data_uri": row.data_uri,
+            "ngsi_ld_uri": row.ngsi_ld_uri,
+            "facilities": row.facilities,
+            "meta_data": row.meta_data,
+            "created_at": row.created_at,
+            "updated_at": row.updated_at,
+        }
+        schools.append(school_dict)
     
     return schools
+
 
 @router.get("/ranking", response_model=List[SchoolResponse])
 async def get_school_ranking(
