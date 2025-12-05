@@ -16,9 +16,9 @@ async def get_public_green_zones(
 ):
     """Get public green zones"""
     try:
-        async with httpx.AsyncClient() as client:
-            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/green-zones"
-            response = await client.get(url, params={"skip": skip, "limit": limit}, timeout=30.0)
+        async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
+            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/green-zones/"
+            response = await client.get(url, params={"skip": skip, "limit": limit})
             response.raise_for_status()
             return response.json()
     except Exception as e:
@@ -50,9 +50,9 @@ async def get_public_green_resources(
 ):
     """Get public green resources"""
     try:
-        async with httpx.AsyncClient() as client:
-            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/green-resources"
-            response = await client.get(url, params={"skip": skip, "limit": limit}, timeout=30.0)
+        async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
+            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/green-resources/"
+            response = await client.get(url, params={"skip": skip, "limit": limit})
             response.raise_for_status()
             return response.json()
     except Exception as e:
