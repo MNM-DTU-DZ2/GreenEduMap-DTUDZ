@@ -72,11 +72,11 @@ export default function CesiumMap({
     { id: 28, ward_name: "Phường An Lạc A", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7478, longitude: 106.5911, aqi: 150, pm25: 59, pm10: 88 },
   ];
 
-  const { data: airQualityData, isLoading } = useAirQuality("Ho Chi Minh City", 0, 1000);
+  const { data: airQualityData, isLoading } = useAirQuality(0, 1000);
 
   // Use mock data if API data is not available or empty
-  const displayData = airQualityData?.items && airQualityData.items.length > 0
-    ? airQualityData.items
+  const displayData = airQualityData?.data && airQualityData.data.length > 0
+    ? airQualityData.data
     : mockDataTPHCM;
 
   useEffect(() => {
