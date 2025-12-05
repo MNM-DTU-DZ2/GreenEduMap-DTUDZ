@@ -41,13 +41,14 @@ async def list_air_quality(
         raise HTTPException(status_code=503, detail="Service unavailable")
 
 
-@router.get("/air-quality/{item_id}")
-async def get_air_quality(item_id: str):
-    """Get specific air quality reading"""
+@router.get("/air-quality/latest")
+async def get_latest_air_quality(request: Request):
+    """Get latest air quality readings"""
     try:
         async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
-            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/air-quality/{item_id}/"
-            response = await client.get(url)
+            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/air-quality/latest/"
+            params = dict(request.query_params)
+            response = await client.get(url, params=params)
             return Response(
                 content=response.content,
                 status_code=response.status_code,
@@ -58,14 +59,13 @@ async def get_air_quality(item_id: str):
         raise HTTPException(status_code=503, detail="Service unavailable")
 
 
-@router.get("/air-quality/latest")
-async def get_latest_air_quality(request: Request):
-    """Get latest air quality readings"""
+@router.get("/air-quality/{item_id}")
+async def get_air_quality(item_id: str):
+    """Get specific air quality reading"""
     try:
         async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
-            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/air-quality/latest/"
-            params = dict(request.query_params)
-            response = await client.get(url, params=params)
+            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/air-quality/{item_id}/"
+            response = await client.get(url)
             return Response(
                 content=response.content,
                 status_code=response.status_code,
