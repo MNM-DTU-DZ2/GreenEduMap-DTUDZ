@@ -393,15 +393,57 @@ docker-compose logs -f backend
 ## 📁 Cấu trúc thư mục
 
 ```
-GreenEduMap
-├── backend/            # FastAPI, services, AI models
-├── frontend/
-├── app/
-├── docker/             # Deployment stack
-├── data/               # SQL seeds, GeoJSON, raster
-├── docs/               # Documentation, diagrams
-├── scripts/            # ETL, LOD exports
-└── .github/workflows/  # CI/CD pipelines
+GreenEduMap-DTUDZ/
+│
+├── modules/                     # All Application Modules
+│   ├── appmobile/              # React Native Mobile App (iOS & Android)
+│   ├── web-app/                # Next.js 14 Web Application - Port 3000
+│   ├── api-gateway/            # API Gateway (FastAPI) - Port 8000
+│   ├── auth-service/           # Authentication Service - Port 8001
+│   ├── resource-service/       # Green Zones, Recycling Centers - Port 8002
+│   ├── education-service/      # Schools, Green Courses - Port 8003
+│   ├── environment-service/    # Air Quality, Weather - Port 8007
+│   ├── ai-service/             # ML Models (RabbitMQ Workers)
+│   ├── opendata-service/       # NGSI-LD, Linked Open Data
+│   └── shared/                 # Shared utilities, models, configs
+│
+├── infrastructure/              # Docker & Deployment
+│   ├── docker/                 # Docker Compose, Dockerfiles
+│   │   ├── init-scripts/       # Database init scripts (SQL)
+│   │   └── configs/            # Service configurations
+│   └── nginx/                  # Nginx reverse proxy configs
+│
+├── docs/                        # Documentation
+│   ├── ARCHITECTURE.md         # System architecture details
+│   ├── API_DOCUMENTATION.md    # API endpoints documentation
+│   ├── API_ENDPOINTS.md        # API endpoints summary
+│   ├── PROJECT.md              # Project overview
+│   ├── PROJECT_CONTEXT.md      # Project context & background
+│   ├── DEPLOYMENT.md           # Deployment guide
+│   ├── VPS_DEPLOYMENT_GUIDE.md # VPS deployment instructions
+│   ├── DEVELOPMENT_WORKFLOW.md # Development workflow
+│   └── DOCKER.md               # Docker usage guide
+│
+├── scripts/                     # Utility Scripts
+│   ├── deploy/                 # Deployment scripts
+│   ├── test/                   # Testing scripts
+│   └── git/                    # Git helper scripts
+│
+├── collections/                 # API Collections
+│   └── postman/                # Postman collections for testing
+│
+├── assets/                      # Static Assets
+│   └── images/                 # Project images, banners, diagrams
+│
+├── .github/                     # GitHub Configuration
+│   └── workflows/              # CI/CD pipelines
+│
+├── README.md                    # Main documentation
+├── CONTRIBUTING.md              # Contribution guidelines
+├── CODE_OF_CONDUCT.md           # Code of conduct
+├── CHANGELOG.md                 # Version history
+├── LICENSE                      # GPL-3.0 License
+└── cliff.toml                   # Git cliff configuration
 ```
 
 ---
