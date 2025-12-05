@@ -102,13 +102,14 @@ async def list_weather(
         raise HTTPException(status_code=503, detail="Service unavailable")
 
 
-@router.get("/weather/{item_id}")
-async def get_weather(item_id: str):
-    """Get specific weather observation"""
+@router.get("/weather/current")
+async def get_current_weather(request: Request):
+    """Get current weather"""
     try:
         async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
-            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/weather/{item_id}/"
-            response = await client.get(url)
+            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/weather/current/"
+            params = dict(request.query_params)
+            response = await client.get(url, params=params)
             return Response(
                 content=response.content,
                 status_code=response.status_code,
@@ -119,14 +120,13 @@ async def get_weather(item_id: str):
         raise HTTPException(status_code=503, detail="Service unavailable")
 
 
-@router.get("/weather/current")
-async def get_current_weather(request: Request):
-    """Get current weather"""
+@router.get("/weather/{item_id}")
+async def get_weather(item_id: str):
+    """Get specific weather observation"""
     try:
         async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
-            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/weather/current/"
-            params = dict(request.query_params)
-            response = await client.get(url, params=params)
+            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/weather/{item_id}/"
+            response = await client.get(url)
             return Response(
                 content=response.content,
                 status_code=response.status_code,
