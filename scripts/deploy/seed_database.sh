@@ -87,7 +87,22 @@ execute_sql_file() {
 }
 
 # Seed files
-echo -e "${YELLOW}[Step 3/4] Seeding database...${NC}"
+echo -e "${YELLOW}[Step 3/5] Running init scripts (create tables)...${NC}"
+
+# Init scripts (create tables first)
+init_files=(
+    "${PROJECT_DIR}/infrastructure/docker/init-scripts/01-init-postgis.sql:PostGIS Extension"
+    "${PROJECT_DIR}/infrastructure/docker/init-scripts/02-create-tables.sql:Core Tables"
+    "${PROJECT_DIR}/infrastructure/docker/init-scripts/03_education_schema.sql:Education Schema"
+    "${PROJECT_DIR}/infrastructure/docker/init-scripts/04_green_zones.sql:Green Zones Tables"
+)
+
+for init_entry in "${init_files[@]}"; do
+    IFS=':' read -r file_path service_name <<< "$init_entry"
+    execute_sql_file "$service_name" "$file_path" || true
+done
+
+echo -e "${YELLOW}[Step 4/5] Seeding sample data...${NC}"
 
 seed_files=(
     "${PROJECT_DIR}/modules/education-service/migrations/seed_data.sql:Education Service"
