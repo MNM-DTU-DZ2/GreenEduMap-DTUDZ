@@ -4,7 +4,8 @@
 # Xóa tất cả containers, images, volumes liên quan đến greenedumap
 # ============================================
 
-set -e
+# Don't exit on error - we'll handle errors manually
+set +e
 
 # Colors
 RED='\033[0;31m'
@@ -26,7 +27,11 @@ fi
 
 # Confirmation
 echo -e "${YELLOW}⚠️  WARNING: This will delete ALL GreenEduMap containers, images, and volumes!${NC}"
-read -p "Are you sure? Type 'yes' to continue: " CONFIRM
+echo -e "${YELLOW}Type 'yes' to continue, or anything else to cancel:${NC}"
+read -r CONFIRM
+
+# Trim whitespace and convert to lowercase for comparison
+CONFIRM=$(echo "$CONFIRM" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
 
 if [ "$CONFIRM" != "yes" ]; then
     echo -e "${YELLOW}❌ Cancelled${NC}"
@@ -35,28 +40,53 @@ fi
 
 echo ""
 echo -e "${YELLOW}[Step 1/5] Stopping all GreenEduMap containers...${NC}"
-docker ps -a --filter "name=greenedumap" --format "{{.Names}}" | xargs -r docker stop
-echo -e "${GREEN}✅ Containers stopped${NC}"
+CONTAINERS=$(docker ps -a --filter "name=greenedumap" --format "{{.Names}}" 2>/dev/null)
+if [ -n "$CONTAINERS" ]; then
+    echo "$CONTAINERS" | xargs -r docker stop 2>/dev/null
+    echo -e "${GREEN}✅ Containers stopped${NC}"
+else
+    echo -e "${GREEN}✅ No containers to stop${NC}"
+fi
 
 echo ""
 echo -e "${YELLOW}[Step 2/5] Removing all GreenEduMap containers...${NC}"
-docker ps -a --filter "name=greenedumap" --format "{{.Names}}" | xargs -r docker rm -f
-echo -e "${GREEN}✅ Containers removed${NC}"
+CONTAINERS=$(docker ps -a --filter "name=greenedumap" --format "{{.Names}}" 2>/dev/null)
+if [ -n "$CONTAINERS" ]; then
+    echo "$CONTAINERS" | xargs -r docker rm -f 2>/dev/null
+    echo -e "${GREEN}✅ Containers removed${NC}"
+else
+    echo -e "${GREEN}✅ No containers to remove${NC}"
+fi
 
 echo ""
 echo -e "${YELLOW}[Step 3/5] Removing all GreenEduMap images...${NC}"
-docker images --filter "reference=*greenedumap*" --format "{{.Repository}}:{{.Tag}}" | xargs -r docker rmi -f
-docker images --filter "reference=*docker-*" --format "{{.Repository}}:{{.Tag}}" | xargs -r docker rmi -f
-echo -e "${GREEN}✅ Images removed${NC}"
+IMAGES=$(docker images --filter "reference=*greenedumap*" --format "{{.Repository}}:{{.Tag}}" 2>/dev/null)
+if [ -n "$IMAGES" ]; then
+    echo "$IMAGES" | xargs -r docker rmi -f 2>/dev/null
+    echo -e "${GREEN}✅ GreenEduMap images removed${NC}"
+else
+    echo -e "${GREEN}✅ No GreenEduMap images to remove${NC}"
+fi
+
+DOCKER_IMAGES=$(docker images --filter "reference=*docker-*" --format "{{.Repository}}:{{.Tag}}" 2>/dev/null)
+if [ -n "$DOCKER_IMAGES" ]; then
+    echo "$DOCKER_IMAGES" | xargs -r docker rmi -f 2>/dev/null
+    echo -e "${GREEN}✅ Docker build images removed${NC}"
+fi
 
 echo ""
 echo -e "${YELLOW}[Step 4/5] Removing all GreenEduMap volumes...${NC}"
-docker volume ls --filter "name=greenedumap" --format "{{.Name}}" | xargs -r docker volume rm -f
-echo -e "${GREEN}✅ Volumes removed${NC}"
+VOLUMES=$(docker volume ls --filter "name=greenedumap" --format "{{.Name}}" 2>/dev/null)
+if [ -n "$VOLUMES" ]; then
+    echo "$VOLUMES" | xargs -r docker volume rm -f 2>/dev/null
+    echo -e "${GREEN}✅ Volumes removed${NC}"
+else
+    echo -e "${GREEN}✅ No volumes to remove${NC}"
+fi
 
 echo ""
 echo -e "${YELLOW}[Step 5/5] Cleaning up unused Docker resources...${NC}"
-docker system prune -f
+docker system prune -f > /dev/null 2>&1
 echo -e "${GREEN}✅ Cleanup complete${NC}"
 
 echo ""
