@@ -43,7 +43,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePassword123!\",\n  \"full_name\": \"Nguyễn Văn A\",\n  \"phone\": \"+84901234567\"\n}"
+                            "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePassword123!\",\n  \"full_name\": \"Nguy\\u1ec5n V\\u0103n A\",\n  \"phone\": \"+84901234567\"\n}"
                         },
                         "url": {
                             "raw": "{{base_url}}/api/v1/auth/register",
@@ -172,7 +172,7 @@
                 {
                     "name": "Update Profile",
                     "request": {
-                        "method": "PUT",
+                        "method": "PATCH",
                         "header": [
                             {
                                 "key": "Authorization",
@@ -185,7 +185,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"full_name\": \"Nguyễn Văn B\",\n  \"phone\": \"+84901234567\"\n}"
+                            "raw": "{\n  \"full_name\": \"Nguy\\u1ec5n V\\u0103n B\",\n  \"phone\": \"+84909999999\"\n}"
                         },
                         "url": {
                             "raw": "{{base_url}}/api/v1/auth/profile",
@@ -355,7 +355,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/weather/current?city=Ho Chi Minh City",
+                            "raw": "{{base_url}}/api/v1/weather/current?lat=10.7769&lon=106.7009&fetch_new=true",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -367,14 +367,55 @@
                             ],
                             "query": [
                                 {
-                                    "key": "city",
-                                    "value": "Ho Chi Minh City"
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Latitude"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Longitude"
+                                },
+                                {
+                                    "key": "fetch_new",
+                                    "value": "true",
+                                    "description": "Fetch new data from OpenWeather"
                                 }
                             ]
                         },
-                        "description": "Lấy dữ liệu thời tiết hiện tại."
+                        "description": "Lay du lieu thoi tiet hien tai theo toa do."
                     },
-                    "response": []
+                    "response": [],
+                    "url": {
+                        "raw": "{{base_url}}/api/v1/weather/current?lat=10.7769&lon=106.7009&fetch_new=true",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "v1",
+                            "weather",
+                            "current"
+                        ],
+                        "query": [
+                            {
+                                "key": "lat",
+                                "value": "10.7769",
+                                "description": "Vĩ độ"
+                            },
+                            {
+                                "key": "lon",
+                                "value": "106.7009",
+                                "description": "Kinh độ"
+                            },
+                            {
+                                "key": "fetch_new",
+                                "value": "true",
+                                "description": "Lấy dữ liệu mới"
+                            }
+                        ]
+                    },
+                    "description": "Lấy dữ liệu thời tiết hiện tại theo toạ độ."
                 }
             ]
         },
@@ -686,7 +727,7 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "{{base_url}}/api/open-data/weather/current?city=Ho Chi Minh City",
+                            "raw": "{{base_url}}/api/open-data/weather/current?lat=10.7769&lon=106.7009",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -698,8 +739,14 @@
                             ],
                             "query": [
                                 {
-                                    "key": "city",
-                                    "value": "Ho Chi Minh City"
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Latitude"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Longitude"
                                 }
                             ]
                         },
@@ -713,7 +760,7 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "{{base_url}}/api/open-data/weather/forecast?city=Ho Chi Minh City",
+                            "raw": "{{base_url}}/api/open-data/weather/forecast?lat=10.7769&lon=106.7009",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -725,8 +772,14 @@
                             ],
                             "query": [
                                 {
-                                    "key": "city",
-                                    "value": "Ho Chi Minh City"
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Latitude"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Longitude"
                                 }
                             ]
                         },
