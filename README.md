@@ -94,15 +94,16 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 
 | Thành phần         | Công nghệ sử dụng                                       |
 | ------------------ | ------------------------------------------------------- |
+| **Web App**        | Next.js 14, React 18, TypeScript, TailwindCSS, Mapbox GL |
 | **Mobile App**     | React Native (iOS & Android)                            |
-| **Web**  | Next.js 15                                              |
-| **Backend Core**   | FastAPI (Python), Redis (Cache)                            |
-| **AI Services**    | FastAPI (Python) cho NLP, scikit-learn |
-| **API Gateway**    | Traefik, Keycloak (Auth)                                |
-| **Message Broker** | RabbitMQ, MQTT (EMQX/Mosquitto)                     |
-| **Realtime**       | Reverb (WebSocket)                                      |
-| **Database**       | PostgreSQL + PostGIS (GeoData), OpenSearch              |
-| **Semantic**       | FiWARE Orion-LD, MongoDB                                |
+| **API Gateway**    | FastAPI, Redis (Rate Limiting)                          |
+| **Backend Core**   | FastAPI (Microservices: Auth, Education, Environment, Resource), PostgreSQL + PostGIS, JWT |
+| **AI/ML Service**  | Python 3.11, scikit-learn, pandas, aio-pika             |
+| **Message Broker** | RabbitMQ, EMQX (MQTT)                                   |
+| **Database**       | PostgreSQL + PostGIS, MongoDB                           |
+| **Cache**          | Redis                                                   |
+| **Semantic Layer** | FiWARE Orion-LD (NGSI-LD)                               |
+| **Real-time**      | WebSocket                                               |
 
 ---
 
