@@ -142,7 +142,7 @@ async def update_profile(request: Request):
     """
     Update user profile.
     
-    Proxies to auth-service: PUT /api/v1/users/{user_id}
+    Proxies to auth-service: PATCH /api/v1/auth/profile
     Requires: Authorization Bearer token
     """
     body = await request.json()
@@ -152,32 +152,16 @@ async def update_profile(request: Request):
     
     async with httpx.AsyncClient() as client:
         try:
-            # First get current user to get user_id
-            me_response = await client.get(
-                f"{AUTH_SERVICE_URL}/api/v1/auth/me",
-                headers=headers,
-                timeout=10.0,
-            )
-            
-            if me_response.status_code != 200:
-                return JSONResponse(
-                    content=me_response.json(),
-                    status_code=me_response.status_code,
-                )
-            
-            user_data = me_response.json()
-            user_id = user_data["id"]
-            
-            # Update profile
-            response = await client.put(
-                f"{AUTH_SERVICE_URL}/api/v1/users/{user_id}",
+            # Update profile directly using auth/profile endpoint
+            response = await client.patch(
+                f"{AUTH_SERVICE_URL}/api/v1/auth/profile",
                 json=body,
                 headers=headers,
                 timeout=10.0,
             )
             return JSONResponse(
-                content=response.json(),
-                status_code=response.status_code,
+                content=response.json() if response.status_code != 204 else {"message": "Profile updated"},
+                status_code=response.status_code if response.status_code != 204 else 200,
             )
         except httpx.RequestError as e:
             return JSONResponse(

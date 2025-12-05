@@ -2,7 +2,7 @@
 
 > **Tài liệu dự án đầy đủ cho Cursor AI và Developer**
 > 
-> Cập nhật lần cuối: 2025-12-04
+> Cập nhật lần cuối: 2025-12-05
 
 ---
 
@@ -618,6 +618,10 @@ CREATE INDEX idx_air_quality_location ON air_quality_data(latitude, longitude);
 | Health aggregation | ✅ | Checks all services |
 | RabbitMQ publisher | ✅ | Task queuing |
 | Rate limiting | ⚠️ | Redis configured, logic basic |
+| Route ordering fixes | ✅ | Air quality & weather routes |
+| API Documentation | ✅ | 50+ endpoints documented |
+| Postman Collection | ✅ | 30+ requests with auto-token |
+| API Test Suite | ✅ | 60% pass rate (15/25 tests) |
 | **Auth Service** | | |
 | JWT authentication | ✅ | Access + refresh tokens |
 | User registration | ✅ | |
@@ -656,6 +660,11 @@ CREATE INDEX idx_air_quality_location ON air_quality_data(latitude, longitude);
 | CSV Export | ✅ | All datasets |
 | GeoJSON Export | ✅ | Geographic data |
 | RDF Export | ✅ | Turtle, N-Triples, JSON-LD, RDF/XML |
+| **Deployment** | | |
+| VPS Deployment | ✅ | greenedumap.io.vn + api.greenedumap.io.vn |
+| SSL/TLS Certificates | ✅ | Certbot auto-renewal |
+| Nginx Reverse Proxy | ✅ | API Gateway & Web App |
+| Docker Production | ✅ | All services running |
 
 ### 6.2 Đang Phát Triển 🚧
 
