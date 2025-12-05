@@ -1,60 +1,4 @@
-# CHANGELOG
-
-## 05/12/2025 - 10h44
-
-### Release v1.3.0
-
-**New Features:**
-- deploy: add VPS deployment scripts and database seeding
-- deploy: add VPS deployment scripts and database seeding
-- map: integrate real API data and fix service endpoints
-- map: integrate real API data and fix service endpoints
-- messaging: integrate RabbitMQ and EMQX message brokers
-
-**Bug Fixes:**
-- web-app: fix TypeScript error in dashboard prediction task
-- web-app: replace remaining Mapbox references with MapTiler
-- docker!: resolve port conflicts and switch web-app to production mode
-- docker: resolve port 8002 conflict with CityResQ media-service
-- change banner and other image
-- script: Fix script
-
-**Documentation:**
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG for v1.3.0
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-- update CHANGELOG.md [skip ci]
-
-**Other Changes:**
-- move file project and word
-- Fix commit message
-- system): achieve 100% service pass rate and reorganize scripts
-- fix icon docker
-- Docker installation guide
-- change api services
-- change image README.md
-- doc-readme-link
-
-**BREAKING CHANGES:**
-- fix(docker)!: resolve port conflicts and switch web-app to production mode
-
-**Technical Details:**
-- Tag: v1.3.0
-- Commits: 31
-- Released from: main branch
-- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.3.0
-
----
-
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...3a1f8b4907563cec595560fb29bc0c11f722165f) (2025-12-05)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...50043f0760e6f09bc3a67b1533c97022cb3480c5) (2025-12-05)
 
 
 ### Bug Fixes
@@ -62,6 +6,7 @@
 * change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
 * **docker:** resolve port 8002 conflict with CityResQ media-service ([2aa4327](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/2aa4327c872a04d7afc0736c159e363bef2c85d1))
 * **script:** Fix script ([273bc98](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/273bc98f393f5823fa96cc92be7c364c27ef9202))
+* **web-app:** fix TypeScript error in dashboard prediction task ([50043f0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/50043f0760e6f09bc3a67b1533c97022cb3480c5))
 * **web-app:** fix TypeScript error in dashboard prediction task ([8fe9a8c](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/8fe9a8ce2cec7707328fb6d813c719f04d28939f))
 * **web-app:** replace remaining Mapbox references with MapTiler ([3a1f8b4](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/3a1f8b4907563cec595560fb29bc0c11f722165f))
 
