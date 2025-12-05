@@ -1,16 +1,16 @@
-﻿# CHANGELOG
+# CHANGELOG
 
 ## 05/12/2025 - 08h11
 
 ### Release v1.3.0
 
 **New Features:**
-- map): integrate real API data and fix service endpoints
-- messaging): integrate RabbitMQ and EMQX message brokers
+- map: integrate real API data and fix service endpoints
+- messaging: integrate RabbitMQ and EMQX message brokers
 
 **Bug Fixes:**
 - change banner and other image
-- script): Fix script
+- script: Fix script
 
 **Documentation:**
 - update CHANGELOG.md [skip ci]
@@ -46,6 +46,7 @@
 
 ### Features
 
+* **map:** integrate real API data and fix service endpoints ([f5f9c21](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f5f9c21e11472d53bbf1f11a2d7da473b39b197f))
 * **messaging:** integrate RabbitMQ and EMQX message brokers ([290fb5d](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/290fb5d6a9022615a326d0e05b836aee5fd99d3e))
 
 
