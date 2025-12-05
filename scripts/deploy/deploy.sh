@@ -282,7 +282,7 @@ echo "Waiting for services to be healthy..."
 sleep 10
 
 # ============================================
-echo -e "${YELLOW}[Step 9/10] Running Database Migrations${NC}"
+echo -e "${YELLOW}[Step 9/11] Running Database Migrations${NC}"
 
 # Run migrations for each service
 docker-compose exec -T auth-service alembic upgrade head || echo "Auth migrations skipped"
@@ -291,8 +291,27 @@ docker-compose exec -T education-service alembic upgrade head || echo "Education
 echo -e "${GREEN}✅ Migrations completed${NC}"
 
 # ============================================
+echo -e "${YELLOW}[Step 10/11] Seeding Database${NC}"
+
+# Ask if user wants to seed data
+read -p "Do you want to seed the database with sample data? (y/N): " SEED_DATA
+
+if [ "$SEED_DATA" = "y" ] || [ "$SEED_DATA" = "Y" ]; then
+    if [ -f "${PROJECT_DIR}/scripts/deploy/seed_database.sh" ]; then
+        chmod +x "${PROJECT_DIR}/scripts/deploy/seed_database.sh"
+        "${PROJECT_DIR}/scripts/deploy/seed_database.sh"
+        echo -e "${GREEN}✅ Database seeded${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Seed script not found, skipping...${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠️  Database seeding skipped${NC}"
+    echo -e "${CYAN}   You can run it later with: ${PROJECT_DIR}/scripts/deploy/seed_database.sh${NC}"
+fi
+
+# ============================================
 if [ "$USE_DOMAIN" = true ]; then
-    echo -e "${YELLOW}[Step 10/10] Configuring Nginx and SSL${NC}"
+    echo -e "${YELLOW}[Step 11/11] Configuring Nginx and SSL${NC}"
 
     # Create Nginx config
     cat > /etc/nginx/sites-available/greenedumap <<EOF
@@ -360,7 +379,7 @@ EOF
 
     echo -e "${GREEN}✅ SSL certificates installed${NC}"
 else
-    echo -e "${YELLOW}[Step 10/10] Skipping Nginx/SSL (IP-only mode)${NC}"
+    echo -e "${YELLOW}[Step 11/11] Skipping Nginx/SSL (IP-only mode)${NC}"
 fi
 
 # ============================================
