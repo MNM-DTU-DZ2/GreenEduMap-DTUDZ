@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...290fb5d6a9022615a326d0e05b836aee5fd99d3e) (2025-12-04)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...f5f9c21e11472d53bbf1f11a2d7da473b39b197f) (2025-12-05)
 
 
 ### Bug Fixes
@@ -9,6 +9,7 @@
 
 ### Features
 
+* **map:** integrate real API data and fix service endpoints ([f5f9c21](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f5f9c21e11472d53bbf1f11a2d7da473b39b197f))
 * **messaging:** integrate RabbitMQ and EMQX message brokers ([290fb5d](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/290fb5d6a9022615a326d0e05b836aee5fd99d3e))
 
 

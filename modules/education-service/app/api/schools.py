@@ -54,16 +54,67 @@ async def list_schools(
     school_type: str = Query(None, description="Filter by school type"),
     db: AsyncSession = Depends(get_db)
 ):
-    """Lấy danh sách trường học"""
-    query = select(School)
+    """Lấy danh sách trường học với latitude/longitude từ location Geography"""
+    # Extract latitude/longitude from location Geography column
+    base_sql = """
+        SELECT id, name, code, address, city, district, type,
+               total_students, total_teachers, total_trees, green_area,
+               phone, email, website, green_score, is_public,
+               data_uri, ngsi_ld_uri, facilities, meta_data,
+               created_at, updated_at,
+               ST_Y(location::geometry) as latitude,
+               ST_X(location::geometry) as longitude
+        FROM schools
+    """
+    
+    params = {}
+    conditions = []
     
     if school_type:
-        query = query.where(School.school_type == school_type)
+        conditions.append("type = :school_type")
+        params["school_type"] = school_type
     
-    query = query.offset(skip).limit(limit).order_by(desc(School.green_score))
+    if conditions:
+        base_sql += " WHERE " + " AND ".join(conditions)
     
-    result = await db.execute(query)
-    return result.scalars().all()
+    base_sql += " ORDER BY green_score DESC LIMIT :limit OFFSET :skip"
+    params["limit"] = limit
+    params["skip"] = skip
+    
+    result = await db.execute(text(base_sql), params)
+    
+    # Map rows to dict (bypass Pydantic validation for now)
+    schools = []
+    for row in result:
+        school_dict = {
+            "id": row.id,
+            "name": row.name,
+            "code": row.code,
+            "address": row.address,
+            "city": row.city,
+            "district": row.district,
+            "type": row.type,
+            "total_students": row.total_students or 0,
+            "total_teachers": row.total_teachers or 0,
+            "total_trees": row.total_trees or 0,
+            "green_area": float(row.green_area) if row.green_area else 0.0,
+            "phone": row.phone,
+            "email": row.email,
+            "website": row.website,
+            "green_score": float(row.green_score) if row.green_score else 0.0,
+            "is_public": row.is_public if row.is_public is not None else True,
+            "data_uri": row.data_uri,
+            "ngsi_ld_uri": row.ngsi_ld_uri,
+            "facilities": row.facilities,
+            "meta_data": row.meta_data,
+            "created_at": row.created_at,
+            "updated_at": row.updated_at,
+            "latitude": float(row.latitude) if row.latitude else None,
+            "longitude": float(row.longitude) if row.longitude else None,
+        }
+        schools.append(school_dict)
+    
+    return schools
 
 @router.get("/nearby", response_model=List[SchoolResponse])
 async def find_nearby_schools(

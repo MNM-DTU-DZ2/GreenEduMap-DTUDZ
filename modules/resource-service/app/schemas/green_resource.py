@@ -32,7 +32,7 @@ class GreenResourceUpdate(BaseModel):
 
 class GreenResourceResponse(GreenResourceBase):
     id: UUID
-    zone_id: UUID
+    zone_id: Optional[UUID] = None  # Allow None for resources without zone
     created_at: datetime
     updated_at: Optional[datetime] = None
 

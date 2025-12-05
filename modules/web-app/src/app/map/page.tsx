@@ -6,95 +6,19 @@ import MapSidebar from "@/components/map/MapSidebar";
 import SearchBar from "@/components/map/SearchBar";
 import DetailPanel from "@/components/map/DetailPanel";
 import { AirQualityData } from "@/hooks/useAirQuality";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
-// Set Mapbox token
-if (typeof window !== "undefined") {
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  if (token) {
-    mapboxgl.accessToken = token;
-  }
-}
+// MapTiler configuration
+const MAPTILER_API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY || "dpmkld1oGcbPpGtsRgKX";
+const MAPTILER_STYLE = `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`;
 
-// Mock data for TP.HCM
-const mockDataTPHCM = [
-  { id: 1, ward_name: "Phường Bến Nghé", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7769, longitude: 106.7009, aqi: 85, pm25: 35, pm10: 55 },
-  { id: 2, ward_name: "Phường Đa Kao", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7889, longitude: 106.6992, aqi: 92, pm25: 38, pm10: 60 },
-  { id: 3, ward_name: "Phường Cầu Kho", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7589, longitude: 106.6733, aqi: 78, pm25: 32, pm10: 50 },
-  { id: 4, ward_name: "Phường Cô Giang", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7633, longitude: 106.6917, aqi: 88, pm25: 36, pm10: 58 },
-  { id: 5, ward_name: "Phường Nguyễn Thái Bình", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7711, longitude: 106.7056, aqi: 95, pm25: 40, pm10: 62 },
-  { id: 6, ward_name: "Phường Phạm Ngũ Lão", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7689, longitude: 106.6944, aqi: 82, pm25: 34, pm10: 53 },
-  { id: 7, ward_name: "Phường Cầu Ông Lãnh", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7611, longitude: 106.6889, aqi: 90, pm25: 37, pm10: 59 },
-  { id: 8, ward_name: "Phường Tân Định", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7911, longitude: 106.6917, aqi: 87, pm25: 35, pm10: 56 },
-  { id: 9, ward_name: "Phường Bến Thành", district: "Quận 1", city: "Ho Chi Minh City", latitude: 10.7722, longitude: 106.6981, aqi: 105, pm25: 42, pm10: 65 },
-  { id: 10, ward_name: "Phường An Phú Đông", district: "Quận 12", city: "Ho Chi Minh City", latitude: 10.8633, longitude: 106.6333, aqi: 72, pm25: 30, pm10: 48 },
-  { id: 11, ward_name: "Phường Đông Hưng Thuận", district: "Quận 12", city: "Ho Chi Minh City", latitude: 10.8589, longitude: 106.6417, aqi: 75, pm25: 31, pm10: 49 },
-  { id: 12, ward_name: "Phường Hiệp Thành", district: "Quận 12", city: "Ho Chi Minh City", latitude: 10.8667, longitude: 106.6389, aqi: 80, pm25: 33, pm10: 52 },
-  { id: 13, ward_name: "Phường Tân Chánh Hiệp", district: "Quận 12", city: "Ho Chi Minh City", latitude: 10.8611, longitude: 106.6361, aqi: 78, pm25: 32, pm10: 51 },
-  { id: 14, ward_name: "Phường Thạnh Lộc", district: "Quận 12", city: "Ho Chi Minh City", latitude: 10.8556, longitude: 106.6444, aqi: 85, pm25: 35, pm10: 55 },
-  { id: 15, ward_name: "Phường Bình Hưng Hòa", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7589, longitude: 106.6000, aqi: 115, pm25: 45, pm10: 70 },
-  { id: 16, ward_name: "Phường Bình Hưng Hòa A", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7611, longitude: 106.6022, aqi: 120, pm25: 47, pm10: 72 },
-  { id: 17, ward_name: "Phường Bình Trị Đông", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7633, longitude: 106.6056, aqi: 125, pm25: 49, pm10: 75 },
-  { id: 18, ward_name: "Phường Tân Tạo", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7556, longitude: 106.5978, aqi: 135, pm25: 53, pm10: 80 },
-  { id: 19, ward_name: "Phường An Lạc", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7500, longitude: 106.5933, aqi: 145, pm25: 57, pm10: 85 },
-  { id: 20, ward_name: "Phường An Lạc A", district: "Quận Bình Tân", city: "Ho Chi Minh City", latitude: 10.7478, longitude: 106.5911, aqi: 150, pm25: 59, pm10: 88 },
-];
-
-// Mock temperature data
-const mockTemperatureData = mockDataTPHCM.map((ward) => ({
-  ...ward,
-  temperature: 28 + Math.random() * 5, // 28-33°C
-}));
-
-// Mock school data
-const mockSchoolData = [
-  { id: 1, name: "THPT Nguyễn Thị Minh Khai", latitude: 10.7769, longitude: 106.7009, district: "Quận 1", students: 1200 },
-  { id: 2, name: "THCS Lê Quý Đôn", latitude: 10.7889, longitude: 106.6992, district: "Quận 1", students: 850 },
-  { id: 3, name: "TH Nguyễn Bỉnh Khiêm", latitude: 10.7633, longitude: 106.6917, district: "Quận 1", students: 650 },
-  { id: 4, name: "THPT Trần Hưng Đạo", latitude: 10.7711, longitude: 106.7056, district: "Quận 1", students: 1100 },
-  { id: 5, name: "THCS Nguyễn Du", latitude: 10.7689, longitude: 106.6944, district: "Quận 1", students: 900 },
-  { id: 6, name: "THPT Nguyễn Thị Diệu", latitude: 10.8633, longitude: 106.6333, district: "Quận 12", students: 1300 },
-  { id: 7, name: "THCS Tân Chánh Hiệp", latitude: 10.8611, longitude: 106.6361, district: "Quận 12", students: 750 },
-  { id: 8, name: "THPT Bình Tân", latitude: 10.7589, longitude: 106.6000, district: "Quận Bình Tân", students: 1400 },
-  { id: 9, name: "THCS Bình Hưng Hòa", latitude: 10.7611, longitude: 106.6022, district: "Quận Bình Tân", students: 800 },
-  { id: 10, name: "TH An Lạc", latitude: 10.7500, longitude: 106.5933, district: "Quận Bình Tân", students: 600 },
-];
-
-// Mock tree data (green areas/parks)
-const mockTreeData = [
-  { id: 1, name: "Công viên Lê Văn Tám", latitude: 10.7769, longitude: 106.7009, district: "Quận 1", count: 250 },
-  { id: 2, name: "Công viên 23/9", latitude: 10.7722, longitude: 106.6981, district: "Quận 1", count: 180 },
-  { id: 3, name: "Công viên Tao Đàn", latitude: 10.7889, longitude: 106.6992, district: "Quận 1", count: 320 },
-  { id: 4, name: "Công viên Gia Định", latitude: 10.8633, longitude: 106.6333, district: "Quận 12", count: 200 },
-  { id: 5, name: "Công viên Bình Tân", latitude: 10.7589, longitude: 106.6000, district: "Quận Bình Tân", count: 150 },
-];
-
-// Mock solar data
-const mockSolarData = [
-  { id: 1, name: "Trạm NLMT Quận 1", latitude: 10.7711, longitude: 106.7056, district: "Quận 1", power: "150kW" },
-  { id: 2, name: "Trạm NLMT Quận 12", latitude: 10.8611, longitude: 106.6361, district: "Quận 12", power: "200kW" },
-  { id: 3, name: "Trạm NLMT Bình Tân", latitude: 10.7556, longitude: 106.5978, district: "Quận Bình Tân", power: "180kW" },
-  { id: 4, name: "Trạm NLMT Tân Định", latitude: 10.7911, longitude: 106.6917, district: "Quận 1", power: "120kW" },
-];
-
-// API fetch function
-async function fetchData(endpoint: string) {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ""}${endpoint}`);
-    if (!res.ok) throw new Error(`Error fetching ${endpoint}`);
-    return await res.json();
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-}
-
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 type HeatmapLayerType = "aqi" | "temperature";
 
 function MapContent() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [heatmapLayer, setHeatmapLayer] = useState<HeatmapLayerType>("aqi");
   const [showIconLayers, setShowIconLayers] = useState({
@@ -108,84 +32,219 @@ function MapContent() {
   const [hoveredWard, setHoveredWard] = useState<AirQualityData | null>(null);
   const [iconInfo, setIconInfo] = useState<{ title: string; content: string; type: string } | null>(null);
 
-  // Fetch data from API or use mock data
+  // Dữ liệu icon layers
   const [schoolData, setSchoolData] = useState<any>(null);
   const [treeData, setTreeData] = useState<any>(null);
   const [solarData, setSolarData] = useState<any>(null);
 
+  // Dữ liệu heatmap (AQI + Nhiệt độ)
+  const [aqiPoints, setAqiPoints] = useState<any[]>([]);
+  const [temperaturePoints, setTemperaturePoints] = useState<any[]>([]);
+
+  // Dữ liệu tìm kiếm (để dùng trong search)
+  const [allSchools, setAllSchools] = useState<any[]>([]);
+  const [allZones, setAllZones] = useState<any[]>([]);
+  const [allResources, setAllResources] = useState<any[]>([]);
+
   useEffect(() => {
+    // 1) Lấy dữ liệu thật cho heatmap từ Environment Service
     (async () => {
-      // Try to fetch from API, fallback to mock data
-      const schools = await fetchData("/api/schools");
-      const trees = await fetchData("/api/trees");
-      const solar = await fetchData("/api/solar");
+      try {
+        // Air quality
+        const resAqi = await fetch(`${API_BASE}/api/v1/air-quality?limit=500`);
+        if (resAqi.ok) {
+          const items: any[] = await resAqi.json();
+          if (Array.isArray(items) && items.length > 0) {
+            setAqiPoints(
+              items
+                .filter((m) => m.latitude && m.longitude && m.aqi !== null && m.aqi !== undefined)
+                .map((m, idx) => ({
+                  id: m.id ?? idx,
+                  ward_name: m.station_name || "Điểm đo",
+                  district: m.district || "",
+                  city: m.city || "Ho Chi Minh City",
+                  latitude: m.latitude,
+                  longitude: m.longitude,
+                  aqi: Number(m.aqi),
+                  pm25: m.pm25 ?? undefined,
+                  pm10: m.pm10 ?? undefined,
+                })),
+            );
+          }
+        } else {
+          console.warn("Failed to fetch AQI data:", resAqi.statusText);
+        }
 
-      setSchoolData(
-        schools ||
-          ({
-            type: "FeatureCollection",
-            features: mockSchoolData.map((school) => ({
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [school.longitude, school.latitude],
-              },
-              properties: {
-                id: school.id,
-                name: school.name,
-                district: school.district,
-                students: school.students,
-              },
-            })),
-          } as any)
-      );
+        // Weather (dùng để vẽ heatmap nhiệt độ)
+        const resWeather = await fetch(`${API_BASE}/api/v1/weather?limit=500`);
+        if (resWeather.ok) {
+          const items: any[] = await resWeather.json();
+          if (Array.isArray(items) && items.length > 0) {
+            setTemperaturePoints(
+              items
+                .filter((w) => w.latitude && w.longitude && w.temperature !== null && w.temperature !== undefined)
+                .map((w, idx) => ({
+                  id: w.id ?? idx,
+                  ward_name: w.city_name || "Khu vực",
+                  district: w.district || "",
+                  city: w.city || "Ho Chi Minh City",
+                  latitude: w.latitude,
+                  longitude: w.longitude,
+                  temperature: Number(w.temperature),
+                })),
+            );
+          }
+        } else {
+          console.warn("Failed to fetch weather data:", resWeather.statusText);
+        }
+      } catch (err) {
+        console.error("Error loading real-time AQI/Weather:", err);
+      }
+    })();
 
-      setTreeData(
-        trees ||
-          ({
-            type: "FeatureCollection",
-            features: mockTreeData.map((tree) => ({
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [tree.longitude, tree.latitude],
-              },
-              properties: {
-                id: tree.id,
-                name: tree.name,
-                district: tree.district,
-                count: tree.count,
-              },
-            })),
-          } as any)
-      );
+    // 2) Lấy dữ liệu thật cho Schools từ Education Service
+    (async () => {
+      try {
+        const resSchools = await fetch(`${API_BASE}/api/v1/schools?limit=500`);
+        if (resSchools.ok) {
+          const schools: any[] = await resSchools.json();
+          if (Array.isArray(schools) && schools.length > 0) {
+            const validSchools = schools.filter((s) => s.latitude && s.longitude);
+            console.log(`✅ Loaded ${validSchools.length} schools with location`);
+            setAllSchools(schools);
+            setSchoolData({
+              type: "FeatureCollection",
+              features: validSchools.map((school) => ({
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [school.longitude, school.latitude],
+                },
+                properties: {
+                  id: school.id,
+                  name: school.name,
+                  district: school.district || "",
+                  students: school.total_students || 0,
+                },
+              })),
+            });
+          } else {
+            console.warn("⚠️ No schools data or empty array");
+          }
+        } else {
+          console.warn("Failed to fetch schools:", resSchools.statusText);
+        }
+      } catch (err) {
+        console.error("Error loading schools:", err);
+      }
+    })();
 
-      setSolarData(
-        solar ||
-          ({
-            type: "FeatureCollection",
-            features: mockSolarData.map((solar) => ({
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [solar.longitude, solar.latitude],
-              },
-              properties: {
-                id: solar.id,
-                name: solar.name,
-                district: solar.district,
-                power: solar.power,
-              },
-            })),
-          } as any)
-      );
+    // 3) Lấy dữ liệu thật cho Green Zones (Trees/Parks) từ Resource Service
+    (async () => {
+      try {
+        const resZones = await fetch(`${API_BASE}/api/v1/green-zones?limit=500`);
+        if (resZones.ok) {
+          const zones: any[] = await resZones.json();
+          if (Array.isArray(zones) && zones.length > 0) {
+            const validZones = zones.filter((z) => z.latitude && z.longitude);
+            console.log(`✅ Loaded ${validZones.length} green zones with location`);
+            setAllZones(zones);
+            setTreeData({
+              type: "FeatureCollection",
+              features: validZones.map((zone) => ({
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [zone.longitude, zone.latitude],
+                },
+                properties: {
+                  id: zone.id,
+                  name: zone.name,
+                  district: zone.address || "",
+                  count: zone.tree_count || 0,
+                },
+              })),
+            });
+          } else {
+            console.warn("⚠️ No green zones data or empty array");
+          }
+        } else {
+          console.warn("Failed to fetch green zones:", resZones.statusText);
+        }
+      } catch (err) {
+        console.error("Error loading green zones:", err);
+      }
+    })();
+
+    // 4) Lấy dữ liệu thật cho Solar Resources từ Resource Service
+    (async () => {
+      try {
+        const resResources = await fetch(`${API_BASE}/api/v1/green-resources?limit=500`);
+        if (resResources.ok) {
+          const resources: any[] = await resResources.json();
+          if (Array.isArray(resources) && resources.length > 0) {
+            setAllResources(resources);
+            
+            // Filter solar resources và fetch zones để lấy location
+            const solarResources = resources.filter((r) => 
+              r.type && (r.type.toLowerCase().includes("solar") || r.type.toLowerCase().includes("nlm"))
+            );
+
+            if (solarResources.length > 0) {
+              // Fetch zones để lấy location cho solar resources
+              const zoneIds = [...new Set(solarResources.map((r) => r.zone_id).filter(Boolean))];
+              const zonesMap = new Map<string, any>();
+
+              // Fetch zones
+              const resZones = await fetch(`${API_BASE}/api/v1/green-zones?limit=500`);
+              if (resZones.ok) {
+                const zones: any[] = await resZones.json();
+                zones.forEach((zone) => {
+                  zonesMap.set(zone.id, zone);
+                });
+              }
+
+              // Map solar resources với zone locations
+              const solarFeatures = solarResources
+                .map((resource) => {
+                  const zone = zonesMap.get(resource.zone_id);
+                  if (!zone || !zone.latitude || !zone.longitude) return null;
+                  
+                  return {
+                    type: "Feature",
+                    geometry: {
+                      type: "Point",
+                      coordinates: [zone.longitude, zone.latitude],
+                    },
+                    properties: {
+                      id: resource.id,
+                      name: resource.name || `Trạm NLMT ${zone.name}`,
+                      district: zone.address || "",
+                      power: `${resource.quantity || 0} ${resource.unit || "kW"}`,
+                    },
+                  };
+                })
+                .filter(Boolean);
+
+              setSolarData({
+                type: "FeatureCollection",
+                features: solarFeatures,
+              });
+            }
+          }
+        } else {
+          console.warn("Failed to fetch green resources:", resResources.statusText);
+        }
+      } catch (err) {
+        console.error("Error loading green resources:", err);
+      }
     })();
   }, []);
 
-  // Convert mock data to GeoJSON for heatmaps
+  // Convert data to GeoJSON for heatmaps
   const aqiGeoJSON = {
     type: "FeatureCollection" as const,
-    features: mockDataTPHCM.map((ward) => ({
+    features: aqiPoints.map((ward) => ({
       type: "Feature" as const,
       geometry: {
         type: "Point" as const,
@@ -200,7 +259,7 @@ function MapContent() {
 
   const temperatureGeoJSON = {
     type: "FeatureCollection" as const,
-    features: mockTemperatureData.map((ward) => ({
+    features: temperaturePoints.map((ward) => ({
       type: "Feature" as const,
       geometry: {
         type: "Point" as const,
@@ -217,17 +276,9 @@ function MapContent() {
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (!token) {
-      console.error("Mapbox token not found");
-      return;
-    }
-
-    mapboxgl.accessToken = token;
-
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: MAPTILER_STYLE,
       center: [106.6297, 10.8231], // TP.HCM
       zoom: 11,
       pitch: 45,
@@ -441,7 +492,19 @@ function MapContent() {
   // Add icon layers when data is loaded
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !isMapLoaded || !schoolData || !treeData || !solarData) return;
+    if (!map || !isMapLoaded) {
+      console.log("⏳ Waiting for map to load...", { map: !!map, isMapLoaded, schoolData: !!schoolData, treeData: !!treeData, solarData: !!solarData });
+      return;
+    }
+    if (!schoolData || !treeData || !solarData) {
+      console.log("⏳ Waiting for data...", { schoolData: !!schoolData, treeData: !!treeData, solarData: !!solarData });
+      return;
+    }
+    console.log("✅ Adding icon layers to map...", {
+      schools: schoolData.features?.length || 0,
+      trees: treeData.features?.length || 0,
+      solar: solarData.features?.length || 0,
+    });
 
     const addIconLayer = (
       id: string,
@@ -459,8 +522,43 @@ function MapContent() {
 
       map.addSource(id, { type: "geojson", data });
 
-      map.loadImage(iconUrl, (error, image) => {
-        if (error || !image) {
+      // Load icon image using Promise-based approach (MapLibre GL JS)
+      (async () => {
+        try {
+          const image = await new Promise<HTMLImageElement | ImageBitmap>((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = iconUrl;
+          });
+
+          if (!map.hasImage(`${id}-icon`)) {
+            map.addImage(`${id}-icon`, image);
+          }
+
+          map.addLayer({
+            id: `${id}-layer`,
+            type: "symbol",
+            source: id,
+            layout: {
+              "icon-image": `${id}-icon`,
+              "icon-size": 0.08,
+              "icon-allow-overlap": true,
+              "text-field": ["get", "name"],
+              "text-offset": [0, 1.5],
+              "text-size": 11,
+              "text-anchor": "top",
+              "text-optional": true,
+              visibility: showIconLayers[id as keyof typeof showIconLayers] ? "visible" : "none",
+            },
+            paint: {
+              "text-color": id === "schools" ? "#7c3aed" : id === "trees" ? "#16a34a" : "#d97706",
+              "text-halo-color": "#fff",
+              "text-halo-width": 1,
+            },
+          });
+        } catch (error) {
           console.error(`Error loading ${id} icon:`, error);
           // Fallback: use circle
           map.addLayer({
@@ -477,35 +575,8 @@ function MapContent() {
               visibility: showIconLayers[id as keyof typeof showIconLayers] ? "visible" : "none",
             },
           });
-          return;
         }
-
-        if (!map.hasImage(`${id}-icon`)) {
-          map.addImage(`${id}-icon`, image);
-        }
-
-        map.addLayer({
-          id: `${id}-layer`,
-          type: "symbol",
-          source: id,
-          layout: {
-            "icon-image": `${id}-icon`,
-            "icon-size": 0.08,
-            "icon-allow-overlap": true,
-            "text-field": ["get", "name"],
-            "text-offset": [0, 1.5],
-            "text-size": 11,
-            "text-anchor": "top",
-            "text-optional": true,
-            visibility: showIconLayers[id as keyof typeof showIconLayers] ? "visible" : "none",
-          },
-          paint: {
-            "text-color": id === "schools" ? "#7c3aed" : id === "trees" ? "#16a34a" : "#d97706",
-            "text-halo-color": "#fff",
-            "text-halo-width": 1,
-          },
-        });
-      });
+      })();
     };
 
     addIconLayer(
@@ -529,7 +600,7 @@ function MapContent() {
 
     // Click handlers for icon layers
     ["schools-layer", "trees-layer", "solar-layer"].forEach((layerId) => {
-      const clickHandler = (e: mapboxgl.MapLayerMouseEvent) => {
+      const clickHandler = (e: maplibregl.MapLayerMouseEvent) => {
         const feature = e.features?.[0];
         if (!feature) return;
 
@@ -538,7 +609,7 @@ function MapContent() {
         const coords = geometry.coordinates as [number, number];
 
         // Show popup
-        new mapboxgl.Popup()
+        new maplibregl.Popup()
           .setLngLat(coords)
           .setHTML(`<strong>${props.name}</strong><br/>${props.district || ""}`)
           .addTo(map);
@@ -632,29 +703,41 @@ function MapContent() {
     const map = mapRef.current;
     if (!map || !query.trim()) return;
 
-    // Search in mock data
+    const queryLower = query.toLowerCase();
+
+    // Search in real data
     const found =
-      mockDataTPHCM.find(
+      // Search in AQI points
+      aqiPoints.find(
         (ward) =>
-          ward.ward_name.toLowerCase().includes(query.toLowerCase()) ||
-          ward.district?.toLowerCase().includes(query.toLowerCase())
+          ward.ward_name?.toLowerCase().includes(queryLower) ||
+          ward.district?.toLowerCase().includes(queryLower)
       ) ||
-      mockSchoolData.find((school) =>
-        school.name.toLowerCase().includes(query.toLowerCase())
+      // Search in schools
+      allSchools.find((school) =>
+        school.name?.toLowerCase().includes(queryLower) ||
+        school.district?.toLowerCase().includes(queryLower)
       ) ||
-      mockTreeData.find((tree) =>
-        tree.name.toLowerCase().includes(query.toLowerCase())
+      // Search in green zones
+      allZones.find((zone) =>
+        zone.name?.toLowerCase().includes(queryLower) ||
+        zone.address?.toLowerCase().includes(queryLower)
       ) ||
-      mockSolarData.find((solar) =>
-        solar.name.toLowerCase().includes(query.toLowerCase())
+      // Search in resources
+      allResources.find((resource) =>
+        resource.name?.toLowerCase().includes(queryLower)
       );
 
     if (found && map) {
-      map.flyTo({
-        center: [found.longitude, found.latitude],
-        zoom: 14,
-        duration: 1500,
-      });
+      const lat = found.latitude;
+      const lng = found.longitude;
+      if (lat && lng) {
+        map.flyTo({
+          center: [lng, lat],
+          zoom: 14,
+          duration: 1500,
+        });
+      }
     }
   };
 

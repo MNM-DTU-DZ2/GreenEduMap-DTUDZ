@@ -48,6 +48,8 @@ class SchoolResponse(SchoolBase):
     id: UUID
     green_score: float
     ngsi_ld_uri: Optional[str] = None
+    latitude: Optional[float] = None  # Extracted from location Geography
+    longitude: Optional[float] = None  # Extracted from location Geography
     created_at: datetime
     updated_at: Optional[datetime] = None
 

@@ -43,9 +43,50 @@ async def create_green_zone(zone: GreenZoneCreate, db: AsyncSession = Depends(ge
 
 @router.get("/", response_model=List[GreenZoneResponse])
 async def list_green_zones(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
-    """Lấy danh sách các khu vực xanh"""
-    result = await db.execute(select(GreenZone).offset(skip).limit(limit))
-    return result.scalars().all()
+    """Lấy danh sách các khu vực xanh với latitude/longitude từ location Geography"""
+    from sqlalchemy import text
+    
+    # Extract latitude/longitude from location Geography column
+    base_sql = """
+        SELECT id, name, code, address, zone_type, area_sqm, tree_count,
+               vegetation_coverage, maintained_by, phone, is_public,
+               data_uri, ngsi_ld_uri, facilities, meta_data,
+               created_at, updated_at,
+               ST_Y(location::geometry) as latitude,
+               ST_X(location::geometry) as longitude
+        FROM green_zones
+        ORDER BY created_at DESC
+        LIMIT :limit OFFSET :skip
+    """
+    
+    result = await db.execute(text(base_sql), {"limit": limit, "skip": skip})
+    
+    # Map rows to dict
+    zones = []
+    for row in result:
+        zone_dict = {
+            "id": row.id,
+            "name": row.name,
+            "code": row.code,
+            "address": row.address,
+            "zone_type": row.zone_type,
+            "area_sqm": row.area_sqm,
+            "tree_count": row.tree_count or 0,
+            "vegetation_coverage": float(row.vegetation_coverage) if row.vegetation_coverage else None,
+            "maintained_by": row.maintained_by,
+            "phone": row.phone,
+            "is_public": row.is_public if row.is_public is not None else True,
+            "data_uri": row.data_uri,
+            "facilities": row.facilities,
+            "meta_data": row.meta_data,
+            "created_at": row.created_at,
+            "updated_at": row.updated_at,
+            "latitude": float(row.latitude) if row.latitude else None,
+            "longitude": float(row.longitude) if row.longitude else None,
+        }
+        zones.append(zone_dict)
+    
+    return zones
 
 @router.get("/nearby", response_model=List[GreenZoneResponse])
 async def find_nearby_zones(
