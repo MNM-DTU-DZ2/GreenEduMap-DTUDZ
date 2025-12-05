@@ -1,9 +1,10 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...6abeeb056d0402b2d44b10c99f655aa3ecc0a069) (2025-12-05)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...eb93e8f9b8b823a8d7625b1c5d5955a9233df390) (2025-12-05)
 
 
 ### Bug Fixes
 
 * change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
+* **docker:** add NEXT_PUBLIC_API_URL to env configuration ([eb93e8f](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/eb93e8f9b8b823a8d7625b1c5d5955a9233df390))
 * **docker:** resolve port 8002 conflict with CityResQ media-service ([2aa4327](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/2aa4327c872a04d7afc0736c159e363bef2c85d1))
 * **script:** Fix script ([273bc98](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/273bc98f393f5823fa96cc92be7c364c27ef9202))
 * **web-app:**  fix TypeScript errors in CesiumMap component ([6abeeb0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6abeeb056d0402b2d44b10c99f655aa3ecc0a069))
