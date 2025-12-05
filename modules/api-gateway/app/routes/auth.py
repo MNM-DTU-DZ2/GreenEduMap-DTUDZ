@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 import httpx
 from typing import Optional
 
-router = APIRouter(prefix="/api/auth", tags=["Authentication"])
+router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
 
 AUTH_SERVICE_URL = "http://auth-service:8001"
 
