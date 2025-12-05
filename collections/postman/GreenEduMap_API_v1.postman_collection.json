@@ -1,0 +1,939 @@
+{
+    "info": {
+        "_postman_id": "greenedumap-api-v1",
+        "name": "GreenEduMap_API_v1",
+        "description": "**GreenEduMap API Collection - Version 1.0**\n\nTài liệu chi tiết API cho ứng dụng GreenEduMap.\nBao gồm đầy đủ mô tả cho các Endpoints và Tham số.\n\n**Tài liệu tham khảo:** Xem file `docs/API_DOCUMENTATION.md` trong source code.\n\n**Authentication:** Sử dụng Bearer Token (JWT).\n",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Register",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    if (jsonData.access_token) {",
+                                    "        pm.collectionVariables.set('access_token', jsonData.access_token);",
+                                    "        pm.collectionVariables.set('refresh_token', jsonData.refresh_token);",
+                                    "        console.log('Tokens saved');",
+                                    "    }",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePassword123!\",\n  \"full_name\": \"Nguyễn Văn A\",\n  \"phone\": \"+84901234567\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "description": "Đăng ký tài khoản người dùng mới.\n\n**Chi tiết tham số (Body):**\n| Tham số | Mô tả |\n|---|---|\n| `email` | Địa chỉ email của người dùng |\n| `password` | Mật khẩu đăng nhập |\n| `full_name` | Họ và tên đầy đủ |\n| `phone` | Số điện thoại liên lạc |\n"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    if (jsonData.access_token) {",
+                                    "        pm.collectionVariables.set('access_token', jsonData.access_token);",
+                                    "        pm.collectionVariables.set('refresh_token', jsonData.refresh_token);",
+                                    "        console.log('Token saved:', jsonData.access_token);",
+                                    "    }",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePassword123!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Đăng nhập vào tài khoản.\n\n**Chi tiết tham số (Body):**\n| Tham số | Mô tả |\n|---|---|\n| `email` | Địa chỉ email |\n| `password` | Mật khẩu |\n"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Refresh Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/refresh",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "refresh"
+                            ]
+                        },
+                        "description": "Làm mới access token sử dụng refresh token."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Current User",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "me"
+                            ]
+                        },
+                        "description": "Lấy thông tin người dùng hiện tại."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Profile",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"full_name\": \"Nguyễn Văn B\",\n  \"phone\": \"+84901234567\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/profile",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "profile"
+                            ]
+                        },
+                        "description": "Cập nhật thông tin hồ sơ người dùng."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Environment Data",
+            "item": [
+                {
+                    "name": "Get Air Quality Data",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/air-quality?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "air-quality"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0",
+                                    "description": "Số bản ghi bỏ qua"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Số bản ghi trả về"
+                                },
+                                {
+                                    "key": "city",
+                                    "value": "Ho Chi Minh City",
+                                    "description": "Lọc theo thành phố",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu chất lượng không khí với phân trang."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Latest Air Quality",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/air-quality/latest?limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "air-quality",
+                                "latest"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu AQI mới nhất (24 giờ qua)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Air Quality by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/air-quality/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "air-quality",
+                                "1"
+                            ]
+                        },
+                        "description": "Lấy bản ghi chất lượng không khí theo ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Weather Data",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/weather?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "weather"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu thời tiết với phân trang."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Current Weather",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/weather/current?city=Ho Chi Minh City",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "weather",
+                                "current"
+                            ],
+                            "query": [
+                                {
+                                    "key": "city",
+                                    "value": "Ho Chi Minh City"
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu thời tiết hiện tại."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Education Data",
+            "item": [
+                {
+                    "name": "Get Schools",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/schools?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "schools"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "district",
+                                    "value": "Quận 1",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "city",
+                                    "value": "Ho Chi Minh City",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách trường học với phân trang."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Nearby Schools",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/schools/nearby?latitude=10.7769&longitude=106.7009&radius=5&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "schools",
+                                "nearby"
+                            ],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "10.7769",
+                                    "description": "Vĩ độ"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "106.7009",
+                                    "description": "Kinh độ"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "5",
+                                    "description": "Bán kính tìm kiếm (km)"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Tìm trường học gần vị trí."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get School by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/schools/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "schools",
+                                "1"
+                            ]
+                        },
+                        "description": "Lấy thông tin chi tiết trường học."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Green Courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/green-courses?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "green-courses"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách khóa học môi trường."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Green Resources",
+            "item": [
+                {
+                    "name": "Get Green Zones",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/green-zones?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "green-zones"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "zone_type",
+                                    "value": "park",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách khu vực xanh (công viên, rừng, vườn)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Nearby Green Zones",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/green-zones/nearby?latitude=10.7769&longitude=106.7009&radius=5",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "green-zones",
+                                "nearby"
+                            ],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "10.7769"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "106.7009"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "5"
+                                }
+                            ]
+                        },
+                        "description": "Tìm khu vực xanh gần vị trí."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Green Resources",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/green-resources?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "green-resources"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "renewable_energy",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách tài nguyên xanh (năng lượng tái tạo, trung tâm tái chế)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Public Endpoints",
+            "item": [
+                {
+                    "name": "Public Air Quality",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/air-quality?limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "air-quality"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "city",
+                                    "value": "Ho Chi Minh City",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Dữ liệu AQI công khai (không cần xác thực)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Public Current Weather",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/weather/current?city=Ho Chi Minh City",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "weather",
+                                "current"
+                            ],
+                            "query": [
+                                {
+                                    "key": "city",
+                                    "value": "Ho Chi Minh City"
+                                }
+                            ]
+                        },
+                        "description": "Thời tiết hiện tại công khai."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Public Weather Forecast",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/weather/forecast?city=Ho Chi Minh City",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "weather",
+                                "forecast"
+                            ],
+                            "query": [
+                                {
+                                    "key": "city",
+                                    "value": "Ho Chi Minh City"
+                                }
+                            ]
+                        },
+                        "description": "Dự báo thời tiết 7 ngày."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Catalog",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/catalog",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "catalog"
+                            ]
+                        },
+                        "description": "Lấy danh mục dữ liệu mở."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "AI Tasks",
+            "item": [
+                {
+                    "name": "Queue Clustering Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"data_type\": \"environment\",\n  \"n_clusters\": 3,\n  \"method\": \"kmeans\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/tasks/ai/clustering",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "ai",
+                                "clustering"
+                            ]
+                        },
+                        "description": "Tạo tác vụ phân cụm AI."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Queue Prediction Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prediction_type\": \"air_quality\",\n  \"location_id\": \"location_uuid\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/tasks/ai/prediction",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "ai",
+                                "prediction"
+                            ]
+                        },
+                        "description": "Tạo tác vụ dự đoán AI (ví dụ: dự báo AQI)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Queue Correlation Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"analysis_type\": \"pearson\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/tasks/ai/correlation",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "ai",
+                                "correlation"
+                            ]
+                        },
+                        "description": "Tạo tác vụ phân tích tương quan AI."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Queue Export Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"data_type\": \"schools\",\n  \"format\": \"csv\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/tasks/export",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "export"
+                            ]
+                        },
+                        "description": "Tạo tác vụ xuất dữ liệu."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/health",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health"
+                    ]
+                },
+                "description": "Kiểm tra trạng thái API Gateway và các services."
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "https://api.greenedumap.io.vn",
+            "type": "string"
+        },
+        {
+            "key": "access_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "refresh_token",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}
