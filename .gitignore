@@ -55,4 +55,5 @@ secrets/
 *.pem
 *.key
 COMMIT_MESSAGE.txt
+VPS_DEPLOYMENT_SUMMARY.md
 STATUS_REPORT.md
