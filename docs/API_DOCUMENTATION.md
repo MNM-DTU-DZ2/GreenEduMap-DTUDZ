@@ -129,7 +129,7 @@ Authorization: Bearer {access_token}
 
 ---
 
-### PUT /auth/profile
+### PATCH /auth/profile
 
 Update user profile.
 
@@ -145,6 +145,8 @@ Authorization: Bearer {access_token}
   "phone": "+84901234567"
 }
 ```
+
+**Note:** `api-gateway` routes this as PUT but forwards to `auth-service` as PATCH.
 
 **Response (200 OK):**
 ```json
@@ -286,7 +288,12 @@ Get weather data with pagination.
 Get current weather data.
 
 **Query Parameters:**
-- `city` (string, optional): City name
+- `lat` (float, optional): Latitude
+- `lon` (float, optional): Longitude  
+- `city` (string, optional): City name (alternative to lat/lon)
+- `fetch_new` (boolean, optional): Force fetch new data from OpenWeather API
+
+**Note:** Use either lat/lon OR city. Parameter `fetch_new=true` recommended to get fresh data.
 
 **Response (200 OK):**
 ```json
@@ -548,10 +555,14 @@ Public air quality data (no authentication required).
 
 ### GET /api/open-data/weather/current
 
-Public current weather data.
+Public current weather data (no authentication required).
 
 **Query Parameters:**
-- `city` (string, optional): City name
+- `lat` (float, optional): Latitude
+- `lon` (float, optional): Longitude
+- `city` (string, optional): City name (alternative to lat/lon)
+
+**Note:** Use either lat/lon OR city.
 
 **Response (200 OK):**
 ```json
@@ -567,10 +578,14 @@ Public current weather data.
 
 ### GET /api/open-data/weather/forecast
 
-Public weather forecast (7 days).
+Public weather forecast (7 days, no authentication required).
 
 **Query Parameters:**
-- `city` (string, optional): City name
+- `lat` (float, optional): Latitude
+- `lon` (float, optional): Longitude
+- `city` (string, optional): City name (alternative to lat/lon)
+
+**Note:** Use either lat/lon OR city.
 
 **Response (200 OK):**
 ```json
