@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...50043f0760e6f09bc3a67b1533c97022cb3480c5) (2025-12-05)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...6abeeb056d0402b2d44b10c99f655aa3ecc0a069) (2025-12-05)
 
 
 ### Bug Fixes
@@ -6,6 +6,7 @@
 * change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
 * **docker:** resolve port 8002 conflict with CityResQ media-service ([2aa4327](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/2aa4327c872a04d7afc0736c159e363bef2c85d1))
 * **script:** Fix script ([273bc98](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/273bc98f393f5823fa96cc92be7c364c27ef9202))
+* **web-app:**  fix TypeScript errors in CesiumMap component ([6abeeb0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6abeeb056d0402b2d44b10c99f655aa3ecc0a069))
 * **web-app:** fix TypeScript error in dashboard prediction task ([50043f0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/50043f0760e6f09bc3a67b1533c97022cb3480c5))
 * **web-app:** fix TypeScript error in dashboard prediction task ([8fe9a8c](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/8fe9a8ce2cec7707328fb6d813c719f04d28939f))
 * **web-app:** replace remaining Mapbox references with MapTiler ([3a1f8b4](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/3a1f8b4907563cec595560fb29bc0c11f722165f))
