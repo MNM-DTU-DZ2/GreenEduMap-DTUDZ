@@ -30,43 +30,51 @@ export interface AirQualityAlert {
   recommendation: string;
 }
 
-export function useAirQuality(city: string = "Hanoi", skip: number = 0, limit: number = 10) {
+export function useAirQuality(skip: number = 0, limit: number = 10) {
   return useQuery({
-    queryKey: ["air-quality", city, skip, limit],
+    queryKey: ["air-quality", skip, limit],
     queryFn: async () => {
       const response = await api.get<{
         total: number;
-        items: AirQualityData[];
-      }>(`/api/air-quality/?skip=${skip}&limit=${limit}&city=${city}`);
+        skip: number;
+        limit: number;
+        data: AirQualityData[];
+      }>(`/api/v1/air-quality?skip=${skip}&limit=${limit}`);
       return response;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: 1,
   });
 }
 
-export function useAirQualityAlerts(threshold: number = 150) {
+export function useAirQualityLatest(limit: number = 100) {
   return useQuery({
-    queryKey: ["air-quality-alerts", threshold],
+    queryKey: ["air-quality-latest", limit],
     queryFn: async () => {
-      const response = await api.get<AirQualityAlert[]>(
-        `/api/air-quality/alerts/high?threshold=${threshold}`
-      );
+      const response = await api.get<{
+        total: number;
+        data: AirQualityData[];
+      }>(`/api/v1/air-quality/latest?limit=${limit}`);
       return response;
     },
     staleTime: 1000 * 60 * 2, // 2 minutes
+    retry: 1,
   });
 }
 
-export function useFetchOpenAQ(city: string = "Hanoi") {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async () => {
-      const response = await api.get(`/api/air-quality/fetch/openaq?city=${city}`);
+export function useWeather(skip: number = 0, limit: number = 10) {
+  return useQuery({
+    queryKey: ["weather", skip, limit],
+    queryFn: async () => {
+      const response = await api.get<{
+        total: number;
+        skip: number;
+        limit: number;
+        data: any[];
+      }>(`/api/v1/weather?skip=${skip}&limit=${limit}`);
       return response;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["air-quality"] });
-    },
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    retry: 1,
   });
 }
