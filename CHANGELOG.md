@@ -1,3 +1,59 @@
+﻿# CHANGELOG
+
+## 05/12/2025 - 10h44
+
+### Release v1.3.0
+
+**New Features:**
+- deploy): add VPS deployment scripts and database seeding
+- deploy): add VPS deployment scripts and database seeding
+- map): integrate real API data and fix service endpoints
+- map): integrate real API data and fix service endpoints
+- messaging): integrate RabbitMQ and EMQX message brokers
+
+**Bug Fixes:**
+- web-app): fix TypeScript error in dashboard prediction task
+- web-app): replace remaining Mapbox references with MapTiler
+- docker)!: resolve port conflicts and switch web-app to production mode
+- docker): resolve port 8002 conflict with CityResQ media-service
+- change banner and other image
+- script): Fix script
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG for v1.3.0
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+
+**Other Changes:**
+- move file project and word
+- Fix commit message
+- system): achieve 100% service pass rate and reorganize scripts
+- fix icon docker
+- Docker installation guide
+- change api services
+- change image README.md
+- doc-readme-link
+
+**BREAKING CHANGES:**
+- fix(docker)!: resolve port conflicts and switch web-app to production mode
+
+**Technical Details:**
+- Tag: v1.3.0
+- Commits: 31
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.3.0
+
+---
+
 # [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...3a1f8b4907563cec595560fb29bc0c11f722165f) (2025-12-05)
 
 
