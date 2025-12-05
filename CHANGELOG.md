@@ -1,9 +1,10 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...2a685178521e484236825e7bd84e721321a1b99b) (2025-12-05)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...5d5e854c2935145acd792fdcc7d90fb7f1a3a0fa) (2025-12-05)
 
 
 ### Bug Fixes
 
 * **api:** fix all failed API endpoints and achieve 100% test pass rate ([2a68517](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/2a685178521e484236825e7bd84e721321a1b99b))
+* **api:** fix green_resources schema and add init-scripts to seed_database.sh ([5d5e854](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/5d5e854c2935145acd792fdcc7d90fb7f1a3a0fa))
 * **api:** resolve route ordering and auth endpoint issues ([07fd488](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/07fd48811d6e40bb55e504bcbb2600bba433d8a6))
 * architecture image and overview ([f31a246](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f31a2460318b9c1a84a7e45a0a54a714493bc7f3))
 * change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
