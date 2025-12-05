@@ -382,18 +382,16 @@ services:
   web-app:
     build:
       context: ../../modules/web-app
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:10000}
     container_name: greenedumap-web-app
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:10000}
       NEXT_PUBLIC_MAPTILER_API_KEY: ${NEXT_PUBLIC_MAPTILER_API_KEY:-dpmkld1oGcbPpGtsRgKX}
       NEXT_PUBLIC_APP_NAME: GreenEduMap
       NEXT_PUBLIC_ENABLE_AI: "true"
-      NODE_ENV: development
-    volumes:
-      - ../../modules/web-app:/app
-      - /app/node_modules
-      - /app/.next
+      NODE_ENV: production
     ports:
       - "${WEB_APP_PORT:-3000}:3000"
     depends_on:
