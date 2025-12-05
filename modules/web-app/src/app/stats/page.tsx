@@ -93,6 +93,8 @@ function StatsContent() {
   }, [isMapLoaded]);
 
   // Update heatmap layer when selectedIndex changes
+  // DISABLED: Mapbox has been removed
+  /*
   const updateHeatmapLayer = () => {
     const map = mapRef.current;
     if (!map || !isMapLoaded) return;
@@ -229,7 +231,7 @@ function StatsContent() {
       if (!feature) return;
 
       const props = feature.properties as any;
-      new mapboxgl.Popup()
+      new maplibregl.Popup()
         .setLngLat(e.lngLat)
         .setHTML(`
           <div class="p-2">
@@ -252,13 +254,17 @@ function StatsContent() {
       map.getCanvas().style.cursor = "";
     });
   };
+  */
 
   // Update heatmap when selectedIndex changes
+  // DISABLED: Map has been removed
+  /*
   useEffect(() => {
     if (isMapLoaded) {
       updateHeatmapLayer();
     }
   }, [selectedIndex, isMapLoaded]);
+  */
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 sm:pt-24">
@@ -296,18 +302,16 @@ function StatsContent() {
               className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow"
             >
               <div className="flex items-center justify-between mb-2">
-                <stat.Icon className={`w-8 h-8 ${
-                  stat.color === "success" ? "text-success-600 dark:text-success-400" :
+                <stat.Icon className={`w-8 h-8 ${stat.color === "success" ? "text-success-600 dark:text-success-400" :
                   stat.color === "warning" ? "text-warning-600 dark:text-warning-400" :
-                  stat.color === "purple" ? "text-purple-600 dark:text-purple-400" :
-                  "text-blue-600 dark:text-blue-400"
-                }`} />
-                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                  stat.color === "success" ? "bg-success-100 text-success-700 dark:bg-success-500/20 dark:text-success-400" :
+                    stat.color === "purple" ? "text-purple-600 dark:text-purple-400" :
+                      "text-blue-600 dark:text-blue-400"
+                  }`} />
+                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${stat.color === "success" ? "bg-success-100 text-success-700 dark:bg-success-500/20 dark:text-success-400" :
                   stat.color === "warning" ? "bg-warning-100 text-warning-700 dark:bg-warning-500/20 dark:text-warning-400" :
-                  stat.color === "purple" ? "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400" :
-                  "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400"
-                }`}>
+                    stat.color === "purple" ? "bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400" :
+                      "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400"
+                  }`}>
                   {stat.label}
                 </span>
               </div>
@@ -330,21 +334,19 @@ function StatsContent() {
               <div className="flex gap-2">
                 <button
                   onClick={() => setSelectedType("ward")}
-                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
-                    selectedType === "ward"
-                      ? "bg-gradient-to-r from-success-500 to-success-600 text-white shadow-lg"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                  }`}
+                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${selectedType === "ward"
+                    ? "bg-gradient-to-r from-success-500 to-success-600 text-white shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                    }`}
                 >
                   Phường/Xã
                 </button>
                 <button
                   onClick={() => setSelectedType("school")}
-                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
-                    selectedType === "school"
-                      ? "bg-gradient-to-r from-success-500 to-success-600 text-white shadow-lg"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
-                  }`}
+                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${selectedType === "school"
+                    ? "bg-gradient-to-r from-success-500 to-success-600 text-white shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                    }`}
                 >
                   Trường học
                 </button>
