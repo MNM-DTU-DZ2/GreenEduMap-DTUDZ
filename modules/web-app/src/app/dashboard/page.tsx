@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  Wind, 
-  Cloud, 
-  School, 
-  TreePine, 
-  Zap, 
-  TrendingUp, 
+import {
+  Wind,
+  Cloud,
+  School,
+  TreePine,
+  Zap,
+  TrendingUp,
   AlertTriangle,
   RefreshCw,
   MapPin
@@ -48,7 +48,7 @@ export default function DashboardPage() {
   const totalSchools = schools?.length || 0;
   const totalZones = greenZones?.length || 0;
   const totalResources = greenResources?.reduce((sum: number, r: any) => sum + (r.quantity || 0), 0) || 0;
-  const avgAQI = aqiData?.data?.length 
+  const avgAQI = aqiData?.data?.length
     ? (aqiData.data.reduce((sum: number, item: any) => sum + (item.aqi || 0), 0) / aqiData.data.length).toFixed(1)
     : "N/A";
 
@@ -63,7 +63,7 @@ export default function DashboardPage() {
         await clusteringTask.mutateAsync(3);
         alert("✅ Clustering task queued! Check AI Service logs.");
       } else if (type === "prediction") {
-        await predictionTask.mutateAsync();
+        await predictionTask.mutateAsync({});
         alert("✅ Prediction task queued! Check AI Service logs.");
       } else {
         await correlationTask.mutateAsync("pearson");
@@ -445,15 +445,13 @@ export default function DashboardPage() {
                 key={index}
                 className="p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 text-center"
               >
-                <div className={`inline-flex items-center justify-center w-3 h-3 rounded-full mb-2 ${
-                  service.status === "online" ? "bg-green-500" : "bg-red-500"
-                }`} />
+                <div className={`inline-flex items-center justify-center w-3 h-3 rounded-full mb-2 ${service.status === "online" ? "bg-green-500" : "bg-red-500"
+                  }`} />
                 <div className="text-xs font-semibold text-gray-900 dark:text-white">
                   {service.label}
                 </div>
-                <div className={`text-xs mt-1 ${
-                  service.status === "online" ? "text-green-600" : "text-red-600"
-                }`}>
+                <div className={`text-xs mt-1 ${service.status === "online" ? "text-green-600" : "text-red-600"
+                  }`}>
                   {service.status === "online" ? "Online" : "Offline"}
                 </div>
               </div>
