@@ -11,16 +11,12 @@ import {
 } from "@/icons";
 import PublicHeader from "@/components/common/PublicHeader";
 import { MapPin, School, Wind, Zap, TrendingUp, Users, Globe, Lightbulb, Activity, BookOpen, ArrowRight, Map, Brain, MessageCircle, BarChart3, Heart, Sparkles, GraduationCap } from "lucide-react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
-// Set Mapbox token
-if (typeof window !== "undefined") {
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  if (token) {
-    mapboxgl.accessToken = token;
-  }
-}
+// MapTiler configuration
+const MAPTILER_API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY || "dpmkld1oGcbPpGtsRgKX";
+const MAPTILER_STYLE = `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`;
 
 // Mock data for preview - Enhanced with more realistic data
 const previewData = {
@@ -102,7 +98,7 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   useEffect(() => {
@@ -120,17 +116,9 @@ export default function HomePage() {
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (!token) {
-      console.error("Mapbox token not found");
-      return;
-    }
-
-    mapboxgl.accessToken = token;
-
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: MAPTILER_STYLE,
       center: [106.6297, 10.8231], // TP.HCM
       zoom: 10.5,
       pitch: 35,

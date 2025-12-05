@@ -6,16 +6,6 @@ import PublicHeader from "@/components/common/PublicHeader";
 import { Wind, Thermometer, Zap, School, BookOpen } from "lucide-react";
 import StatsBarChart from "@/components/charts/StatsBarChart";
 import StatsLineChart from "@/components/charts/StatsLineChart";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-
-// Set Mapbox token
-if (typeof window !== "undefined") {
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  if (token) {
-    mapboxgl.accessToken = token;
-  }
-}
 
 // Mock data for TP.HCM
 const mockStatsData = {
@@ -53,7 +43,6 @@ const districtCoordinates: Record<string, [number, number]> = {
 
 function StatsContent() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [selectedType, setSelectedType] = useState<"ward" | "school">("ward");
   const [selectedWard, setSelectedWard] = useState<string>("all");
@@ -96,41 +85,12 @@ function StatsContent() {
     };
   };
 
-  // Initialize Map
+  // Mapbox heatmap đã được tắt để loại bỏ phụ thuộc mapbox-gl.
   useEffect(() => {
-    if (!mapContainer.current || mapRef.current) return;
-
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (!token) {
-      console.error("Mapbox token not found");
-      return;
-    }
-
-    mapboxgl.accessToken = token;
-
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
-      center: [106.6297, 10.8231], // TP.HCM
-      zoom: 10,
-      pitch: 0,
-      bearing: 0,
-    });
-
-    mapRef.current = map;
-
-    map.on("load", () => {
+    if (mapContainer.current && !isMapLoaded) {
       setIsMapLoaded(true);
-      updateHeatmapLayer();
-    });
-
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-      }
-    };
-  }, []);
+    }
+  }, [isMapLoaded]);
 
   // Update heatmap layer when selectedIndex changes
   const updateHeatmapLayer = () => {
