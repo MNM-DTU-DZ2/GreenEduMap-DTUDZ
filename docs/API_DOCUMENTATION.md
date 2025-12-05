@@ -27,12 +27,15 @@ Register a new user account.
 **Request:**
 ```json
 {
+  "username": "johndoe",
   "email": "user@example.com",
   "password": "SecurePassword123!",
   "full_name": "John Doe",
   "phone": "+84901234567"
 }
 ```
+
+**Note:** Password must be at least 8 characters.
 
 **Response (201 Created):**
 ```json
@@ -62,6 +65,8 @@ Login to existing account.
   "password": "SecurePassword123!"
 }
 ```
+
+**Note:** Login uses email, not username.
 
 **Response (200 OK):**
 ```json
