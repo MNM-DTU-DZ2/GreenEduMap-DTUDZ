@@ -59,7 +59,7 @@ try {
 
 Write-Host "- Resource Service: " -NoNewline
 try { 
-    $response = Invoke-RestMethod -Uri "http://localhost:8002/health" -TimeoutSec 3
+    $response = Invoke-RestMethod -Uri "http://localhost:8004/health" -TimeoutSec 3
     Write-Host "OK" -ForegroundColor Green 
 } catch { 
     Write-Host "FAILED" -ForegroundColor Red 

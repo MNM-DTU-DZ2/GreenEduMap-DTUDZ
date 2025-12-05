@@ -27,8 +27,8 @@ fi
 
 # Confirmation
 echo -e "${YELLOW}⚠️  WARNING: This will delete ALL GreenEduMap containers, images, and volumes!${NC}"
-echo -e "${YELLOW}Type 'yes' to continue, or anything else to cancel:${NC}"
-read -r CONFIRM
+echo ""
+read -p "Type 'yes' to continue, or anything else to cancel: " CONFIRM
 
 # Trim whitespace and convert to lowercase for comparison
 CONFIRM=$(echo "$CONFIRM" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
@@ -37,6 +37,8 @@ if [ "$CONFIRM" != "yes" ]; then
     echo -e "${YELLOW}❌ Cancelled${NC}"
     exit 0
 fi
+
+echo -e "${GREEN}✅ Confirmed! Proceeding with cleanup...${NC}"
 
 echo ""
 echo -e "${YELLOW}[Step 1/5] Stopping all GreenEduMap containers...${NC}"
