@@ -4,6 +4,12 @@ import { useState, Suspense, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import PublicHeader from "@/components/common/PublicHeader";
 import { MapPin, TrendingUp, Leaf, School, X } from "lucide-react";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+// MapTiler configuration
+const MAPTILER_API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY || "dpmkld1oGcbPpGtsRgKX";
+const MAPTILER_STYLE = `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`;
 
 // Mock data for AI correlation between environment and education
 const mockAIData = [
@@ -71,7 +77,7 @@ const mockAIData = [
 
 function ActionsContent() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [selectedWard, setSelectedWard] = useState<any>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -97,17 +103,9 @@ function ActionsContent() {
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-    if (!token) {
-      console.error("Mapbox token not found");
-      return;
-    }
-
-    mapboxgl.accessToken = token;
-
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: MAPTILER_STYLE,
       center: [106.6297, 10.8231], // TP.HCM
       zoom: 11,
       pitch: 45,
@@ -232,7 +230,7 @@ function ActionsContent() {
         setIsDetailOpen(true);
 
         // Show popup
-        new mapboxgl.Popup()
+        new maplibregl.Popup()
           .setLngLat(e.lngLat)
           .setHTML(`
             <div class="p-2">
@@ -370,12 +368,11 @@ function ActionsContent() {
                       {stat.value}
                     </p>
                   </div>
-                  <stat.icon className={`w-8 h-8 ${
-                    stat.color === "success" ? "text-success-600 dark:text-success-400" :
-                    stat.color === "warning" ? "text-warning-600 dark:text-warning-400" :
-                    stat.color === "purple" ? "text-purple-600 dark:text-purple-400" :
-                    "text-blue-600 dark:text-blue-400"
-                  }`} />
+                  <stat.icon className={`w-8 h-8 ${stat.color === "success" ? "text-success-600 dark:text-success-400" :
+                      stat.color === "warning" ? "text-warning-600 dark:text-warning-400" :
+                        stat.color === "purple" ? "text-purple-600 dark:text-purple-400" :
+                          "text-blue-600 dark:text-blue-400"
+                    }`} />
                 </div>
               </motion.div>
             ))}
