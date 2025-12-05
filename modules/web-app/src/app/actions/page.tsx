@@ -4,16 +4,6 @@ import { useState, Suspense, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import PublicHeader from "@/components/common/PublicHeader";
 import { MapPin, TrendingUp, Leaf, School, X } from "lucide-react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-
-// Set Mapbox token
-if (typeof window !== "undefined") {
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-  if (token) {
-    mapboxgl.accessToken = token;
-  }
-}
 
 // Mock data for AI correlation between environment and education
 const mockAIData = [

@@ -18,11 +18,35 @@ async def create_green_resource(resource: GreenResourceCreate, db: AsyncSession 
     await db.refresh(db_resource)
     return db_resource
 
-@router.get("/", response_model=List[GreenResourceResponse])
+@router.get("/")
 async def list_green_resources(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
-    """Lấy danh sách tài nguyên xanh"""
+    """Lấy danh sách tài nguyên xanh (cho phép zone_id = None)"""
+    # Bỏ response_model để bypass Pydantic validation (vì zone_id có thể None)
     result = await db.execute(select(GreenResource).offset(skip).limit(limit))
-    return result.scalars().all()
+    resources = result.scalars().all()
+    
+    # Convert to dict để handle None zone_id
+    resource_list = []
+    for resource in resources:
+        resource_dict = {
+            "id": str(resource.id),
+            "name": resource.name,
+            "type": resource.type,
+            "quantity": resource.quantity or 0,
+            "available_quantity": resource.available_quantity or 0,
+            "unit": resource.unit,
+            "status": resource.status or "active",
+            "expiry_date": resource.expiry_date.isoformat() if resource.expiry_date else None,
+            "is_public": resource.is_public if resource.is_public is not None else True,
+            "data_uri": resource.data_uri,
+            "meta_data": resource.meta_data,
+            "zone_id": str(resource.zone_id) if resource.zone_id else None,  # Convert UUID to string or None
+            "created_at": resource.created_at.isoformat() if resource.created_at else None,
+            "updated_at": resource.updated_at.isoformat() if resource.updated_at else None,
+        }
+        resource_list.append(resource_dict)
+    
+    return resource_list
 
 @router.get("/{resource_id}", response_model=GreenResourceResponse)
 async def get_green_resource(resource_id: UUID, db: AsyncSession = Depends(get_db)):
