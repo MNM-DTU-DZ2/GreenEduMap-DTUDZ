@@ -55,14 +55,21 @@ async def get_air_quality_by_location(
 
 @router.get("/weather/current")
 async def get_public_current_weather(
-    lat: float = Query(..., ge=-90, le=90),
-    lon: float = Query(..., ge=-180, le=180)
+    city: str = Query(None),
+    lat: float = Query(None, ge=-90, le=90),
+    lon: float = Query(None, ge=-180, le=180)
 ):
-    """Get current weather (public)"""
+    """Get current weather (public) - accepts either city or lat/lon"""
     try:
         async with httpx.AsyncClient() as client:
             url = f"{settings.ENVIRONMENT_SERVICE_URL}/api/v1/weather/current"
-            params = {"lat": lat, "lon": lon, "fetch_new": True}
+            params = {}
+            if city:
+                params["city"] = city
+            if lat is not None and lon is not None:
+                params["lat"] = lat
+                params["lon"] = lon
+                params["fetch_new"] = True
             response = await client.get(url, params=params, timeout=30.0)
             response.raise_for_status()
             return response.json()
@@ -73,14 +80,20 @@ async def get_public_current_weather(
 
 @router.get("/weather/forecast")
 async def get_public_weather_forecast(
-    lat: float = Query(..., ge=-90, le=90),
-    lon: float = Query(..., ge=-180, le=180)
+    city: str = Query(None),
+    lat: float = Query(None, ge=-90, le=90),
+    lon: float = Query(None, ge=-180, le=180)
 ):
-    """Get weather forecast (public)"""
+    """Get weather forecast (public) - accepts either city or lat/lon"""
     try:
         async with httpx.AsyncClient() as client:
             url = f"{settings.ENVIRONMENT_SERVICE_URL}/api/v1/weather/forecast"
-            params = {"lat": lat, "lon": lon}
+            params = {}
+            if city:
+                params["city"] = city
+            if lat is not None and lon is not None:
+                params["lat"] = lat
+                params["lon"] = lon
             response = await client.get(url, params=params, timeout=30.0)
             response.raise_for_status()
             return response.json()
