@@ -1,3 +1,40 @@
+﻿# CHANGELOG
+
+## 05/12/2025 - 08h11
+
+### Release v1.3.0
+
+**New Features:**
+- map): integrate real API data and fix service endpoints
+- messaging): integrate RabbitMQ and EMQX message brokers
+
+**Bug Fixes:**
+- change banner and other image
+- script): Fix script
+
+**Documentation:**
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+- update CHANGELOG.md [skip ci]
+
+**Other Changes:**
+- system): achieve 100% service pass rate and reorganize scripts
+- fix icon docker
+- Docker installation guide
+- change api services
+- change image README.md
+- doc-readme-link
+
+**Technical Details:**
+- Tag: v1.3.0
+- Commits: 15
+- Released from: main branch
+- Release URL: https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/releases/tag/v1.3.0
+
+---
+
 # [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...290fb5d6a9022615a326d0e05b836aee5fd99d3e) (2025-12-04)
 
 
