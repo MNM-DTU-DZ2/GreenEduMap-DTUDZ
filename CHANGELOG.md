@@ -1,8 +1,9 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...d4e21a2372bef5a2e6d8eadf9cfe25cbf307f618) (2025-12-05)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...07fd48811d6e40bb55e504bcbb2600bba433d8a6) (2025-12-05)
 
 
 ### Bug Fixes
 
+* **api:** resolve route ordering and auth endpoint issues ([07fd488](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/07fd48811d6e40bb55e504bcbb2600bba433d8a6))
 * architecture image and overview ([f31a246](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f31a2460318b9c1a84a7e45a0a54a714493bc7f3))
 * change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
 * **docker:** add NEXT_PUBLIC_API_URL to env configuration ([eb93e8f](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/eb93e8f9b8b823a8d7625b1c5d5955a9233df390))
