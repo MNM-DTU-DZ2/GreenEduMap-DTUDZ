@@ -15,7 +15,7 @@ services:
       POSTGRES_INITDB_ARGS: "-E UTF8"
       TZ: Asia/Ho_Chi_Minh
     ports:
-      - "${POSTGRES_PORT:-5433}:5432"
+      - "${POSTGRES_PORT:-4100}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d  # SQL init scripts
@@ -33,7 +33,7 @@ services:
     container_name: greenedumap-redis
     command: redis-server --appendonly yes
     ports:
-      - "${REDIS_PORT:-6380}:6379"
+      - "${REDIS_PORT:-4101}:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -52,7 +52,7 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DB:-greenedumap}
       TZ: Asia/Ho_Chi_Minh
     ports:
-      - "${MONGO_PORT:-27018}:27017"
+      - "${MONGO_PORT:-4102}:27017"
     volumes:
       - mongodb_data:/data/db
     healthcheck:
@@ -76,8 +76,8 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-admin123}
       RABBITMQ_DEFAULT_VHOST: greenedumap
     ports:
-      - "${RABBITMQ_PORT:-5672}:5672"      # AMQP protocol
-      - "${RABBITMQ_MGMT_PORT:-15672}:15672"  # Management UI
+      - "${RABBITMQ_PORT:-4200}:5672"      # AMQP protocol
+      - "${RABBITMQ_MGMT_PORT:-4201}:15672"  # Management UI
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
@@ -98,10 +98,10 @@ services:
       EMQX_DASHBOARD__DEFAULT_USERNAME: ${EMQX_DASHBOARD_USER:-admin}
       EMQX_DASHBOARD__DEFAULT_PASSWORD: ${EMQX_DASHBOARD_PASS:-admin123}
     ports:
-      - "${MQTT_PORT:-1883}:1883"          # MQTT TCP
-      - "${MQTT_WS_PORT:-8083}:8083"       # MQTT WebSocket
-      - "${MQTT_WSS_PORT:-8084}:8084"      # MQTT WebSocket SSL
-      - "${EMQX_DASHBOARD_PORT:-18083}:18083"  # EMQX Dashboard
+      - "${MQTT_PORT:-4202}:1883"          # MQTT TCP
+      - "${MQTT_WS_PORT:-4203}:8083"       # MQTT WebSocket
+      - "${MQTT_WSS_PORT:-4204}:8084"      # MQTT WebSocket SSL
+      - "${EMQX_DASHBOARD_PORT:-4205}:18083"  # EMQX Dashboard
     volumes:
       - emqx_data:/opt/emqx/data
       - emqx_log:/opt/emqx/log
@@ -122,7 +122,7 @@ services:
     image: adminer:latest
     container_name: greenedumap-adminer
     ports:
-      - "${ADMINER_PORT:-8081}:8080"
+      - "${ADMINER_PORT:-4600}:8080"
     environment:
       ADMINER_DEFAULT_SERVER: postgres
       ADMINER_DESIGN: nette
@@ -196,7 +196,7 @@ services:
       # Message Broker for async tasks
       RABBITMQ_URL: amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASS:-admin123}@rabbitmq:5672/greenedumap
     ports:
-      - "${API_GATEWAY_PORT:-10000}:8000"
+      - "${API_GATEWAY_PORT:-4500}:8000"
     depends_on:
       redis:
         condition: service_healthy
@@ -228,7 +228,7 @@ services:
       DEBUG: ${DEBUG:-true}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
     ports:
-      - "${RESOURCE_SERVICE_PORT:-8012}:8000"
+      - "${RESOURCE_SERVICE_PORT:-4304}:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -384,16 +384,16 @@ services:
       context: ../../modules/web-app
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:10000}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
     container_name: greenedumap-web-app
     environment:
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:10000}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
       NEXT_PUBLIC_MAPTILER_API_KEY: ${NEXT_PUBLIC_MAPTILER_API_KEY:-dpmkld1oGcbPpGtsRgKX}
       NEXT_PUBLIC_APP_NAME: GreenEduMap
       NEXT_PUBLIC_ENABLE_AI: "true"
       NODE_ENV: production
     ports:
-      - "${WEB_APP_PORT:-3000}:3000"
+      - "${WEB_APP_PORT:-4501}:3000"
     depends_on:
       api-gateway:
         condition: service_healthy

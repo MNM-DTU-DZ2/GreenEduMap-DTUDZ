@@ -24,6 +24,11 @@ ENV/
 # Environment files
 .env
 .env.local
+.env.production
+infrastructure/docker/.env
+infrastructure/docker/.env.local
+infrastructure/docker/.env.production
+modules/web-app/.env.local
 scripts/api-keys.env
 
 # Database
