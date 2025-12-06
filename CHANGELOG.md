@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...d614c47b43ed3ac288ef0f3c71f155b80646b9a0) (2025-12-05)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...d614c47b43ed3ac288ef0f3c71f155b80646b9a0) (2025-12-06)
 
 
 ### Bug Fixes
