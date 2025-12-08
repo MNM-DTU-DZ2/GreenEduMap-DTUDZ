@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...56cf7831bbef27f47d68bfcf3768dcee26b69973) (2025-12-08)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...b4daa79872d8a248cd5eb61b895748148a30288d) (2025-12-08)
 
 
 ### Bug Fixes
@@ -22,6 +22,7 @@
 
 ### Features
 
+* **deloy:** add SSL setup script and documentation ([b4daa79](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b4daa79872d8a248cd5eb61b895748148a30288d))
 * **deploy:** add VPS deployment scripts and database seeding ([32eeceb](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/32eeceb6dffead57d38d85c6265b0d27cc1fb89c))
 * **deploy:** add VPS deployment scripts and database seeding ([7c6c617](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/7c6c617253f1bfbcae02ab1c8e6b336234e30dbe))
 * **map:** integrate real API data and fix service endpoints ([adbe432](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/adbe4328dafd3d32069f19d234c1aaae4a1b9bd4))
