@@ -102,6 +102,20 @@ app.add_middleware(
 app.include_router(air_quality_router)
 app.include_router(weather_router)
 
+# WebSocket endpoints for real-time data
+from fastapi import WebSocket
+from .websocket import aqi_websocket_endpoint, weather_websocket_endpoint
+
+@app.websocket("/ws/air-quality")
+async def websocket_aqi(websocket: WebSocket):
+    """WebSocket endpoint for real-time AQI updates"""
+    await aqi_websocket_endpoint(websocket)
+
+@app.websocket("/ws/weather")
+async def websocket_weather(websocket: WebSocket):
+    """WebSocket endpoint for real-time weather updates"""
+    await weather_websocket_endpoint(websocket)
+
 
 @app.get("/")
 async def root():

@@ -21,6 +21,7 @@
 import { useState, Suspense, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import PublicHeader from "@/components/common/PublicHeader";
+import { useRealtimeData } from "@/hooks/useRealtimeData";
 import { MapPin, TrendingUp, Leaf, School, X } from "lucide-react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -100,6 +101,22 @@ function ActionsContent() {
   const [selectedWard, setSelectedWard] = useState<any>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [hoveredWard, setHoveredWard] = useState<any>(null);
+
+  // Real-time WebSocket data
+  const { aqiData, weatherData, isConnected } = useRealtimeData();
+
+  // Log real-time data updates
+  useEffect(() => {
+    if (aqiData.length > 0) {
+      console.log('🔴 [Actions] Real-time AQI update:', aqiData.length, 'points');
+    }
+  }, [aqiData]);
+
+  useEffect(() => {
+    if (weatherData.length > 0) {
+      console.log('🔴 [Actions] Real-time weather update:', weatherData.length, 'points');
+    }
+  }, [weatherData]);
 
   // Convert mock data to GeoJSON
   const correlationGeoJSON = {
@@ -387,9 +404,9 @@ function ActionsContent() {
                     </p>
                   </div>
                   <stat.icon className={`w-8 h-8 ${stat.color === "success" ? "text-success-600 dark:text-success-400" :
-                      stat.color === "warning" ? "text-warning-600 dark:text-warning-400" :
-                        stat.color === "purple" ? "text-purple-600 dark:text-purple-400" :
-                          "text-blue-600 dark:text-blue-400"
+                    stat.color === "warning" ? "text-warning-600 dark:text-warning-400" :
+                      stat.color === "purple" ? "text-purple-600 dark:text-purple-400" :
+                        "text-blue-600 dark:text-blue-400"
                     }`} />
                 </div>
               </motion.div>
