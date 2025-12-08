@@ -109,8 +109,8 @@ async def list_green_zones(skip: int = 0, limit: int = 100, db: AsyncSession = D
 
 @router.get("/nearby", response_model=List[GreenZoneResponse])
 async def find_nearby_zones(
-    latitude: float = Query(..., ge=-90, le=90), 
-    longitude: float = Query(..., ge=-180, le=180), 
+    lat: float = Query(..., ge=-90, le=90), 
+    lon: float = Query(..., ge=-180, le=180), 
     radius_km: float = Query(default=10.0, ge=0.1, le=100),
     db: AsyncSession = Depends(get_db)
 ):
@@ -119,7 +119,7 @@ async def find_nearby_zones(
     stmt = select(GreenZone).where(
         func.ST_DWithin(
             GreenZone.location,
-            func.ST_GeogFromText(f"SRID=4326;POINT({longitude} {latitude})"),
+            func.ST_GeogFromText(f"SRID=4326;POINT({lon} {lat})"),
             radius_km * 1000  # Convert km to meters
         )
     )

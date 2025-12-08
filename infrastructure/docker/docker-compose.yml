@@ -303,7 +303,7 @@ services:
       DEBUG: ${DEBUG:-true}
       CORS_ORIGINS: '["http://localhost:3000","http://localhost:8000"]'
     ports:
-      - "8003:8000"
+      - "${EDUCATION_SERVICE_PORT:-4302}:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -361,7 +361,7 @@ services:
       MAX_PAGE_SIZE: 1000
       DEFAULT_PAGE_SIZE: 100
     ports:
-      - "8009:8009"
+      - "${OPENDATA_SERVICE_PORT:-4305}:8009"
     depends_on:
       postgres:
         condition: service_healthy
