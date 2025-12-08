@@ -28,8 +28,8 @@ fi
 PROJECT_DIR="/opt/greenedumap"
 DOCKER_DIR="${PROJECT_DIR}/infrastructure/docker"
 POSTGRES_CONTAINER="greenedumap-postgres"
-POSTGRES_USER="greenedumap"
-POSTGRES_DB="greenedumap_prod"
+POSTGRES_USER="${POSTGRES_USER:-postgres}"
+POSTGRES_DB="${POSTGRES_DB:-greenedumap}"
 
 # Check if PostgreSQL container is running
 echo -e "${YELLOW}[Step 1/4] Checking PostgreSQL container...${NC}"
@@ -43,7 +43,7 @@ echo -e "${GREEN}✅ PostgreSQL container is running${NC}"
 # Wait for PostgreSQL to be ready
 echo -e "${YELLOW}[Step 2/4] Waiting for PostgreSQL to be ready...${NC}"
 for i in {1..30}; do
-    if docker exec ${POSTGRES_CONTAINER} pg_isready -U ${POSTGRES_USER} > /dev/null 2>&1; then
+    if docker exec ${POSTGRES_CONTAINER} pg_isready -U "${POSTGRES_USER}" > /dev/null 2>&1; then
         echo -e "${GREEN}✅ PostgreSQL is ready${NC}"
         break
     fi
@@ -74,7 +74,7 @@ execute_sql_file() {
     docker cp "$file_path" ${POSTGRES_CONTAINER}:${container_path} > /dev/null 2>&1
     
     # Execute SQL (suppress NOTICE messages)
-    local result=$(docker exec ${POSTGRES_CONTAINER} psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f ${container_path} 2>&1 | grep -v "NOTICE:" | grep -v "WARNING:" || true)
+    local result=$(docker exec ${POSTGRES_CONTAINER} psql -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -f ${container_path} 2>&1 | grep -v "NOTICE:" | grep -v "WARNING:" || true)
     
     # Check for errors
     if echo "$result" | grep -q "ERROR:"; then
