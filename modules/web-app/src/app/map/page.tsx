@@ -71,7 +71,9 @@ function MapContent() {
         // Air quality
         const resAqi = await fetch(`${API_BASE}/api/v1/air-quality?limit=500`);
         if (resAqi.ok) {
-          const items: any[] = await resAqi.json();
+          const response: any = await resAqi.json();
+          const items: any[] = Array.isArray(response) ? response : (response.data || []);
+          console.log('📊 AQI:', items.length, 'points');
           if (Array.isArray(items) && items.length > 0) {
             setAqiPoints(
               items
@@ -96,7 +98,9 @@ function MapContent() {
         // Weather (dùng để vẽ heatmap nhiệt độ)
         const resWeather = await fetch(`${API_BASE}/api/v1/weather?limit=500`);
         if (resWeather.ok) {
-          const items: any[] = await resWeather.json();
+          const response: any = await resWeather.json();
+          const items: any[] = Array.isArray(response) ? response : (response.data || []);
+          console.log('🌤️ Weather:', items.length, 'points');
           if (Array.isArray(items) && items.length > 0) {
             setTemperaturePoints(
               items
@@ -125,7 +129,9 @@ function MapContent() {
       try {
         const resSchools = await fetch(`${API_BASE}/api/v1/schools?limit=500`);
         if (resSchools.ok) {
-          const schools: any[] = await resSchools.json();
+          const response: any = await resSchools.json();
+          const schools: any[] = Array.isArray(response) ? response : (response.data || []);
+          console.log('🏫 Schools:', schools.length);
           if (Array.isArray(schools) && schools.length > 0) {
             const validSchools = schools.filter((s) => s.latitude && s.longitude);
             console.log(`✅ Loaded ${validSchools.length} schools with location`);
@@ -162,7 +168,9 @@ function MapContent() {
       try {
         const resZones = await fetch(`${API_BASE}/api/v1/green-zones?limit=500`);
         if (resZones.ok) {
-          const zones: any[] = await resZones.json();
+          const response: any = await resZones.json();
+          const zones: any[] = Array.isArray(response) ? response : (response.data || []);
+          console.log('🌳 Zones:', zones.length);
           if (Array.isArray(zones) && zones.length > 0) {
             const validZones = zones.filter((z) => z.latitude && z.longitude);
             console.log(`✅ Loaded ${validZones.length} green zones with location`);
@@ -202,9 +210,9 @@ function MapContent() {
           const resources: any[] = await resResources.json();
           if (Array.isArray(resources) && resources.length > 0) {
             setAllResources(resources);
-            
+
             // Filter solar resources và fetch zones để lấy location
-            const solarResources = resources.filter((r) => 
+            const solarResources = resources.filter((r) =>
               r.type && (r.type.toLowerCase().includes("solar") || r.type.toLowerCase().includes("nlm"))
             );
 
@@ -227,7 +235,7 @@ function MapContent() {
                 .map((resource) => {
                   const zone = zonesMap.get(resource.zone_id);
                   if (!zone || !zone.latitude || !zone.longitude) return null;
-                  
+
                   return {
                     type: "Feature",
                     geometry: {
@@ -305,7 +313,22 @@ function MapContent() {
 
     mapRef.current = map;
 
+    // Add error handler
+    map.on("error", (e) => {
+      console.error('❌ Map error:', e);
+    });
+
+    // Fallback: Set isMapLoaded to true after 3 seconds if load event doesn't fire
+    const loadTimeout = setTimeout(() => {
+      if (!isMapLoaded) {
+        console.warn('⚠️ Map load timeout - forcing isMapLoaded to true');
+        setIsMapLoaded(true);
+      }
+    }, 3000);
+
     map.on("load", () => {
+      clearTimeout(loadTimeout);
+      console.log('✅ Map loaded successfully!');
       setIsMapLoaded(true);
 
       // Add AQI Heatmap Source & Layer
@@ -514,14 +537,14 @@ function MapContent() {
       console.log("⏳ Waiting for map to load...", { map: !!map, isMapLoaded, schoolData: !!schoolData, treeData: !!treeData, solarData: !!solarData });
       return;
     }
-    if (!schoolData || !treeData || !solarData) {
+    if (!schoolData || !treeData) {
       console.log("⏳ Waiting for data...", { schoolData: !!schoolData, treeData: !!treeData, solarData: !!solarData });
       return;
     }
     console.log("✅ Adding icon layers to map...", {
       schools: schoolData.features?.length || 0,
       trees: treeData.features?.length || 0,
-      solar: solarData.features?.length || 0,
+      solar: solarData?.features?.length || 0,
     });
 
     const addIconLayer = (
@@ -609,12 +632,16 @@ function MapContent() {
       treeData,
       "Cây xanh"
     );
-    addIconLayer(
-      "solar",
-      "/images/sun.png",
-      solarData,
-      "Năng lượng mặt trời"
-    );
+
+    // Only add solar layer if data is available
+    if (solarData) {
+      addIconLayer(
+        "solar",
+        "/images/sun.png",
+        solarData,
+        "Năng lượng mặt trời"
+      );
+    }
 
     // Click handlers for icon layers
     ["schools-layer", "trees-layer", "solar-layer"].forEach((layerId) => {
@@ -761,7 +788,7 @@ function MapContent() {
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-        {/* Header */}
+      {/* Header */}
       <PublicHeader />
 
       {/* Map Container */}
@@ -773,7 +800,7 @@ function MapContent() {
           <div className="absolute top-28 left-96 p-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-lg shadow-xl z-20 max-w-xs">
             <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
               {hoveredWard.ward_name}
-                </h3>
+            </h3>
             <div className="text-sm space-y-1">
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">AQI:</span>
@@ -827,11 +854,11 @@ function MapContent() {
                     Nhiệt độ
                   </span>
                 </label>
-          </div>
-          </div>
+              </div>
+            </div>
 
             {/* Icon Layers */}
-          <div>
+            <div>
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-3">
                 Icon Layers
               </h3>
@@ -888,7 +915,7 @@ function MapContent() {
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-yellow-500" />
                       <span>Trung bình (51-100)</span>
-                  </div>
+                    </div>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-orange-500" />
                       <span>Không tốt (101-150)</span>
@@ -896,29 +923,29 @@ function MapContent() {
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-red-500" />
                       <span>Ô nhiễm (151-200)</span>
-                      </div>
+                    </div>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-purple-500" />
                       <span>Rất ô nhiễm (&gt;200)</span>
-                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-blue-500" />
                       <span>Mát (25-28°C)</span>
-                  </div>
+                    </div>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-yellow-500" />
                       <span>Ấm (29-32°C)</span>
-                  </div>
+                    </div>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded bg-red-500" />
                       <span>Nóng (&gt;32°C)</span>
-                </div>
+                    </div>
                   </>
                 )}
-            </div>
+              </div>
             </div>
           </div>
         </div>
@@ -951,10 +978,10 @@ function MapContent() {
                 >
                   ×
                 </button>
-            </div>
+              </div>
               <div className="p-4 bg-success-50 dark:bg-success-900/20 rounded-lg">
                 <p className="text-gray-900 dark:text-white">{iconInfo.content}</p>
-            </div>
+              </div>
             </div>
           </div>
         )}
