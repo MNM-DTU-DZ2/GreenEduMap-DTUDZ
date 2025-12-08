@@ -552,7 +552,17 @@ Nếu cần trao đổi gì thêm, vui lòng liên hệ:
 
 Dự án này được phân phối dưới [GNU General Public License v3.0](LICENSE). Xem file `LICENSE` để biết thêm chi tiết.
 
+## 📱 GreenEduMap Application
+
+<div align="center">
+  <div style="display: inline-block; text-align: center; margin: 0 20px;">
+    <img src="./assets/images/qrios.jpg" alt="iOS QR Code" width="150"/>
+    <br/>
+    <img src="https://img.shields.io/badge/Download-iOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS App"/>
+  </div>
+</div>
+
 ---
 
-© 2025 **GreenEduMap** - Dữ liệu mở dẫn lối đô thị xanh 🌱  
+© 2025 **GreenEduMap** - Dữ liệu mở dẫn lối đô thị xanh 🌱 
 
