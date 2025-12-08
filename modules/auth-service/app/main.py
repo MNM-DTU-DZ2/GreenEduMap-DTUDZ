@@ -91,8 +91,10 @@ async def register(
     Register a new user.
     
     - **email**: Valid email address (unique)
-    - **username**: Username (unique, 3-50 chars)
+    - **username**: Optional - auto-generated from email if not provided
     - **password**: Strong password (min 8 chars)
+    - **full_name**: Optional - user's full name
+    - **phone**: Optional - contact phone number
     - **role**: User role (citizen, volunteer, developer, school, admin)
     """
     user = await auth_service.register_user(user_data)
@@ -159,6 +161,28 @@ async def update_profile(
         user_data=profile_update
     )
     return updated_user
+
+
+@app.get("/api/v1/auth/validate-token", tags=["Auth"])
+async def validate_token(
+    current_user: Annotated[User, Depends(get_current_active_user)]
+):
+    """
+    Validate if the current access token is still valid.
+    
+    Returns user information if token is valid.
+    Requires: Bearer token in Authorization header
+    """
+    from datetime import datetime
+    return {
+        "valid": True,
+        "user_id": str(current_user.id),
+        "email": current_user.email,
+        "username": current_user.username,
+        "role": current_user.role,
+        "is_active": current_user.is_active,
+        "checked_at": datetime.utcnow().isoformat()
+    }
 
 
 

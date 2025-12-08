@@ -38,6 +38,5 @@ INSERT INTO green_resources (name, type, quantity, available_quantity, unit, zon
 ('Ghế công cộng CV 29/3', 'bench', 50, 48, 'cái', (SELECT id FROM green_zones WHERE code = 'GZ-002' LIMIT 1), 'available', true, '{"material": "gỗ", "condition": "good"}'::jsonb),
 ('Thùng rác thải phân loại', 'bin', 30, 30, 'cái', (SELECT id FROM green_zones WHERE code = 'GZ-003' LIMIT 1), 'available', true, '{"types": ["recyclable", "organic", "general"], "capacity_liters": 120}'::jsonb),
 ('Đèn LED chiếu sáng', 'lighting', 80, 75, 'bộ', (SELECT id FROM green_zones WHERE code = 'GZ-006' LIMIT 1), 'available', true, '{"power_watts": 50, "solar_powered": true}'::jsonb),
-('Hệ thống tưới tự động', 'irrigation', 5, 5, 'hệ thống', (SELECT id FROM green_zones WHERE code = 'GZ-001' LIMIT 1), 'available', true, '{"coverage_sqm": 10000, "water_source": "recycled"}'::jsonb),
-('Bảng thông tin môi trường', 'signage', 12, 12, 'bảng', NULL, 'available', true, '{"languages": ["vi", "en"], "qr_code": true}'::jsonb);
+('Hệ thống tưới tự động', 'irrigation', 5, 5, 'hệ thống', (SELECT id FROM green_zones WHERE code = 'GZ-001' LIMIT 1), 'available', true, '{"coverage_sqm": 10000, "water_source": "recycled"}'::jsonb);
 

@@ -26,7 +26,7 @@ from app.core.database import get_db
 from app.models.green_course import GreenCourse
 from app.schemas.green_course import GreenCourseCreate, GreenCourseUpdate, GreenCourseResponse
 
-router = APIRouter(prefix="/courses", tags=["Green Courses"])
+router = APIRouter(prefix="/green-courses", tags=["Green Courses"])
 
 @router.get("/", response_model=List[GreenCourseResponse])
 async def list_courses(

@@ -20,7 +20,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import green_zones_router, green_resources_router
+from app.api import green_zones_router, green_resources_router, centers_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -46,4 +46,5 @@ def root():
 
 app.include_router(green_zones_router, prefix=settings.API_V1_STR)
 app.include_router(green_resources_router, prefix=settings.API_V1_STR)
+app.include_router(centers_router, prefix=settings.API_V1_STR)
 

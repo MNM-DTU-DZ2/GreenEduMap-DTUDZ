@@ -58,17 +58,38 @@ class AuthService:
                 detail="Email already registered"
             )
         
-        # Check if username exists
-        result = await self.db.execute(
-            select(User).where(User.username == user_data.username)
-        )
-        existing_username = result.scalar_one_or_none()
-        
-        if existing_username:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Username already taken"
+        # Auto-generate username from email if not provided
+        if not user_data.username:
+            # Extract username from email (before @)
+            email_username = user_data.email.split('@')[0]
+            # Remove special characters and make lowercase
+            base_username = ''.join(c for c in email_username if c.isalnum() or c == '_').lower()
+            
+            # Check if username exists and add number suffix if needed
+            username = base_username
+            counter = 1
+            while True:
+                result = await self.db.execute(
+                    select(User).where(User.username == username)
+                )
+                if not result.scalar_one_or_none():
+                    break
+                username = f"{base_username}{counter}"
+                counter += 1
+            
+            user_data.username = username
+        else:
+            # Check if username exists (if provided)
+            result = await self.db.execute(
+                select(User).where(User.username == user_data.username)
             )
+            existing_username = result.scalar_one_or_none()
+            
+            if existing_username:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Username already taken"
+                )
         
         # Create new user
         user = User(

@@ -27,7 +27,7 @@ from app.core.database import get_db
 from app.models.center import RescueCenter
 from app.schemas.center import RescueCenterCreate, RescueCenterUpdate, RescueCenterResponse
 
-router = APIRouter()
+router = APIRouter(prefix="/centers", tags=["Recycling Centers"])
 
 @router.post("/", response_model=RescueCenterResponse, status_code=201)
 async def create_center(center: RescueCenterCreate, db: AsyncSession = Depends(get_db)):

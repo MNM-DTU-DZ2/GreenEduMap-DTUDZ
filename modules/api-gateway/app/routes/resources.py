@@ -151,7 +151,7 @@ async def list_centers_v1(
     """List recycling centers (v1 API)"""
     try:
         async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
-            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/centers/"
+            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/centers"
             response = await client.get(url, params={"skip": skip, "limit": limit})
             response.raise_for_status()
             return response.json()

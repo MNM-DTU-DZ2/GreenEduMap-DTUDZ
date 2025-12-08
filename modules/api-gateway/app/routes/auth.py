@@ -187,3 +187,33 @@ async def update_profile(request: Request):
                 content={"error": "Auth service unavailable", "detail": str(e)},
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
+
+
+@router.get("/validate-token")
+async def validate_token(request: Request):
+    """
+    Validate if access token is still valid.
+    
+    Proxies to auth-service: GET /api/v1/auth/validate-token
+    Requires: Authorization Bearer token
+    """
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                f"{AUTH_SERVICE_URL}/api/v1/auth/validate-token",
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
