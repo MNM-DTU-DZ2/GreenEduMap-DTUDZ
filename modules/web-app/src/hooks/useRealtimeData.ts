@@ -92,8 +92,8 @@ export function useRealtimeData(): UseRealtimeDataReturn {
             if (wsAqiRef.current) wsAqiRef.current.close();
             if (wsWeatherRef.current) wsWeatherRef.current.close();
 
-            const aqiUrl = getWebSocketUrl('/air-quality');
-            const weatherUrl = getWebSocketUrl('/weather');
+            const aqiUrl = getWebSocketUrl('/ws/air-quality');
+            const weatherUrl = getWebSocketUrl('/ws/weather');
 
             console.log('🔌 Connecting to WebSocket:', { aqiUrl, weatherUrl });
 
