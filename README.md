@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![DEMO](https://img.shields.io/badge/🚀_DEMO-GREENEDUMAP-green?style=for-the-badge&logo=rocket&logoColor=white&labelColor=4a5568&color=22c55e)](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://hoduongquochuy278.github.io/GreenEduMap-DTUDZ-documents/intro/)
+[![WEBSITE](https://img.shields.io/badge/🌐_WEBSITE-GREENEDUMAP-green?style=for-the-badge&logo=google-chrome&logoColor=white&labelColor=4a5568&color=22c55e)](https://greenedumap.io.vn) [![DOCS](https://img.shields.io/badge/📚_DOCS-GREENEDUMAP-blue?style=for-the-badge&logo=book&logoColor=white&labelColor=4a5568&color=3b82f6)](https://hoduongquochuy278.github.io/GreenEduMap-DTUDZ-documents/intro/)
 
 </div>
 
@@ -555,11 +555,21 @@ Dự án này được phân phối dưới [GNU General Public License v3.0](LI
 ## 📱 GreenEduMap Application
 
 <div align="center">
-  <div style="display: inline-block; text-align: center; margin: 0 20px;">
-    <img src="./assets/images/qrios.jpg" alt="iOS QR Code" width="150"/>
-    <br/>
-    <img src="https://img.shields.io/badge/Download-iOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS App"/>
-  </div>
+  <table>
+    <tr>
+      <td align="center" width="200">
+        <img src="./assets/images/qrios.jpg" alt="iOS QR Code" width="150"/>
+        <br/><br/>
+        <img src="https://img.shields.io/badge/Download-iOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS App"/>
+      </td>
+      <td width="80"></td>
+      <td align="center" width="200">
+        <img src="./assets/images/QrAndroid.png" alt="Android QR Code" width="150"/>
+        <br/><br/>
+        <img src="https://img.shields.io/badge/Download-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android App"/>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ---
