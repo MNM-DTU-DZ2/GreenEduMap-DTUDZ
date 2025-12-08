@@ -113,7 +113,8 @@ function Execute-SqlFile {
 $seedFiles = @(
     @{ Name = "Education Service"; Path = "modules\education-service\migrations\seed_data.sql" },
     @{ Name = "Resource Service"; Path = "modules\resource-service\migrations\seed_data.sql" },
-    @{ Name = "Environment Service"; Path = "modules\environment-service\seed_data.sql" }
+    @{ Name = "Environment Service"; Path = "modules\environment-service\seed_data.sql" },
+    @{ Name = "Environment Service (Historical)"; Path = "modules\environment-service\seed_data_historical.sql" }
 )
 
 $successCount = 0
@@ -130,7 +131,7 @@ Write-Host "============================================================" -Foreg
 Write-Host ""
 
 # Get row counts
-$tables = @('schools', 'green_courses', 'green_activities', 'green_zones', 'centers', 'green_resources', 'air_quality_data', 'weather_data')
+$tables = @('schools', 'green_courses', 'green_zones', 'green_resources', 'air_quality', 'weather')
 
 foreach ($table in $tables) {
     $query = "SELECT COUNT(*) FROM $table;"

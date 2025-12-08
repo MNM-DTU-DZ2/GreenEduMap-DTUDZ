@@ -40,7 +40,7 @@ class UserRole(str, Enum):
 class UserBase(BaseModel):
     """Base user schema."""
     email: EmailStr
-    username: str = Field(..., min_length=3, max_length=50)
+    username: Optional[str] = Field(None, min_length=3, max_length=50)
     full_name: Optional[str] = None
     phone: Optional[str] = None
 
@@ -115,6 +115,15 @@ class TokenPayload(BaseModel):
     exp: datetime
     iat: datetime
     type: str  # access|refresh
+
+
+class TokenValidationResponse(BaseModel):
+    """Token validation response."""
+    valid: bool
+    user_id: Optional[str] = None
+    email: Optional[str] = None
+    role: Optional[str] = None
+    expires_at: Optional[datetime] = None
 
 
 # ================================

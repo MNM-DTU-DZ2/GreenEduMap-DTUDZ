@@ -185,29 +185,64 @@ async def get_air_quality_by_location(
         limit: Max results to return
     """
     try:
+        from sqlalchemy import text
+        
         # Convert radius from km to meters
         radius_meters = radius * 1000
         
-        # Create point geometry
-        point = ST_MakePoint(lon, lat)
+        # Use raw SQL to avoid Geography parsing issues
+        query = """
+            SELECT 
+                id,
+                ST_Y(location::geometry) as latitude,
+                ST_X(location::geometry) as longitude,
+                aqi, pm25, pm10, co, no2, o3, so2,
+                source, station_name, station_id,
+                measurement_date, created_at
+            FROM air_quality
+            WHERE is_public = true
+              AND ST_DWithin(
+                  location,
+                  ST_GeogFromText(:point_wkt),
+                  :radius_meters
+              )
+            ORDER BY measurement_date DESC
+            LIMIT :limit
+        """
         
-        # Query with spatial filter
-        stmt = (
-            select(AirQuality)
-            .where(ST_DWithin(AirQuality.location, point, radius_meters))
-            .where(AirQuality.is_public == True)
-            .order_by(AirQuality.measurement_date.desc())
-            .limit(limit)
+        point_wkt = f"SRID=4326;POINT({lon} {lat})"
+        
+        result = await db.execute(
+            text(query),
+            {"point_wkt": point_wkt, "radius_meters": radius_meters, "limit": limit}
         )
+        rows = result.fetchall()
         
-        result = await db.execute(stmt)
-        measurements = result.scalars().all()
+        data = []
+        for row in rows:
+            data.append({
+                "id": str(row[0]),
+                "latitude": float(row[1]) if row[1] else None,
+                "longitude": float(row[2]) if row[2] else None,
+                "aqi": float(row[3]) if row[3] else None,
+                "pm25": float(row[4]) if row[4] else None,
+                "pm10": float(row[5]) if row[5] else None,
+                "co": float(row[6]) if row[6] else None,
+                "no2": float(row[7]) if row[7] else None,
+                "o3": float(row[8]) if row[8] else None,
+                "so2": float(row[9]) if row[9] else None,
+                "source": row[10],
+                "station_name": row[11],
+                "station_id": row[12],
+                "measurement_date": row[13].isoformat() if row[13] else None,
+                "created_at": row[14].isoformat() if row[14] else None
+            })
         
         return {
             "location": {"lat": lat, "lon": lon},
             "radius_km": radius,
-            "total": len(measurements),
-            "data": [m.to_dict() for m in measurements]
+            "total": len(data),
+            "data": data
         }
         
     except Exception as e:

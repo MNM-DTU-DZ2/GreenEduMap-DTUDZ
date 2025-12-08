@@ -146,8 +146,6 @@ Authorization: Bearer {access_token}
 }
 ```
 
-**Note:** `api-gateway` routes this as PUT but forwards to `auth-service` as PATCH.
-
 **Response (200 OK):**
 ```json
 {
@@ -353,7 +351,7 @@ Get schools near a location.
 **Query Parameters:**
 - `latitude` (float, required): Latitude
 - `longitude` (float, required): Longitude
-- `radius` (float, optional): Search radius in km (default: 5)
+- `radius_km` (float, optional): Search radius in km (default: 5)
 - `limit` (int, optional): Number of results (default: 10)
 
 **Response (200 OK):**
@@ -527,6 +525,165 @@ Get list of green resources (renewable energy, recycling centers, etc.).
 
 ---
 
+### GET /api/v1/green-zones
+
+Get list of green zones (authenticated endpoint).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+{
+  "total": 100,
+  "skip": 0,
+  "limit": 10,
+  "data": [
+    {
+      "id": 1,
+      "name": "Công viên Tao Đàn",
+      "zone_type": "park",
+      "district": "Quận 1",
+      "city": "Ho Chi Minh City",
+      "area_sqm": 100000,
+      "tree_count": 500,
+      "latitude": 10.7789,
+      "longitude": 106.6944
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/v1/green-zones/{zone_id}
+
+Get specific green zone details (authenticated endpoint).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "id": 1,
+  "name": "Công viên Tao Đàn",
+  "zone_type": "park",
+  "district": "Quận 1",
+  "city": "Ho Chi Minh City",
+  "area_sqm": 100000,
+  "tree_count": 500,
+  "latitude": 10.7789,
+  "longitude": 106.6944,
+  "description": "Historic park in District 1",
+  "facilities": ["playground", "walking paths", "benches"]
+}
+```
+
+---
+
+### GET /api/v1/green-resources
+
+Get list of green resources (authenticated endpoint).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+{
+  "total": 75,
+  "skip": 0,
+  "limit": 10,
+  "data": [
+    {
+      "id": 1,
+      "name": "Solar Panel Installation",
+      "type": "renewable_energy",
+      "location": "Quận 1",
+      "capacity": "500 kW",
+      "status": "active"
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/v1/green-resources/{resource_id}
+
+Get specific green resource details (authenticated endpoint).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "id": 1,
+  "name": "Solar Panel Installation",
+  "type": "renewable_energy",
+  "location": "Quận 1",
+  "capacity": "500 kW",
+  "status": "active",
+  "description": "Rooftop solar installation",
+  "installation_date": "2024-01-15"
+}
+```
+
+---
+
+### GET /api/v1/centers
+
+Get list of recycling centers (authenticated endpoint).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+{
+  "total": 50,
+  "skip": 0,
+  "limit": 10,
+  "data": [
+    {
+      "id": 1,
+      "name": "Green Recycling Center",
+      "type": "recycling",
+      "address": "123 Nguyen Hue, District 1",
+      "latitude": 10.7769,
+      "longitude": 106.7009,
+      "accepted_materials": ["plastic", "paper", "glass", "metal"]
+    }
+  ]
+}
+```
+
+---
+
 ## Public Endpoints
 
 ### GET /api/open-data/air-quality
@@ -545,6 +702,32 @@ Public air quality data (no authentication required).
       "station_name": "Quận 1 - TPHCM",
       "aqi": 85,
       "category": "Moderate",
+      "timestamp": "2025-12-05T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/open-data/air-quality/location
+
+Public air quality data near a specific location (no authentication required).
+
+**Query Parameters:**
+- `lat` (float, required): Latitude
+- `lon` (float, required): Longitude
+- `radius` (int, optional): Search radius in km (default: 50, max: 200)
+
+**Response (200 OK):**
+```json
+{
+  "data": [
+    {
+      "station_name": "Quận 1 - TPHCM",
+      "aqi": 85,
+      "category": "Moderate",
+      "distance": 2.5,
       "timestamp": "2025-12-05T12:00:00Z"
     }
   ]
@@ -628,6 +811,84 @@ Get open data catalog.
   ]
 }
 ```
+
+**Note:** This endpoint currently returns sample/placeholder data and is under active development.
+
+---
+
+### GET /api/open-data/centers
+
+Get public recycling centers (no authentication required).
+
+**Query Parameters:**
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+{
+  "total": 50,
+  "skip": 0,
+  "limit": 10,
+  "data": [
+    {
+      "id": 1,
+      "name": "Green Recycling Center",
+      "type": "recycling",
+      "address": "123 Nguyen Hue, District 1",
+      "latitude": 10.7769,
+      "longitude": 106.7009,
+      "accepted_materials": ["plastic", "paper", "glass", "metal"]
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/open-data/centers/nearby
+
+Get recycling centers near a location (no authentication required).
+
+**Query Parameters:**
+- `latitude` (float, required): Latitude
+- `longitude` (float, required): Longitude
+- `radius_km` (float, optional): Search radius in km (default: 10, max: 100)
+
+**Response (200 OK):**
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Green Recycling Center",
+      "distance": 1.2,
+      "address": "123 Nguyen Hue, District 1",
+      "accepted_materials": ["plastic", "paper", "glass", "metal"]
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/open-data/export/air-quality
+
+Export air quality data in multiple formats (no authentication required).
+
+**Query Parameters:**
+- `format` (string, optional): Export format - `json`, `csv`, or `geojson` (default: json)
+
+**Response (200 OK):**
+```json
+{
+  "message": "Export feature coming soon",
+  "format": "json",
+  "service": "export-service"
+}
+```
+
+**Note:** This endpoint is currently a placeholder and will be fully implemented in a future release.
 
 ---
 

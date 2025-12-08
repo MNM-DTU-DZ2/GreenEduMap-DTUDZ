@@ -18,5 +18,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 from .schools import router as schools_router
+from .courses import router as courses_router
 
-__all__ = ["schools_router"]
+__all__ = ["schools_router", "courses_router"]

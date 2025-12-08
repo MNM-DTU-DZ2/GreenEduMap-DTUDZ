@@ -500,7 +500,7 @@
                                     "description": "Kinh độ"
                                 },
                                 {
-                                    "key": "radius",
+                                    "key": "radius_km",
                                     "value": "5",
                                     "description": "Bán kính tìm kiếm (km)"
                                 },
@@ -684,6 +684,163 @@
                         "description": "Lấy danh sách tài nguyên xanh (năng lượng tái tạo, trung tâm tái chế)."
                     },
                     "response": []
+                },
+                {
+                    "name": "Get Green Zones (V1 Auth)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/green-zones?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "green-zones"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách khu vực xanh (authenticated endpoint)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Green Zone by ID (V1 Auth)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/green-zones/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "green-zones",
+                                "1"
+                            ]
+                        },
+                        "description": "Lấy thông tin chi tiết khu vực xanh theo ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Green Resources (V1 Auth)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/green-resources?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "green-resources"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách tài nguyên xanh (authenticated endpoint)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Green Resource by ID (V1 Auth)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/green-resources/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "green-resources",
+                                "1"
+                            ]
+                        },
+                        "description": "Lấy thông tin chi tiết tài nguyên xanh theo ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Recycling Centers (V1 Auth)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/centers?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "centers"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách trung tâm tái chế (authenticated endpoint)."
+                    },
+                    "response": []
                 }
             ]
         },
@@ -804,6 +961,137 @@
                             ]
                         },
                         "description": "Lấy danh mục dữ liệu mở."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Public Air Quality by Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/air-quality/location?lat=10.7769&lon=106.7009&radius=50",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "air-quality",
+                                "location"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Latitude"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Longitude"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "50",
+                                    "description": "Search radius (km)"
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu AQI gần vị trí cụ thể."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Public Centers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/centers?skip=0&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "centers"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách trung tâm tái chế công khai."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Public Nearby Centers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/centers/nearby?latitude=10.7769&longitude=106.7009&radius_km=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "centers",
+                                "nearby"
+                            ],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "10.7769"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "106.7009"
+                                },
+                                {
+                                    "key": "radius_km",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Tìm trung tâm tái chế gần vị trí."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Export Air Quality",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/open-data/export/air-quality?format=json",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "open-data",
+                                "export",
+                                "air-quality"
+                            ],
+                            "query": [
+                                {
+                                    "key": "format",
+                                    "value": "json",
+                                    "description": "Export format: json, csv, geojson"
+                                }
+                            ]
+                        },
+                        "description": "Xuất dữ liệu AQI (placeholder endpoint)."
                     },
                     "response": []
                 }

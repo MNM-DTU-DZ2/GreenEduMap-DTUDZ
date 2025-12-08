@@ -182,11 +182,17 @@ async def get_current_weather(
         # Get from database (recent data)
         since = datetime.utcnow() - timedelta(hours=1)
         radius_meters = 50000  # 50km
-        point = ST_MakePoint(lon, lat)
+        
+        # Create point and cast to Geography for ST_DWithin
+        point_wkt = f"SRID=4326;POINT({lon} {lat})"
         
         stmt = (
             select(Weather)
-            .where(ST_DWithin(Weather.location, point, radius_meters))
+            .where(func.ST_DWithin(
+                Weather.location,
+                func.ST_GeogFromText(point_wkt),
+                radius_meters
+            ))
             .where(Weather.observation_time >= since)
             .where(Weather.is_public == True)
             .order_by(Weather.observation_time.desc())

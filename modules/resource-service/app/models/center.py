@@ -53,7 +53,7 @@ class RescueCenter(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now(), nullable=True)
 
     # Relationships
-    resources = relationship("Resource", back_populates="center", cascade="all, delete-orphan")
+    # resources = relationship("Resource", back_populates="center", cascade="all, delete-orphan")
     
     @property
     def latitude(self) -> float:

@@ -63,6 +63,9 @@ async def get_air_quality_by_location(
             response = await client.get(url, params=params, timeout=30.0)
             response.raise_for_status()
             return response.json()
+    except httpx.HTTPStatusError as e:
+        logger.error(f"HTTP error fetching air quality: {e}")
+        raise HTTPException(status_code=e.response.status_code, detail=str(e))
     except Exception as e:
         logger.error(f"Error fetching air quality: {e}")
         raise HTTPException(status_code=503, detail="Service unavailable")
@@ -83,15 +86,27 @@ async def get_public_current_weather(
         async with httpx.AsyncClient() as client:
             url = f"{settings.ENVIRONMENT_SERVICE_URL}/api/v1/weather/current"
             params = {}
-            if city:
-                params["city"] = city
+            
+            # If lat/lon provided, use them with fetch_new
             if lat is not None and lon is not None:
                 params["lat"] = lat
                 params["lon"] = lon
-                params["fetch_new"] = True
+                params["fetch_new"] = "true"
+            elif city:
+                # For city, we need to geocode first or use a default location
+                # For now, use Da Nang coordinates
+                params["lat"] = 16.0678
+                params["lon"] = 108.2208
+                params["fetch_new"] = "true"
+            else:
+                raise HTTPException(status_code=400, detail="Either city or lat/lon required")
+                
             response = await client.get(url, params=params, timeout=30.0)
             response.raise_for_status()
             return response.json()
+    except httpx.HTTPStatusError as e:
+        logger.error(f"HTTP error fetching weather: {e}")
+        raise HTTPException(status_code=e.response.status_code, detail=str(e))
     except Exception as e:
         logger.error(f"Error fetching weather: {e}")
         raise HTTPException(status_code=503, detail="Service unavailable")
