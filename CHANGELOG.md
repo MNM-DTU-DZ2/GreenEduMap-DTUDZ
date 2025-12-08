@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...1a2de8d387c4ed171a64e6690e00dea064378727) (2025-12-08)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...56cf7831bbef27f47d68bfcf3768dcee26b69973) (2025-12-08)
 
 
 ### Bug Fixes
@@ -9,6 +9,7 @@
 * architecture image and overview ([f31a246](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f31a2460318b9c1a84a7e45a0a54a714493bc7f3))
 * change banner and other image ([6ac36ae](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6ac36aeca20a2d4045a5057eebc080aa1ebc3151))
 * **docker:** add NEXT_PUBLIC_API_URL to env configuration ([eb93e8f](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/eb93e8f9b8b823a8d7625b1c5d5955a9233df390))
+* **docker:** configure service ports from environment variables ([56cf783](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/56cf7831bbef27f47d68bfcf3768dcee26b69973))
 * **docker:** resolve port 8002 conflict with CityResQ media-service ([2aa4327](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/2aa4327c872a04d7afc0736c159e363bef2c85d1))
 * role ([1a2de8d](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/1a2de8d387c4ed171a64e6690e00dea064378727))
 * **script:** Fix script ([273bc98](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/273bc98f393f5823fa96cc92be7c364c27ef9202))

@@ -156,7 +156,7 @@ async def get_current_user(request: Request):
             )
 
 
-@router.put("/profile")
+@router.patch("/profile")
 async def update_profile(request: Request):
     """
     Update user profile.

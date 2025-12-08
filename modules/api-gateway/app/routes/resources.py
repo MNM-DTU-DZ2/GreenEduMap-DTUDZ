@@ -54,7 +54,7 @@ async def get_nearby_green_zones(
     try:
         async with httpx.AsyncClient() as client:
             url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/green-zones/nearby"
-            params = {"latitude": lat, "longitude": lon, "radius_km": radius}
+            params = {"lat": lat, "lon": lon, "radius_km": radius}
             response = await client.get(url, params=params, timeout=30.0)
             response.raise_for_status()
             return response.json()
