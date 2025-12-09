@@ -267,7 +267,8 @@ services:
       MQTT_BROKER_HOST: emqx
       MQTT_BROKER_PORT: 1883
       MQTT_CLIENT_ID: environment-service
-    # No external port exposure - accessed via API Gateway only
+    ports:
+      - "${ENVIRONMENT_SERVICE_PORT:-8007}:8007"  # Expose for WebSocket
     depends_on:
       postgres:
         condition: service_healthy

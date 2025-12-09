@@ -24,6 +24,7 @@ import MapSidebar from "@/components/map/MapSidebar";
 import SearchBar from "@/components/map/SearchBar";
 import DetailPanel from "@/components/map/DetailPanel";
 import { AirQualityData } from "@/hooks/useAirQuality";
+import { useRealtimeData } from "@/hooks/useRealtimeData";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -63,6 +64,9 @@ function MapContent() {
   const [allSchools, setAllSchools] = useState<any[]>([]);
   const [allZones, setAllZones] = useState<any[]>([]);
   const [allResources, setAllResources] = useState<any[]>([]);
+
+  // Real-time WebSocket data
+  const { aqiData: realtimeAqi, weatherData: realtimeWeather, isConnected } = useRealtimeData();
 
   useEffect(() => {
     // 1) Lấy dữ liệu thật cho heatmap từ Environment Service
@@ -529,6 +533,72 @@ function MapContent() {
       }
     };
   }, []);
+
+  // Update heatmap sources when data changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoaded) return;
+
+    // Update AQI heatmap source
+    if (aqiPoints.length > 0) {
+      const source = map.getSource('aqi-heatmap') as maplibregl.GeoJSONSource;
+      if (source) {
+        console.log('🔄 Updating AQI heatmap:', aqiPoints.length, 'points');
+        source.setData(aqiGeoJSON);
+      }
+    }
+
+    // Update temperature heatmap source
+    if (temperaturePoints.length > 0) {
+      const source = map.getSource('temperature-heatmap') as maplibregl.GeoJSONSource;
+      if (source) {
+        console.log('🔄 Updating temperature heatmap:', temperaturePoints.length, 'points');
+        source.setData(temperatureGeoJSON);
+      }
+    }
+  }, [aqiPoints, temperaturePoints, isMapLoaded, aqiGeoJSON, temperatureGeoJSON]);
+
+  // Merge real-time WebSocket data with existing data
+  useEffect(() => {
+    if (realtimeAqi.length > 0) {
+      console.log('🔴 [Map] Real-time AQI update:', realtimeAqi.length, 'points');
+      // Merge with existing data (replace duplicates by location)
+      setAqiPoints(prevPoints => {
+        const newPoints = [...prevPoints];
+        realtimeAqi.forEach(rtData => {
+          const existingIndex = newPoints.findIndex(
+            p => p.latitude === rtData.latitude && p.longitude === rtData.longitude
+          );
+          if (existingIndex >= 0) {
+            newPoints[existingIndex] = rtData;
+          } else {
+            newPoints.push(rtData);
+          }
+        });
+        return newPoints;
+      });
+    }
+  }, [realtimeAqi]);
+
+  useEffect(() => {
+    if (realtimeWeather.length > 0) {
+      console.log('🔴 [Map] Real-time weather update:', realtimeWeather.length, 'points');
+      setTemperaturePoints(prevPoints => {
+        const newPoints = [...prevPoints];
+        realtimeWeather.forEach(rtData => {
+          const existingIndex = newPoints.findIndex(
+            p => p.latitude === rtData.latitude && p.longitude === rtData.longitude
+          );
+          if (existingIndex >= 0) {
+            newPoints[existingIndex] = rtData;
+          } else {
+            newPoints.push(rtData);
+          }
+        });
+        return newPoints;
+      });
+    }
+  }, [realtimeWeather]);
 
   // Add icon layers when data is loaded
   useEffect(() => {
