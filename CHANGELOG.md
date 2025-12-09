@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...c58b6d0f6f6db86a32fa9b726f4d0205a7e1250a) (2025-12-09)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...cf604c24e37ecd926d23079a44ab8ef61b15f634) (2025-12-09)
 
 
 ### Bug Fixes
@@ -15,6 +15,7 @@
 * role ([1a2de8d](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/1a2de8d387c4ed171a64e6690e00dea064378727))
 * **script:** Fix script ([273bc98](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/273bc98f393f5823fa96cc92be7c364c27ef9202))
 * tech stack ([d4e21a2](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/d4e21a2372bef5a2e6d8eadf9cfe25cbf307f618))
+* update FCM migration to pure SQL and add comprehensive demo seeders ([2a6a70d](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/2a6a70d738a6d39ef8859e228c733373f548619a))
 * **web-app:**  fix TypeScript errors in CesiumMap component ([6abeeb0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/6abeeb056d0402b2d44b10c99f655aa3ecc0a069))
 * **web-app:** fix TypeScript error in dashboard prediction task ([50043f0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/50043f0760e6f09bc3a67b1533c97022cb3480c5))
 * **web-app:** fix TypeScript error in dashboard prediction task ([8fe9a8c](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/8fe9a8ce2cec7707328fb6d813c719f04d28939f))
@@ -23,6 +24,7 @@
 
 ### Features
 
+* add complete demo data seeders with recycling centers ([cf604c2](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/cf604c24e37ecd926d23079a44ab8ef61b15f634))
 * Complete map display and WebSocket real-time integration ([b7859c9](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b7859c918c8fc583764376e90231009b01149622))
 * **deloy:** add SSL setup script and documentation ([b4daa79](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b4daa79872d8a248cd5eb61b895748148a30288d))
 * **deploy:** add VPS deployment scripts and database seeding ([32eeceb](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/32eeceb6dffead57d38d85c6265b0d27cc1fb89c))
