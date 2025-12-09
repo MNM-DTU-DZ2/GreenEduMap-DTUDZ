@@ -9,12 +9,13 @@
 ## Table of Contents
 
 1. [Authentication](#authentication)
-2. [Environment Data](#environment-data)
-3. [Education Data](#education-data)
-4. [Green Resources](#green-resources)
-5. [Public Endpoints](#public-endpoints)
-6. [AI Tasks](#ai-tasks)
-7. [Error Codes](#error-codes)
+2. [User Data](#user-data)
+3. [Environment Data](#environment-data)
+4. [Education Data](#education-data)
+5. [Green Resources](#green-resources)
+6. [Public Endpoints](#public-endpoints)
+7. [AI Tasks](#ai-tasks)
+8. [Error Codes](#error-codes)
 
 ---
 
@@ -463,6 +464,408 @@ Authorization: Bearer {access_token}
 ```
 
 **Note:** Regular users can only send notifications to themselves. Admins can send to any user by specifying `user_id`.
+
+---
+
+## User Data
+
+API endpoints for managing user-specific data including favorites, contributions, activities, and settings.
+
+### GET /api/v1/user-data/favorites
+
+Get user's favorite locations (green zones, schools, etc.).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `item_type` (string, optional): Filter by type - `green_zone`, `school`, `center`, `air_quality_station`
+- `skip` (int, optional): Number of records to skip (default: 0)
+- `limit` (int, optional): Number of records to return (default: 100)
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "uuid",
+    "user_id": "uuid",
+    "item_type": "green_zone",
+    "item_id": "uuid",
+    "item_name": "Công viên 29/3",
+    "notes": "Khu vực yêu thích để chạy bộ buổi sáng",
+    "created_at": "2025-12-05T12:00:00Z"
+  }
+]
+```
+
+---
+
+### POST /api/v1/user-data/favorites
+
+Add a new favorite location.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "item_type": "green_zone",
+  "item_id": "uuid-of-the-item",
+  "item_name": "Công viên 29/3",
+  "notes": "Khu vực yêu thích"
+}
+```
+
+**Parameters:**
+- `item_type` (string, required): Type of item - `green_zone`, `school`, `center`, `air_quality_station`
+- `item_id` (uuid, required): ID of the item to favorite
+- `item_name` (string, required): Name of the item for display
+- `notes` (string, optional): Personal notes about this favorite
+
+**Response (201 Created):**
+```json
+{
+  "id": "uuid",
+  "user_id": "uuid",
+  "item_type": "green_zone",
+  "item_id": "uuid",
+  "item_name": "Công viên 29/3",
+  "notes": "Khu vực yêu thích",
+  "created_at": "2025-12-05T12:00:00Z"
+}
+```
+
+---
+
+### DELETE /api/v1/user-data/favorites/{favorite_id}
+
+Remove a favorite.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (204 No Content)**
+
+---
+
+### GET /api/v1/user-data/contributions
+
+Get user's contributions (reports, suggestions, data submissions).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `contribution_type` (string, optional): Filter by type - `report`, `suggestion`, `data_submission`, `review`
+- `status` (string, optional): Filter by status - `pending`, `approved`, `rejected`
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "uuid",
+    "user_id": "uuid",
+    "contribution_type": "report",
+    "title": "Báo cáo chất lượng không khí",
+    "description": "Phát hiện khói bụi nhiều tại khu vực...",
+    "location_name": "Quận 1, TP.HCM",
+    "latitude": 10.7769,
+    "longitude": 106.7009,
+    "status": "approved",
+    "admin_notes": "Đã xác minh và cập nhật dữ liệu",
+    "points_earned": 50,
+    "created_at": "2025-12-05T12:00:00Z",
+    "reviewed_at": "2025-12-06T10:00:00Z"
+  }
+]
+```
+
+---
+
+### POST /api/v1/user-data/contributions
+
+Submit a new contribution.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "contribution_type": "report",
+  "title": "Báo cáo ô nhiễm",
+  "description": "Phát hiện khói bụi nhiều tại...",
+  "location_name": "Quận 1, TP.HCM",
+  "latitude": 10.7769,
+  "longitude": 106.7009,
+  "extra_data": {
+    "severity": "high",
+    "photo_urls": ["https://example.com/photo1.jpg"]
+  }
+}
+```
+
+**Parameters:**
+- `contribution_type` (string, required): Type - `report`, `suggestion`, `data_submission`, `review`
+- `title` (string, required): Title of contribution
+- `description` (string, optional): Detailed description
+- `location_name` (string, optional): Name of location
+- `latitude` (float, optional): Latitude coordinate
+- `longitude` (float, optional): Longitude coordinate
+- `extra_data` (object, optional): Additional data as JSON
+
+**Response (201 Created):**
+```json
+{
+  "id": "uuid",
+  "user_id": "uuid",
+  "contribution_type": "report",
+  "title": "Báo cáo ô nhiễm",
+  "status": "pending",
+  "created_at": "2025-12-05T12:00:00Z"
+}
+```
+
+---
+
+### GET /api/v1/user-data/contributions/public
+
+Get all approved public contributions (no authentication required for viewing).
+
+**Query Parameters:**
+- `contribution_type` (string, optional): Filter by type
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "uuid",
+    "contribution_type": "report",
+    "title": "Báo cáo chất lượng không khí",
+    "description": "Phát hiện khói bụi nhiều...",
+    "location_name": "Quận 1, TP.HCM",
+    "status": "approved",
+    "created_at": "2025-12-05T12:00:00Z"
+  }
+]
+```
+
+---
+
+### PATCH /api/v1/user-data/contributions/{contribution_id}/review
+
+Review and approve/reject a contribution (Admin only).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "status": "approved",
+  "admin_notes": "Đã xác minh thông tin",
+  "points_earned": 50
+}
+```
+
+**Parameters:**
+- `status` (string, required): New status - `approved` or `rejected`
+- `admin_notes` (string, optional): Admin notes for the contributor
+- `points_earned` (int, optional): Reward points for approved contributions
+
+**Response (200 OK):**
+```json
+{
+  "id": "uuid",
+  "status": "approved",
+  "admin_notes": "Đã xác minh thông tin",
+  "points_earned": 50,
+  "reviewed_at": "2025-12-06T10:00:00Z"
+}
+```
+
+**Response (403 Forbidden):**
+```json
+{
+  "detail": "Only admins can review contributions"
+}
+```
+
+---
+
+### GET /api/v1/user-data/activities
+
+Get user's activity history.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `activity_type` (string, optional): Filter by type - `login`, `view`, `favorite`, `contribute`, `share`
+- `skip` (int, optional): Number of records to skip
+- `limit` (int, optional): Number of records to return
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "uuid",
+    "user_id": "uuid",
+    "activity_type": "view",
+    "description": "Xem thông tin Công viên 29/3",
+    "resource_type": "green_zone",
+    "resource_id": "uuid",
+    "ip_address": "x.x.x.x",
+    "user_agent": "Mozilla/5.0...",
+    "created_at": "2025-12-05T12:00:00Z"
+  }
+]
+```
+
+---
+
+### POST /api/v1/user-data/activities
+
+Log a new user activity.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "activity_type": "view",
+  "description": "Xem thông tin công viên",
+  "resource_type": "green_zone",
+  "resource_id": "uuid-of-resource"
+}
+```
+
+**Parameters:**
+- `activity_type` (string, required): Type - `login`, `view`, `favorite`, `contribute`, `share`
+- `description` (string, optional): Description of activity
+- `resource_type` (string, optional): Type of resource accessed
+- `resource_id` (uuid, optional): ID of resource accessed
+
+**Response (201 Created):**
+```json
+{
+  "id": "uuid",
+  "activity_type": "view",
+  "description": "Xem thông tin công viên",
+  "created_at": "2025-12-05T12:00:00Z"
+}
+```
+
+---
+
+### GET /api/v1/user-data/settings
+
+Get user's personal settings.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "user_id": "uuid",
+  "theme": "dark",
+  "language": "vi",
+  "notifications_enabled": true,
+  "email_notifications": true,
+  "push_notifications": true,
+  "default_city": "TP. Hồ Chí Minh",
+  "default_latitude": 10.7769,
+  "default_longitude": 106.7009,
+  "aqi_alert_threshold": 100,
+  "weather_units": "metric",
+  "map_style": "satellite",
+  "privacy_mode": false,
+  "data_sharing": true,
+  "updated_at": "2025-12-05T12:00:00Z"
+}
+```
+
+---
+
+### PUT /api/v1/user-data/settings
+
+Update user's personal settings.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "theme": "dark",
+  "language": "vi",
+  "notifications_enabled": true,
+  "email_notifications": true,
+  "push_notifications": true,
+  "default_city": "Đà Nẵng",
+  "default_latitude": 16.0678,
+  "default_longitude": 108.2208,
+  "aqi_alert_threshold": 150,
+  "weather_units": "metric",
+  "map_style": "satellite",
+  "privacy_mode": false,
+  "data_sharing": true
+}
+```
+
+**Parameters:**
+- `theme` (string, optional): UI theme - `light`, `dark`, `system`
+- `language` (string, optional): UI language - `vi`, `en`
+- `notifications_enabled` (bool, optional): Enable all notifications
+- `email_notifications` (bool, optional): Enable email notifications
+- `push_notifications` (bool, optional): Enable push notifications
+- `default_city` (string, optional): Default city for data display
+- `default_latitude` (float, optional): Default latitude
+- `default_longitude` (float, optional): Default longitude
+- `aqi_alert_threshold` (int, optional): AQI value to trigger alerts (50-500)
+- `weather_units` (string, optional): Temperature units - `metric`, `imperial`
+- `map_style` (string, optional): Map style - `default`, `satellite`, `terrain`
+- `privacy_mode` (bool, optional): Hide activity from public
+- `data_sharing` (bool, optional): Allow anonymous data sharing for research
+
+**Response (200 OK):**
+```json
+{
+  "user_id": "uuid",
+  "theme": "dark",
+  "language": "vi",
+  "notifications_enabled": true,
+  "default_city": "Đà Nẵng",
+  "updated_at": "2025-12-05T14:00:00Z"
+}
+```
 
 ---
 

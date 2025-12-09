@@ -217,3 +217,299 @@ async def validate_token(request: Request):
                 content={"error": "Auth service unavailable", "detail": str(e)},
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
+
+
+# ================================
+# FCM Token Management
+# ================================
+
+@router.post("/fcm-tokens", status_code=status.HTTP_201_CREATED)
+async def register_fcm_token(request: Request):
+    """
+    Register FCM token for push notifications.
+    
+    Proxies to auth-service: POST /api/v1/fcm-tokens
+    Requires: Authorization Bearer token
+    """
+    body = await request.json()
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_SERVICE_URL}/api/v1/fcm-tokens",
+                json=body,
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+@router.post("/update-fcm-token", status_code=status.HTTP_201_CREATED)
+async def update_fcm_token(request: Request):
+    """
+    Update FCM token (alias for POST /fcm-tokens for mobile compatibility).
+    
+    Proxies to auth-service: POST /api/v1/fcm-tokens
+    Requires: Authorization Bearer token
+    """
+    body = await request.json()
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_SERVICE_URL}/api/v1/fcm-tokens",
+                json=body,
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+@router.get("/fcm-tokens")
+async def list_fcm_tokens(request: Request):
+    """
+    List FCM tokens for current user.
+    
+    Proxies to auth-service: GET /api/v1/fcm-tokens
+    Requires: Authorization Bearer token
+    """
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                f"{AUTH_SERVICE_URL}/api/v1/fcm-tokens",
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+@router.delete("/fcm-tokens/{token_id}")
+async def delete_fcm_token(request: Request, token_id: str):
+    """
+    Delete FCM token.
+    
+    Proxies to auth-service: DELETE /api/v1/fcm-tokens/{token_id}
+    Requires: Authorization Bearer token
+    """
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.delete(
+                f"{AUTH_SERVICE_URL}/api/v1/fcm-tokens/{token_id}",
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json() if response.status_code != 204 else {"message": "Token deleted"},
+                status_code=response.status_code if response.status_code != 204 else 200,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+# ================================
+# Notifications
+# ================================
+
+@router.post("/notifications/send")
+async def send_notification(request: Request):
+    """
+    Send push notification.
+    
+    Proxies to auth-service: POST /api/v1/notifications/send
+    Requires: Authorization Bearer token
+    """
+    body = await request.json()
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_SERVICE_URL}/api/v1/notifications/send",
+                json=body,
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+# ================================
+# User Management
+# ================================
+
+@router.get("/users")
+async def list_users(request: Request):
+    """
+    List users (Admin only).
+    
+    Proxies to auth-service: GET /api/v1/users
+    Requires: Authorization Bearer token (Admin)
+    """
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                f"{AUTH_SERVICE_URL}/api/v1/users",
+                params=dict(request.query_params),
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+@router.get("/users/{user_id}")
+async def get_user(request: Request, user_id: str):
+    """
+    Get user by ID.
+    
+    Proxies to auth-service: GET /api/v1/users/{user_id}
+    Requires: Authorization Bearer token
+    """
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                f"{AUTH_SERVICE_URL}/api/v1/users/{user_id}",
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+@router.delete("/users/{user_id}")
+async def delete_user(request: Request, user_id: str):
+    """
+    Delete user (Admin only).
+    
+    Proxies to auth-service: DELETE /api/v1/users/{user_id}
+    Requires: Authorization Bearer token (Admin)
+    """
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.delete(
+                f"{AUTH_SERVICE_URL}/api/v1/users/{user_id}",
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json() if response.status_code != 204 else {"message": "User deleted"},
+                status_code=response.status_code if response.status_code != 204 else 200,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+
+# ================================
+# API Keys
+# ================================
+
+@router.post("/api-keys")
+async def create_api_key(request: Request):
+    """
+    Create API key (Developer/Admin).
+    
+    Proxies to auth-service: POST /api/v1/api-keys
+    Requires: Authorization Bearer token (Developer/Admin)
+    """
+    body = await request.json()
+    headers = {}
+    if "authorization" in request.headers:
+        headers["Authorization"] = request.headers["authorization"]
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_SERVICE_URL}/api/v1/api-keys",
+                json=body,
+                headers=headers,
+                timeout=10.0,
+            )
+            return JSONResponse(
+                content=response.json(),
+                status_code=response.status_code,
+            )
+        except httpx.RequestError as e:
+            return JSONResponse(
+                content={"error": "Auth service unavailable", "detail": str(e)},
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+

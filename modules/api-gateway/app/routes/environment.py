@@ -139,6 +139,27 @@ async def get_current_weather(request: Request):
         raise HTTPException(status_code=503, detail="Service unavailable")
 
 
+@router.get("/weather/forecast")
+async def get_weather_forecast(
+    lat: float = Query(..., ge=-90, le=90),
+    lon: float = Query(..., ge=-180, le=180)
+):
+    """Get weather forecast from environment service"""
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            url = f"{ENVIRONMENT_SERVICE_URL}/api/v1/weather/forecast"
+            params = {"lat": lat, "lon": lon}
+            response = await client.get(url, params=params)
+            return Response(
+                content=response.content,
+                status_code=response.status_code,
+                media_type=response.headers.get("content-type"),
+            )
+    except Exception as e:
+        logger.error(f"Error proxying to environment service: {e}")
+        raise HTTPException(status_code=503, detail="Service unavailable")
+
+
 @router.get("/weather/{item_id}")
 async def get_weather(item_id: str):
     """Get specific weather observation"""
@@ -154,4 +175,6 @@ async def get_weather(item_id: str):
     except Exception as e:
         logger.error(f"Error proxying to environment service: {e}")
         raise HTTPException(status_code=503, detail="Service unavailable")
+
+
 

@@ -5,10 +5,8 @@
 -- Seed data for Education Service - HCMC Focus
 -- HUTECH University, District 1, and District 3
 --
-
--- Clear existing data
-TRUNCATE TABLE green_courses CASCADE;
-TRUNCATE TABLE schools CASCADE;
+-- NOTE: This file APPENDS to existing data (does not truncate)
+--
 
 -- ============================================
 -- SCHOOLS IN HO CHI MINH CITY

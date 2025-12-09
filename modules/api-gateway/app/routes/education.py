@@ -157,3 +157,31 @@ async def get_opendata_schools(
     except Exception as e:
         logger.error(f"Error proxying to education service: {e}")
         raise HTTPException(status_code=503, detail="Service unavailable")
+
+
+@opendata_router.get("/green-courses")
+async def get_opendata_green_courses(
+    format: str = Query("json", regex="^(json|geojson)$"),
+    limit: int = Query(100, ge=1, le=1000),
+):
+    """
+    Get Green Courses OpenData
+
+    Supports:
+    - json: Standard list of green courses
+    - geojson: GeoJSON FeatureCollection
+    """
+    try:
+        async with httpx.AsyncClient(follow_redirects=True) as client:
+            url = f"{settings.EDUCATION_SERVICE_URL}/api/v1/green-courses"
+            
+            response = await client.get(url, params={"limit": limit}, timeout=30.0)
+            return Response(
+                content=response.content,
+                status_code=response.status_code,
+                media_type=response.headers.get("content-type"),
+            )
+    except Exception as e:
+        logger.error(f"Error proxying to education service: {e}")
+        raise HTTPException(status_code=503, detail="Service unavailable")
+

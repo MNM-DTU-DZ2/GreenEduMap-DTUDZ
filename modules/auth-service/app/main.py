@@ -83,6 +83,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include User Data Router
+from app.router_user_data import router as user_data_router
+app.include_router(user_data_router)
+
 
 # ================================
 # Health Check

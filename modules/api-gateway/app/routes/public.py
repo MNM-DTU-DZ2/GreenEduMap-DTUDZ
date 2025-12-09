@@ -123,11 +123,29 @@ async def get_public_weather_forecast(
         async with httpx.AsyncClient() as client:
             url = f"{settings.ENVIRONMENT_SERVICE_URL}/api/v1/weather/forecast"
             params = {}
-            if city:
-                params["city"] = city
+            
+            # Use provided lat/lon or default to Da Nang
             if lat is not None and lon is not None:
                 params["lat"] = lat
                 params["lon"] = lon
+            elif city:
+                # Default coordinates for common cities
+                city_coords = {
+                    "đà nẵng": (16.0678, 108.2208),
+                    "da nang": (16.0678, 108.2208),
+                    "hồ chí minh": (10.7769, 106.7009),
+                    "ho chi minh": (10.7769, 106.7009),
+                    "hà nội": (21.0285, 105.8542),
+                    "ha noi": (21.0285, 105.8542),
+                }
+                coords = city_coords.get(city.lower(), (16.0678, 108.2208))
+                params["lat"] = coords[0]
+                params["lon"] = coords[1]
+            else:
+                # Default to Da Nang
+                params["lat"] = 16.0678
+                params["lon"] = 108.2208
+            
             response = await client.get(url, params=params, timeout=30.0)
             response.raise_for_status()
             return response.json()

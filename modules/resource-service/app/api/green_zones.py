@@ -107,7 +107,7 @@ async def list_green_zones(skip: int = 0, limit: int = 100, db: AsyncSession = D
     
     return zones
 
-@router.get("/nearby", response_model=List[GreenZoneResponse])
+@router.get("/nearby")
 async def find_nearby_zones(
     lat: float = Query(..., ge=-90, le=90), 
     lon: float = Query(..., ge=-180, le=180), 
@@ -115,17 +115,54 @@ async def find_nearby_zones(
     db: AsyncSession = Depends(get_db)
 ):
     """Tìm các khu vực xanh gần vị trí (geospatial search)"""
-    # Use ST_DWithin for efficient radius search (Geography type, distance in meters)
-    stmt = select(GreenZone).where(
-        func.ST_DWithin(
-            GreenZone.location,
-            func.ST_GeogFromText(f"SRID=4326;POINT({lon} {lat})"),
-            radius_km * 1000  # Convert km to meters
-        )
-    )
+    from sqlalchemy import text
     
-    result = await db.execute(stmt)
-    return result.scalars().all()
+    # Use raw SQL to avoid Geography serialization issues
+    query = """
+        SELECT id, name, code, address, zone_type, area_sqm, tree_count,
+               vegetation_coverage, maintained_by, phone, is_public,
+               data_uri, ngsi_ld_uri, facilities, meta_data,
+               created_at, updated_at,
+               ST_Y(location::geometry) as latitude,
+               ST_X(location::geometry) as longitude,
+               ST_Distance(location, ST_GeogFromText(:point)) as distance_m
+        FROM green_zones
+        WHERE ST_DWithin(location, ST_GeogFromText(:point), :radius_m)
+        ORDER BY distance_m ASC
+    """
+    
+    point_wkt = f"SRID=4326;POINT({lon} {lat})"
+    result = await db.execute(text(query), {
+        "point": point_wkt, 
+        "radius_m": radius_km * 1000
+    })
+    
+    zones = []
+    for row in result:
+        zone_dict = {
+            "id": row.id,
+            "name": row.name,
+            "code": row.code,
+            "address": row.address,
+            "zone_type": row.zone_type,
+            "area_sqm": row.area_sqm,
+            "tree_count": row.tree_count or 0,
+            "vegetation_coverage": float(row.vegetation_coverage) if row.vegetation_coverage else None,
+            "maintained_by": row.maintained_by,
+            "phone": row.phone,
+            "is_public": row.is_public if row.is_public is not None else True,
+            "data_uri": row.data_uri,
+            "facilities": row.facilities,
+            "meta_data": row.meta_data,
+            "created_at": row.created_at,
+            "updated_at": row.updated_at,
+            "latitude": float(row.latitude) if row.latitude else None,
+            "longitude": float(row.longitude) if row.longitude else None,
+            "distance_meters": float(row.distance_m) if row.distance_m else None,
+        }
+        zones.append(zone_dict)
+    
+    return zones
 
 @router.get("/{zone_id}", response_model=GreenZoneResponse)
 async def get_green_zone(zone_id: UUID, db: AsyncSession = Depends(get_db)):

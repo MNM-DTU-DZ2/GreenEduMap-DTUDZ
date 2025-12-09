@@ -2,11 +2,8 @@
 -- GreenEduMap-DTUDZ - Ho Chi Minh City Environment Seed Data
 -- Green Zones, Air Quality, Weather, Solar Resources
 --
-
--- Clear existing data
-TRUNCATE TABLE green_zones CASCADE;
-TRUNCATE TABLE air_quality CASCADE;
-TRUNCATE TABLE weather CASCADE;
+-- NOTE: This file APPENDS to existing data (does not truncate)
+--
 
 -- ============================================
 -- GREEN ZONES (Parks and Green Spaces)

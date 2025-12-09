@@ -33,6 +33,7 @@ from .routes.resources import router as resources_router, router_v1 as resources
 from .routes.education import router as education_router, opendata_router as education_opendata_router
 from .routes.auth import router as auth_router
 from .routes.environment import router as environment_router
+from .routes.user_data import router as user_data_router
 
 # Configure logging
 logging.basicConfig(
@@ -95,6 +96,7 @@ app.include_router(education_router)
 app.include_router(education_opendata_router)
 app.include_router(auth_router)
 app.include_router(environment_router)
+app.include_router(user_data_router)
 
 
 @app.get("/")

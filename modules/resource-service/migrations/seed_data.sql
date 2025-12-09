@@ -19,6 +19,33 @@
 -- Seed data for Resource Service
 -- Sample green zones and recycling centers in Đà Nẵng
 
+-- Create recycling_centers table if not exists
+CREATE TABLE IF NOT EXISTS recycling_centers (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(500) NOT NULL,
+    code VARCHAR(100) UNIQUE NOT NULL,
+    center_type VARCHAR(50),
+    phone VARCHAR(20),
+    email VARCHAR(255),
+    operating_hours JSONB,
+    accepted_materials JSONB,
+    capacity_tons_per_month NUMERIC(10, 2),
+    is_active BOOLEAN DEFAULT true,
+    is_public BOOLEAN NOT NULL DEFAULT TRUE,
+    location GEOGRAPHY(POINT, 4326) NOT NULL,
+    address VARCHAR(1000),
+    city VARCHAR(255),
+    district VARCHAR(255),
+    data_uri VARCHAR(500),
+    ngsi_ld_uri VARCHAR(500),
+    meta_data JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_recycling_centers_location ON recycling_centers USING GIST(location);
+CREATE INDEX IF NOT EXISTS idx_recycling_centers_code ON recycling_centers(code);
+
 -- Clear existing data
 TRUNCATE TABLE green_resources CASCADE;
 TRUNCATE TABLE green_zones CASCADE;

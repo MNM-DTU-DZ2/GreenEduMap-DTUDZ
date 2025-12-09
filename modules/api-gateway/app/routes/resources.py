@@ -98,6 +98,25 @@ async def list_green_zones_v1(
         raise HTTPException(status_code=503, detail="Service unavailable")
 
 
+@router_v1.get("/green-zones/nearby")
+async def get_nearby_green_zones_v1(
+    latitude: float = Query(..., ge=-90, le=90),
+    longitude: float = Query(..., ge=-180, le=180),
+    radius_km: float = Query(10.0, ge=0.1, le=100.0)
+):
+    """Find nearby green zones (v1 API)"""
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            url = f"{settings.RESOURCE_SERVICE_URL}/api/v1/green-zones/nearby"
+            params = {"lat": latitude, "lon": longitude, "radius_km": radius_km}
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            return response.json()
+    except Exception as e:
+        logger.error(f"Error fetching nearby green zones: {e}")
+        raise HTTPException(status_code=503, detail="Service unavailable")
+
+
 @router_v1.get("/green-zones/{zone_id}")
 async def get_green_zone_v1(zone_id: str):
     """Get specific green zone (v1 API)"""

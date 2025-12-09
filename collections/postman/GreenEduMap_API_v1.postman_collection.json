@@ -478,6 +478,366 @@
             ]
         },
         {
+            "name": "User Data",
+            "item": [
+                {
+                    "name": "Get Favorites",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/favorites",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "favorites"
+                            ],
+                            "query": [
+                                {
+                                    "key": "item_type",
+                                    "value": "green_zone",
+                                    "description": "Lọc theo loại: green_zone, school, center, air_quality_station",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách địa điểm yêu thích của người dùng.\n\n**Loại địa điểm hỗ trợ:**\n- `green_zone`: Khu vực xanh (công viên, rừng...)\n- `school`: Trường học\n- `center`: Trung tâm tái chế\n- `air_quality_station`: Trạm đo chất lượng không khí"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Add Favorite",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"item_type\": \"green_zone\",\n  \"item_id\": \"uuid-of-item\",\n  \"item_name\": \"Công viên 29/3\",\n  \"notes\": \"Khu vực yêu thích để chạy bộ buổi sáng\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/favorites",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "favorites"
+                            ]
+                        },
+                        "description": "Thêm địa điểm vào danh sách yêu thích.\n\n**Tham số:**\n| Tham số | Mô tả |\n|---|---|\n| `item_type` | Loại địa điểm (bắt buộc) |\n| `item_id` | ID của địa điểm (bắt buộc) |\n| `item_name` | Tên hiển thị (bắt buộc) |\n| `notes` | Ghi chú cá nhân (tùy chọn) |"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Favorite",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/favorites/{{favorite_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "favorites",
+                                "{{favorite_id}}"
+                            ]
+                        },
+                        "description": "Xóa địa điểm khỏi danh sách yêu thích."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Contributions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/contributions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "contributions"
+                            ],
+                            "query": [
+                                {
+                                    "key": "contribution_type",
+                                    "value": "report",
+                                    "description": "Lọc theo loại: report, suggestion, data_submission, review",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "pending",
+                                    "description": "Lọc theo trạng thái: pending, approved, rejected",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách đóng góp của người dùng.\n\n**Loại đóng góp:**\n- `report`: Báo cáo (ô nhiễm, sự cố...)\n- `suggestion`: Đề xuất cải thiện\n- `data_submission`: Đóng góp dữ liệu\n- `review`: Đánh giá địa điểm"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Submit Contribution",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"contribution_type\": \"report\",\n  \"title\": \"Báo cáo ô nhiễm không khí\",\n  \"description\": \"Phát hiện khói bụi nhiều tại khu vực này\",\n  \"location_name\": \"Quận 1, TP.HCM\",\n  \"latitude\": 10.7769,\n  \"longitude\": 106.7009,\n  \"extra_data\": {\n    \"severity\": \"high\",\n    \"photo_urls\": []\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/contributions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "contributions"
+                            ]
+                        },
+                        "description": "Gửi đóng góp mới (báo cáo, đề xuất, dữ liệu).\n\n**Trạng thái đóng góp sau khi gửi:** `pending` (chờ duyệt)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Public Contributions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/contributions/public",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "contributions",
+                                "public"
+                            ]
+                        },
+                        "description": "Lấy danh sách đóng góp công khai đã được duyệt.\n\n**Không yêu cầu xác thực.**"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Review Contribution (Admin)",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"approved\",\n  \"admin_notes\": \"Đã xác minh thông tin\",\n  \"points_earned\": 50\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/contributions/{{contribution_id}}/review",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "contributions",
+                                "{{contribution_id}}",
+                                "review"
+                            ]
+                        },
+                        "description": "Duyệt hoặc từ chối đóng góp (Chỉ Admin).\n\n**Trạng thái:**\n- `approved`: Đã duyệt\n- `rejected`: Từ chối\n\n**Điểm thưởng:** Tự động cộng vào tài khoản người đóng góp khi được duyệt."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Activities",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/activities",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "activities"
+                            ],
+                            "query": [
+                                {
+                                    "key": "activity_type",
+                                    "value": "view",
+                                    "description": "Lọc theo loại: login, view, favorite, contribute, share",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy lịch sử hoạt động của người dùng.\n\n**Loại hoạt động:**\n- `login`: Đăng nhập\n- `view`: Xem thông tin\n- `favorite`: Thêm yêu thích\n- `contribute`: Đóng góp\n- `share`: Chia sẻ"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Log Activity",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"activity_type\": \"view\",\n  \"description\": \"Xem thông tin công viên\",\n  \"resource_type\": \"green_zone\",\n  \"resource_id\": \"uuid-of-resource\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/activities",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "activities"
+                            ]
+                        },
+                        "description": "Ghi lại hoạt động của người dùng (tracking)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Settings",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/settings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "settings"
+                            ]
+                        },
+                        "description": "Lấy cài đặt cá nhân của người dùng.\n\n**Bao gồm:**\n- Theme (giao diện sáng/tối)\n- Ngôn ngữ\n- Thông báo\n- Thành phố mặc định\n- Ngưỡng cảnh báo AQI\n- Và nhiều tùy chọn khác"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Settings",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"theme\": \"dark\",\n  \"language\": \"vi\",\n  \"notifications_enabled\": true,\n  \"push_notifications\": true,\n  \"default_city\": \"TP. Hồ Chí Minh\",\n  \"aqi_alert_threshold\": 100,\n  \"weather_units\": \"metric\",\n  \"map_style\": \"satellite\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user-data/settings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user-data",
+                                "settings"
+                            ]
+                        },
+                        "description": "Cập nhật cài đặt cá nhân.\n\n**Tham số có thể cập nhật:**\n| Tham số | Mô tả |\n|---|---|\n| `theme` | light, dark, system |\n| `language` | vi, en |\n| `notifications_enabled` | Bật/tắt thông báo |\n| `default_city` | Thành phố mặc định |\n| `aqi_alert_threshold` | Ngưỡng AQI cảnh báo (50-500) |\n| `weather_units` | metric hoặc imperial |\n| `map_style` | default, satellite, terrain |"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Environment Data",
             "item": [
                 {
