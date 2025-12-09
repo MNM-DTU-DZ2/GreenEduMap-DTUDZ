@@ -202,6 +202,278 @@
                         "description": "Cập nhật thông tin hồ sơ người dùng."
                     },
                     "response": []
+                },
+                {
+                    "name": "Validate Token",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/validate-token",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "validate-token"
+                            ]
+                        },
+                        "description": "Kiểm tra access token có hợp lệ không."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List Users (Admin)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/users?skip=0&limit=100",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "skip",
+                                    "value": "0",
+                                    "description": "Số bản ghi bỏ qua"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "100",
+                                    "description": "Số bản ghi tối đa"
+                                },
+                                {
+                                    "key": "role",
+                                    "value": "citizen",
+                                    "description": "Lọc theo role",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "Lấy danh sách người dùng (Admin only)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/users/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "{{user_id}}"
+                            ]
+                        },
+                        "description": "Lấy thông tin người dùng theo ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete User (Admin)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/users/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "{{user_id}}"
+                            ]
+                        },
+                        "description": "Xóa người dùng (Admin only, soft delete)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create API Key (Developer)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Production API Key\",\n  \"scopes\": \"read\",\n  \"rate_limit\": 1000\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/api-keys",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "api-keys"
+                            ]
+                        },
+                        "description": "Tạo API key cho developer (Developer/Admin only)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Register FCM Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"token\": \"fcm_token_from_ios_device_example\",\n  \"device_type\": \"ios\",\n  \"device_name\": \"iPhone 14 Pro\",\n  \"device_id\": \"unique-device-identifier\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fcm-tokens",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fcm-tokens"
+                            ]
+                        },
+                        "description": "Đăng ký hoặc cập nhật FCM token cho push notifications."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List FCM Tokens",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fcm-tokens",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fcm-tokens"
+                            ]
+                        },
+                        "description": "Lấy danh sách FCM tokens của user hiện tại."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete FCM Token",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/fcm-tokens/{{fcm_token_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fcm-tokens",
+                                "{{fcm_token_id}}"
+                            ]
+                        },
+                        "description": "Vô hiệu hóa FCM token."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Push Notification",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Cập nhật mới\",\n  \"body\": \"Dữ liệu chất lượng không khí mới đã được cập nhật\",\n  \"data\": {\n    \"type\": \"air_quality_update\",\n    \"resource_id\": \"zone_123\",\n    \"action\": \"open_map\"\n  },\n  \"image_url\": \"https://example.com/image.jpg\",\n  \"sound\": \"default\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/notifications/send",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "notifications",
+                                "send"
+                            ]
+                        },
+                        "description": "Gửi push notification đến thiết bị của user (Admin có thể gửi cho user khác)."
+                    },
+                    "response": []
                 }
             ]
         },
@@ -306,6 +578,145 @@
                             ]
                         },
                         "description": "Lấy bản ghi chất lượng không khí theo ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Air Quality by Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/air-quality/location?lat=10.7769&lon=106.7009&radius=50&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "air-quality",
+                                "location"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Vĩ độ"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Kinh độ"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "50",
+                                    "description": "Bán kính tìm kiếm (km)"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Số kết quả tối đa"
+                                }
+                            ]
+                        },
+                        "description": "Tìm dữ liệu AQI gần vị trí."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Air Quality History",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/air-quality/history?lat=10.7769&lon=106.7009&days=7&radius=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "air-quality",
+                                "history"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Vĩ độ"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Kinh độ"
+                                },
+                                {
+                                    "key": "days",
+                                    "value": "7",
+                                    "description": "Số ngày lịch sử"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "10",
+                                    "description": "Bán kính (km)"
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu AQI lịch sử cho một vị trí."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Fetch Air Quality Data (Admin)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/air-quality/fetch?lat=10.7769&lon=106.7009&radius=50",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "air-quality",
+                                "fetch"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Vĩ độ"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Kinh độ"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "50",
+                                    "description": "Bán kính (km)"
+                                }
+                            ]
+                        },
+                        "description": "Kích hoạt fetch dữ liệu từ OpenAQ API (Admin only)."
                     },
                     "response": []
                 },
@@ -416,6 +827,54 @@
                         ]
                     },
                     "description": "Lấy dữ liệu thời tiết hiện tại theo toạ độ."
+                },
+                {
+                    "name": "Get Weather by Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/weather/location?lat=10.7769&lon=106.7009&radius=50&hours=24",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "weather",
+                                "location"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lat",
+                                    "value": "10.7769",
+                                    "description": "Vĩ độ"
+                                },
+                                {
+                                    "key": "lon",
+                                    "value": "106.7009",
+                                    "description": "Kinh độ"
+                                },
+                                {
+                                    "key": "radius",
+                                    "value": "50",
+                                    "description": "Bán kính (km)"
+                                },
+                                {
+                                    "key": "hours",
+                                    "value": "24",
+                                    "description": "Số giờ lịch sử"
+                                }
+                            ]
+                        },
+                        "description": "Lấy dữ liệu thời tiết gần vị trí."
+                    },
+                    "response": []
                 }
             ]
         },

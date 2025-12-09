@@ -41,10 +41,17 @@ from app.schemas import (
     APIKeyCreate,
     APIKeyResponse,
     UserInDB,
+    FCMTokenCreate,
+    FCMTokenResponse,
+    FCMTokenListResponse,
+    NotificationRequest,
+    NotificationResponse,
 )
 from app.services.auth import AuthService
 from app.services.user import UserService
+from app.services.fcm import FCMService
 from app.models import User
+from app.core.firebase import init_firebase
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -53,6 +60,7 @@ async def lifespan(app: FastAPI):
     """Application lifespan events."""
     # Startup
     await init_db()
+    init_firebase()  # Initialize Firebase on startup
     yield
     # Shutdown
     await close_db()
@@ -310,6 +318,112 @@ async def create_api_key(
         rate_limit=api_key.rate_limit,
         created_at=api_key.created_at,
     )
+
+
+# ================================
+# FCM Token Management
+# ================================
+
+def get_fcm_service(db: AsyncSession = Depends(get_db)) -> FCMService:
+    """Dependency to get FCM service instance."""
+    return FCMService(db)
+
+
+@app.post("/api/v1/fcm-tokens", response_model=FCMTokenResponse, status_code=status.HTTP_201_CREATED, tags=["FCM"])
+async def register_fcm_token(
+    token_data: FCMTokenCreate,
+    fcm_service: Annotated[FCMService, Depends(get_fcm_service)],
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
+    """
+    Register or update FCM token for push notifications.
+    
+    - **token**: FCM registration token from iOS/Android device
+    - **device_type**: Platform (ios, android, web)
+    - **device_name**: Optional device identifier
+    - **device_id**: Optional unique device ID
+    """
+    fcm_token = await fcm_service.register_token(
+        user_id=str(current_user.id),
+        token=token_data.token,
+        device_type=token_data.device_type.value,
+        device_name=token_data.device_name,
+        device_id=token_data.device_id,
+    )
+    return fcm_token
+
+
+@app.get("/api/v1/fcm-tokens", response_model=FCMTokenListResponse, tags=["FCM"])
+async def list_fcm_tokens(
+    fcm_service: Annotated[FCMService, Depends(get_fcm_service)],
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
+    """
+    List all FCM tokens for current user.
+    """
+    tokens = await fcm_service.get_user_tokens(str(current_user.id), active_only=False)
+    return FCMTokenListResponse(
+        total=len(tokens),
+        tokens=tokens
+    )
+
+
+@app.delete("/api/v1/fcm-tokens/{token_id}", response_model=MessageResponse, tags=["FCM"])
+async def delete_fcm_token(
+    token_id: str,
+    fcm_service: Annotated[FCMService, Depends(get_fcm_service)],
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
+    """
+    Deactivate an FCM token.
+    """
+    success = await fcm_service.remove_token(token_id, str(current_user.id))
+    
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="FCM token not found"
+        )
+    
+    return MessageResponse(message="FCM token deactivated successfully")
+
+
+@app.post("/api/v1/notifications/send", response_model=NotificationResponse, tags=["Notifications"])
+async def send_push_notification(
+    notification: NotificationRequest,
+    fcm_service: Annotated[FCMService, Depends(get_fcm_service)],
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
+    """
+    Send push notification to a user.
+    
+    - For regular users: sends to their own devices
+    - For admins: can specify user_id to send to other users
+    """
+    # Determine target user
+    target_user_id = notification.user_id
+    
+    if target_user_id is None:
+        # Send to self
+        target_user_id = current_user.id
+    elif current_user.role != "admin":
+        # Only admins can send to other users
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admins can send notifications to other users"
+        )
+    
+    # Send notification
+    result = await fcm_service.send_notification(
+        user_id=str(target_user_id),
+        title=notification.title,
+        body=notification.body,
+        data=notification.data.dict() if notification.data else None,
+        image_url=notification.image_url,
+        sound=notification.sound,
+    )
+    
+    return NotificationResponse(**result)
 
 
 # ================================

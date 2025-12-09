@@ -159,7 +159,315 @@ Authorization: Bearer {access_token}
 
 ---
 
+### GET /auth/validate-token
+
+Validate if the current access token is still valid.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "valid": true,
+  "user_id": "uuid",
+  "email": "user@example.com",
+  "username": "johndoe",
+  "role": "citizen",
+  "is_active": true,
+  "checked_at": "2025-12-05T12:00:00Z"
+}
+```
+
+**Response (401 Unauthorized):**
+```json
+{
+  "detail": "Could not validate credentials"
+}
+```
+
+---
+
+### GET /users
+
+List all users (Admin only).
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Query Parameters:**
+- `skip` (int, optional): Number of records to skip (default: 0)
+- `limit` (int, optional): Maximum number of records to return (default: 100)
+- `role` (string, optional): Filter by user role (citizen, volunteer, developer, school, admin)
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "uuid",
+    "email": "user@example.com",
+    "username": "johndoe",
+    "full_name": "John Doe",
+    "role": "citizen",
+    "is_active": true,
+    "created_at": "2025-12-05T12:00:00Z"
+  }
+]
+```
+
+---
+
+### GET /users/{user_id}
+
+Get user by ID.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Note:** Users can only view their own profile unless they are admin.
+
+**Response (200 OK):**
+```json
+{
+  "id": "uuid",
+  "email": "user@example.com",
+  "username": "johndoe",
+  "full_name": "John Doe",
+  "phone": "+84901234567",
+  "role": "citizen",
+  "is_active": true,
+  "created_at": "2025-12-05T12:00:00Z",
+  "updated_at": "2025-12-05T12:30:00Z"
+}
+```
+
+**Response (403 Forbidden):**
+```json
+{
+  "detail": "Not authorized to view this user"
+}
+```
+
+---
+
+### DELETE /users/{user_id}
+
+Delete user (Admin only). Performs soft delete by setting `is_active = false`.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "message": "User deleted successfully"
+}
+```
+
+---
+
+### POST /api-keys
+
+Create new API key for developers.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Note:** Only users with role `developer` or `admin` can create API keys.
+
+**Request:**
+```json
+{
+  "name": "Production API Key",
+  "scopes": "read",
+  "rate_limit": 1000
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "id": "uuid",
+  "name": "Production API Key",
+  "api_key": "geem_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+  "key_prefix": "geem_a1b",
+  "scopes": "read",
+  "rate_limit": 1000,
+  "created_at": "2025-12-05T12:00:00Z"
+}
+```
+
+**Warning:** The `api_key` field contains the plain API key which is only shown once. Store it securely!
+
+---
+
+### POST /api/v1/fcm-tokens
+
+Register or update FCM token for push notifications.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "token": "fcm_registration_token_from_device",
+  "device_type": "ios",
+  "device_name": "iPhone 14 Pro",
+  "device_id": "unique-device-identifier"
+}
+```
+
+**Parameters:**
+- `token` (string, required): FCM registration token from iOS/Android device
+- `device_type` (string, required): Device platform - `ios`, `android`, or `web`
+- `device_name` (string, optional): Human-readable device name
+- `device_id` (string, optional): Unique device identifier
+
+**Response (201 Created):**
+```json
+{
+  "id": "uuid",
+  "user_id": "uuid",
+  "token": "fcm_registration_token...",
+  "device_type": "ios",
+  "device_name": "iPhone 14 Pro",
+  "is_active": true,
+  "notification_count": 0,
+  "last_used": null,
+  "created_at": "2025-12-09T10:00:00Z",
+  "updated_at": "2025-12-09T10:00:00Z"
+}
+```
+
+---
+
+### GET /api/v1/fcm-tokens
+
+List all FCM tokens for current user.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "total": 2,
+  "tokens": [
+    {
+      "id": "uuid",
+      "user_id": "uuid",
+      "token": "fcm_token...",
+      "device_type": "ios",
+      "device_name": "iPhone 14 Pro",
+      "is_active": true,
+      "notification_count": 15,
+      "last_used": "2025-12-09T09:30:00Z",
+      "created_at": "2025-12-05T10:00:00Z",
+      "updated_at": "2025-12-09T09:30:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### DELETE /api/v1/fcm-tokens/{token_id}
+
+Deactivate an FCM token.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "message": "FCM token deactivated successfully"
+}
+```
+
+**Response (404 Not Found):**
+```json
+{
+  "detail": "FCM token not found"
+}
+```
+
+---
+
+### POST /api/v1/notifications/send
+
+Send push notification to user's devices.
+
+**Headers:**
+```
+Authorization: Bearer {access_token}
+```
+
+**Request:**
+```json
+{
+  "user_id": "uuid",
+  "title": "New Update Available",
+  "body": "Check out the new air quality data for your area",
+  "data": {
+    "type": "air_quality_update",
+    "resource_id": "zone_123",
+    "action": "open_map"
+  },
+  "image_url": "https://example.com/notification-image.jpg",
+  "sound": "default"
+}
+```
+
+**Parameters:**
+- `user_id` (uuid, optional): Target user ID. If not provided, sends to current user. Only admins can specify other users.
+- `title` (string, required): Notification title (max 100 chars)
+- `body` (string, required): Notification body (max 500 chars)
+- `data` (object, optional): Custom data payload for app handling
+- `image_url` (string, optional): URL of notification image
+- `sound` (string, optional): Notification sound (default: "default")
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "sent_count": 2,
+  "failed_count": 0,
+  "message": "Sent to 2 device(s), 0 failed",
+  "details": null
+}
+```
+
+**Response (403 Forbidden):**
+```json
+{
+  "detail": "Only admins can send notifications to other users"
+}
+```
+
+**Note:** Regular users can only send notifications to themselves. Admins can send to any user by specifying `user_id`.
+
+---
+
 ## Environment Data
+
 
 ### GET /api/v1/air-quality
 
@@ -248,6 +556,110 @@ Get specific air quality record by ID.
 
 ---
 
+### GET /api/v1/air-quality/location
+
+Get air quality measurements near a specific location.
+
+**Query Parameters:**
+- `lat` (float, required): Latitude (-90 to 90)
+- `lon` (float, required): Longitude (-180 to 180)
+- `radius` (int, optional): Search radius in kilometers (default: 50, max: 200)
+- `limit` (int, optional): Maximum number of results (default: 10, max: 100)
+
+**Response (200 OK):**
+```json
+{
+  "location": {
+    "lat": 10.7769,
+    "lon": 106.7009
+  },
+  "radius_km": 50,
+  "total": 5,
+  "data": [
+    {
+      "id": "uuid",
+      "latitude": 10.7769,
+      "longitude": 106.7009,
+      "station_name": "Quận 1 - TPHCM",
+      "aqi": 85,
+      "pm25": 35.5,
+      "pm10": 55.2,
+      "co": 0.8,
+      "no2": 25.3,
+      "so2": 10.1,
+      "o3": 45.6,
+      "measurement_date": "2025-12-05T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/v1/air-quality/history
+
+Get historical air quality data for a location.
+
+**Query Parameters:**
+- `lat` (float, required): Latitude (-90 to 90)
+- `lon` (float, required): Longitude (-180 to 180)
+- `days` (int, optional): Number of days of history (default: 7, max: 90)
+- `radius` (int, optional): Search radius in kilometers (default: 10, max: 50)
+
+**Response (200 OK):**
+```json
+{
+  "location": {
+    "lat": 10.7769,
+    "lon": 106.7009
+  },
+  "period": {
+    "start": "2025-11-28T12:00:00Z",
+    "end": "2025-12-05T12:00:00Z"
+  },
+  "total": 42,
+  "data": [
+    {
+      "id": "uuid",
+      "latitude": 10.7769,
+      "longitude": 106.7009,
+      "aqi": 85,
+      "pm25": 35.5,
+      "measurement_date": "2025-12-05T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### POST /api/v1/air-quality/fetch
+
+Manually trigger fetching air quality data from OpenAQ API (Admin endpoint).
+
+**Query Parameters:**
+- `lat` (float, required): Latitude (-90 to 90)
+- `lon` (float, required): Longitude (-180 to 180)
+- `radius` (int, optional): Search radius in kilometers (default: 50, max: 100)
+
+**Response (200 OK):**
+```json
+{
+  "status": "success",
+  "fetched": 10,
+  "saved": 10
+}
+```
+
+**Response (500 Internal Server Error):**
+```json
+{
+  "detail": "Error message from OpenAQ API"
+}
+```
+
+---
+
 ### GET /api/v1/weather
 
 Get weather data with pagination.
@@ -296,6 +708,133 @@ Get current weather data.
 **Response (200 OK):**
 ```json
 {
+  "city_name": "Ho Chi Minh City",
+  "temperature": 32.5,
+  "humidity": 75,
+  "weather_description": "Partly cloudy",
+  "timestamp": "2025-12-05T12:00:00Z"
+}
+```
+
+---
+
+### GET /api/v1/weather/location
+
+Get weather observations near a specific location.
+
+**Query Parameters:**
+- `lat` (float, required): Latitude (-90 to 90)
+- `lon` (float, required): Longitude (-180 to 180)
+- `radius` (int, optional): Search radius in kilometers (default: 50, max: 200)
+- `hours` (int, optional): Hours of history to retrieve (default: 24, max: 168)
+
+**Response (200 OK):**
+```json
+{
+  "location": {
+    "lat": 10.7769,
+    "lon": 106.7009
+  },
+  "radius_km": 50,
+  "total": 15,
+  "data": [
+    {
+      "id": "uuid",
+      "latitude": 10.7769,
+      "longitude": 106.7009,
+      "city_name": "Ho Chi Minh City",
+      "temperature": 32.5,
+      "feels_like": 35.2,
+      "humidity": 75,
+      "pressure": 1012,
+      "wind_speed": 15.5,
+      "weather_description": "Partly cloudy",
+      "observation_time": "2025-12-05T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### GET /api/v1/weather/forecast
+
+Get 5-day weather forecast with 3-hour intervals.
+
+**Query Parameters:**
+- `lat` (float, required): Latitude
+- `lon` (float, required): Longitude
+
+**Response (200 OK):**
+```json
+{
+  "city": {
+    "name": "Ho Chi Minh City",
+    "country": "VN"
+  },
+  "forecast": [
+    {
+      "datetime": "2025-12-06T00:00:00Z",
+      "temperature": 28.5,
+      "feels_like": 31.2,
+      "humidity": 80,
+      "weather_main": "Rain",
+      "weather_description": "light rain",
+      "rain_3h": 2.5
+    }
+  ]
+}
+```
+
+---
+
+### WebSocket Endpoints
+
+#### WS /ws/air-quality
+
+Real-time air quality updates via WebSocket.
+
+**Connection:**
+```javascript
+const ws = new WebSocket('wss://api.greenedumap.io.vn/ws/air-quality');
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('AQI Update:', data);
+};
+```
+
+**Message Format:**
+```json
+{
+  "type": "aqi_update",
+  "station_name": "Quận 1 - TPHCM",
+  "aqi": 85,
+  "pm25": 35.5,
+  "timestamp": "2025-12-05T12:00:00Z"
+}
+```
+
+---
+
+#### WS /ws/weather
+
+Real-time weather updates via WebSocket.
+
+**Connection:**
+```javascript
+const ws = new WebSocket('wss://api.greenedumap.io.vn/ws/weather');
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Weather Update:', data);
+};
+```
+
+**Message Format:**
+```json
+{
+  "type": "weather_update",
   "city_name": "Ho Chi Minh City",
   "temperature": 32.5,
   "humidity": 75,

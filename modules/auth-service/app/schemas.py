@@ -168,6 +168,85 @@ class APIKeyInfo(BaseModel):
 
 
 # ================================
+# FCM Token Schemas
+# ================================
+
+class DeviceType(str, Enum):
+    """Device type enum."""
+    IOS = "ios"
+    ANDROID = "android"
+    WEB = "web"
+
+
+class FCMTokenCreate(BaseModel):
+    """FCM token registration/update schema."""
+    token: str = Field(..., min_length=20, max_length=512, description="FCM registration token")
+    device_type: DeviceType = DeviceType.IOS
+    device_name: Optional[str] = Field(None, max_length=100, description="Device name (e.g., 'iPhone 14 Pro')")
+    device_id: Optional[str] = Field(None, max_length=255, description="Unique device identifier")
+
+
+class FCMTokenUpdate(BaseModel):
+    """FCM token update schema."""
+    device_name: Optional[str] = Field(None, max_length=100)
+    is_active: Optional[bool] = None
+
+
+class FCMTokenResponse(BaseModel):
+    """FCM token response schema."""
+    id: UUID4
+    user_id: UUID4
+    token: str  # Masked in production
+    device_type: str
+    device_name: Optional[str]
+    is_active: bool
+    notification_count: int
+    last_used: Optional[datetime]
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+
+class FCMTokenListResponse(BaseModel):
+    """List of FCM tokens response."""
+    total: int
+    tokens: list[FCMTokenResponse]
+
+
+# ================================
+# Push Notification Schemas
+# ================================
+
+class NotificationData(BaseModel):
+    """Custom notification data payload."""
+    type: Optional[str] = None
+    resource_id: Optional[str] = None
+    action: Optional[str] = None
+    url: Optional[str] = None
+
+
+class NotificationRequest(BaseModel):
+    """Push notification request schema."""
+    user_id: Optional[UUID4] = Field(None, description="Target user (None = use current user)")
+    title: str = Field(..., min_length=1, max_length=100)
+    body: str = Field(..., min_length=1, max_length=500)
+    data: Optional[NotificationData] = None
+    image_url: Optional[str] = None
+    sound: Optional[str] = "default"
+
+
+class NotificationResponse(BaseModel):
+    """Push notification response."""
+    success: bool
+    sent_count: int
+    failed_count: int
+    message: str
+    details: Optional[dict] = None
+
+
+# ================================
 # Generic Responses
 # ================================
 

@@ -140,3 +140,42 @@ class RefreshToken(Base):
     
     def __repr__(self):
         return f"<RefreshToken user_id={self.user_id}>"
+
+
+class FCMToken(Base):
+    """FCM (Firebase Cloud Messaging) Token model for push notifications."""
+    
+    __tablename__ = "fcm_tokens"
+    
+    # Primary Key
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    
+    # Owner
+    user_id = Column(UUID(as_uuid=True), nullable=False, index=True)
+    
+    # FCM Token
+    token = Column(String(512), nullable=False, unique=True, comment="FCM registration token")
+    
+    # Device Info
+    device_type = Column(
+        String(20),
+        nullable=False,
+        default="ios",
+        comment="Device platform: ios, android, web"
+    )
+    device_name = Column(String(100), comment="Optional device identifier")
+    device_id = Column(String(255), comment="Unique device identifier")
+    
+    # Status
+    is_active = Column(Boolean, default=True, nullable=False, index=True)
+    
+    # Usage Stats
+    notification_count = Column(Integer, default=0, comment="Total notifications sent")
+    last_used = Column(DateTime, comment="Last notification sent time")
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    
+    def __repr__(self):
+        return f"<FCMToken user_id={self.user_id} device={self.device_type}>"

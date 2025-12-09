@@ -60,6 +60,11 @@ class Settings(BaseSettings):
     # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 60
     
+    # Firebase Cloud Messaging
+    FCM_ENABLED: bool = True
+    FIREBASE_CREDENTIALS_PATH: Optional[str] = "firebase-credentials.json"
+    FIREBASE_PROJECT_ID: Optional[str] = None
+    
     class Config:
         env_file = ".env"
         case_sensitive = True
