@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...b7859c918c8fc583764376e90231009b01149622) (2025-12-09)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...c58b6d0f6f6db86a32fa9b726f4d0205a7e1250a) (2025-12-09)
 
 
 ### Bug Fixes
@@ -27,6 +27,7 @@
 * **deloy:** add SSL setup script and documentation ([b4daa79](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b4daa79872d8a248cd5eb61b895748148a30288d))
 * **deploy:** add VPS deployment scripts and database seeding ([32eeceb](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/32eeceb6dffead57d38d85c6265b0d27cc1fb89c))
 * **deploy:** add VPS deployment scripts and database seeding ([7c6c617](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/7c6c617253f1bfbcae02ab1c8e6b336234e30dbe))
+* implement FCM push notifications and update API documentation ([c58b6d0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/c58b6d0f6f6db86a32fa9b726f4d0205a7e1250a)), closes [#FCM-001](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/issues/FCM-001)
 * Integrate HCMC data and fix map display issues ([b687b99](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b687b993f03dd811333c40fc075c92d4400b395c))
 * **map:** integrate real API data and fix service endpoints ([adbe432](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/adbe4328dafd3d32069f19d234c1aaae4a1b9bd4))
 * **map:** integrate real API data and fix service endpoints ([f5f9c21](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f5f9c21e11472d53bbf1f11a2d7da473b39b197f))
