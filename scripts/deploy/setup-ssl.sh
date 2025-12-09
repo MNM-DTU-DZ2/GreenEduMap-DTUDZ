@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 #
 # GreenEduMap-DTUDZ - Open Data Platform for Green Urban Development
 # Copyright (C) 2025 DTU-DZ2 Team
