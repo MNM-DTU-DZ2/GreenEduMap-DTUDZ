@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...cf604c24e37ecd926d23079a44ab8ef61b15f634) (2025-12-09)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...04e3b40ab68d96752e9b72614dfdc5a6f9024387) (2025-12-09)
 
 
 ### Bug Fixes
@@ -25,6 +25,7 @@
 ### Features
 
 * add complete demo data seeders with recycling centers ([cf604c2](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/cf604c24e37ecd926d23079a44ab8ef61b15f634))
+* Complete API Gateway Enhancement & Testing - Add User Data endpoints (favorites, contributions, activities, settings) - Add FCM token management, notifications, user management routes - Fix green-zones/nearby and weather/forecast endpoints - Update API documentation with User Data section - Update Postman collection with 11 User Data requests - All 40 API tests passing (100%) ([04e3b40](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/04e3b40ab68d96752e9b72614dfdc5a6f9024387))
 * Complete map display and WebSocket real-time integration ([b7859c9](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b7859c918c8fc583764376e90231009b01149622))
 * **deloy:** add SSL setup script and documentation ([b4daa79](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/b4daa79872d8a248cd5eb61b895748148a30288d))
 * **deploy:** add VPS deployment scripts and database seeding ([32eeceb](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/32eeceb6dffead57d38d85c6265b0d27cc1fb89c))
