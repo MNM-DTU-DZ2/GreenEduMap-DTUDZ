@@ -40,3 +40,31 @@ INSERT INTO green_resources (name, type, quantity, available_quantity, unit, zon
 ('Đèn LED chiếu sáng', 'lighting', 80, 75, 'bộ', (SELECT id FROM green_zones WHERE code = 'GZ-006' LIMIT 1), 'available', true, '{"power_watts": 50, "solar_powered": true}'::jsonb),
 ('Hệ thống tưới tự động', 'irrigation', 5, 5, 'hệ thống', (SELECT id FROM green_zones WHERE code = 'GZ-001' LIMIT 1), 'available', true, '{"coverage_sqm": 10000, "water_source": "recycled"}'::jsonb);
 
+-- Recycling Centers
+TRUNCATE TABLE recycling_centers CASCADE;
+
+INSERT INTO recycling_centers (name, code, center_type, phone, email, operating_hours, accepted_materials, capacity_tons_per_month, is_active, is_public, location, address, city, district) VALUES
+-- Collection Points
+('Điểm Thu Gom Hải Châu', 'RC-DN-001', 'collection_point', '0236 3888 111', 'haichau@greenedumap.vn', '{"monday": "7:00-17:00", "tuesday": "7:00-17:00", "wednesday": "7:00-17:00", "thursday": "7:00-17:00", "friday": "7:00-17:00", "saturday": "7:00-12:00", "sunday": "closed"}'::jsonb, '["plastic", "paper", "metal", "glass"]'::jsonb, 5.0, true, true, ST_GeogFromText('SRID=4326;POINT(108.2208 16.0678)'), 'Phan Châu Trinh, Hải Châu', 'Đà Nẵng', 'Hải Châu'),
+
+('Điểm Thu Gom Sơn Trà', 'RC-DN-002', 'collection_point', '0236 3888 112', 'sontra@greenedumap.vn', '{"monday": "6:00-18:00", "tuesday": "6:00-18:00", "wednesday": "6:00-18:00", "thursday": "6:00-18:00", "friday": "6:00-18:00", "saturday": "6:00-15:00", "sunday": "closed"}'::jsonb, '["plastic", "paper", "cardboard", "electronics"]'::jsonb, 4.5, true, true, ST_GeogFromText('SRID=4326;POINT(108.2430 16.0543)'), 'Võ Nguyên Giáp, Sơn Trà', 'Đà Nẵng', 'Sơn Trà'),
+
+('Điểm Thu Gom Ngũ Hành Sơn', 'RC-DN-003', 'collection_point', '0236 3888 113', 'nguhanh@greenedumap.vn', '{"monday": "7:00-17:00", "tuesday": "7:00-17:00", "wednesday": "7:00-17:00", "thursday": "7:00-17:00", "friday": "7:00-17:00", "saturday": "7:00-14:00", "sunday": "closed"}'::jsonb, '["plastic", "metal", "glass", "textiles"]'::jsonb, 3.8, true, true, ST_GeogFromText('SRID=4326;POINT(108.2508 16.0311)'), 'Võ Nguyên Giáp, Ngũ Hành Sơn', 'Đà Nẵng', 'Ngũ Hành Sơn'),
+
+-- Processing Facilities
+('Nhà Máy Tái Chế Đà Nẵng', 'RC-DN-004', 'processing_facility', '0236 3777 200', 'nhamay@greenedumap.vn', '{"monday": "8:00-17:00", "tuesday": "8:00-17:00", "wednesday": "8:00-17:00", "thursday": "8:00-17:00", "friday": "8:00-17:00", "saturday": "closed", "sunday": "closed"}'::jsonb, '["plastic", "paper", "cardboard", "metal", "glass", "organic"]'::jsonb, 150.0, true, false, ST_GeogFromText('SRID=4326;POINT(108.1456 16.0234)'), 'Khu Công Nghiệp Hòa Khánh', 'Đà Nẵng', 'Liên Chiểu'),
+
+('Trung Tâm Xử Lý Rác Thải Khánh Sơn', 'RC-DN-005', 'processing_facility', '0236 3666 300', 'khanhson@greenedumap.vn', '{"monday": "6:00-18:00", "tuesday": "6:00-18:00", "wednesday": "6:00-18:00", "thursday": "6:00-18:00", "friday": "6:00-18:00", "saturday": "6:00-12:00", "sunday": "closed"}'::jsonb, '["organic", "composting", "recycling"]'::jsonb, 200.0, true, false, ST_GeogFromText('SRID=4326;POINT(108.0912 16.1123)'), 'Hòa Ninh, Hòa Vang', 'Đà Nẵng', 'Hòa Vang'),
+
+-- Drop-off Centers
+('Trung Tâm Thu Gom Thanh Khê', 'RC-DN-006', 'drop_off_center', '0236 3555 400', 'thanhkhe@greenedumap.vn', '{"monday": "6:00-20:00", "tuesday": "6:00-20:00", "wednesday": "6:00-20:00", "thursday": "6:00-20:00", "friday": "6:00-20:00", "saturday": "6:00-18:00", "sunday": "7:00-17:00"}'::jsonb, '["plastic", "paper", "metal", "glass", "electronics", "batteries", "bulbs"]'::jsonb, 12.0, true, true, ST_GeogFromText('SRID=4326;POINT(108.2134 16.0456)'), 'Điện Biên Phủ, Thanh Khê', 'Đà Nẵng', 'Thanh Khê'),
+
+('Trung Tâm Thu Gom Cẩm Lệ', 'RC-DN-007', 'drop_off_center', '0236 3444 500', 'camle@greenedumap.vn', '{"monday": "6:00-19:00", "tuesday": "6:00-19:00", "wednesday": "6:00-19:00", "thursday": "6:00-19:00", "friday": "6:00-19:00", "saturday": "7:00-17:00", "sunday": "7:00-15:00"}'::jsonb, '["plastic", "paper", "cardboard", "glass", "metal", "clothes"]'::jsonb, 10.0, true, true, ST_GeogFromText('SRID=4326;POINT(108.1923 16.0289)'), 'Nguyễn Lương Bằng, Cẩm Lệ', 'Đà Nẵng', 'Cẩm Lệ'),
+
+('Eco Station Liên Chiểu', 'RC-DN-008', 'drop_off_center', '0236 3333 600', 'lienchia@greenedumap.vn', '{"monday": "6:00-20:00", "tuesday": "6:00-20:00", "wednesday": "6:00-20:00", "thursday": "6:00-20:00", "friday": "6:00-20:00", "saturday": "6:00-19:00", "sunday": "7:00-18:00"}'::jsonb, '["plastic", "paper", "electronics", "batteries", "oil", "chemicals"]'::jsonb, 8.5, true, true, ST_GeogFromText('SRID=4326;POINT(108.1745 16.0745)'), 'Nguyễn Lương Bằng, Liên Chiểu', 'Đà Nẵng', 'Liên Chiểu');
+
+-- Summary
+SELECT 'Resource seeder completed: ' ||
+       (SELECT COUNT(*) FROM green_zones) || ' green zones, ' ||
+       (SELECT COUNT(*) FROM green_resources) || ' resources, ' ||
+       (SELECT COUNT(*) FROM recycling_centers) || ' recycling centers' as message;
