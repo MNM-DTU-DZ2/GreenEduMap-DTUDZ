@@ -1,4 +1,4 @@
-# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...04e3b40ab68d96752e9b72614dfdc5a6f9024387) (2025-12-09)
+# [Unreleased](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.2.0...04e3b40ab68d96752e9b72614dfdc5a6f9024387) (2026-11-25)
 
 
 ### Bug Fixes
@@ -38,8 +38,6 @@
 * mobile ([eadc5c8](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/eadc5c8ac9050bbf5c12abce9e4fba8de1cf5843))
 * refactor appmobile code ([d614c47](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/d614c47b43ed3ac288ef0f3c71f155b80646b9a0))
 
-
-
 # [1.2.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.1.0...v1.2.0) (2025-12-02)
 
 
@@ -47,8 +45,6 @@
 
 * **deploy:** quote all environment variables to handle special characters ([4758735](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/47587356df9ee7786eb0d86a5c2d3de73e0b49f2))
 * **docker:** update web-app port to use WEB_APP_PORT env var (default 4000)" ([3bc4d91](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/3bc4d91c145904da01c167abcb3459064eceadf2))
-
-
 
 # [1.1.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v1.0.0...v1.1.0) (2025-12-02)
 
@@ -64,8 +60,6 @@
 * **deploy:** add VPS deployment scripts and production config ([78157b7](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/78157b7e45aad48ba450368116917982e352ad6a))
 * **docker:** complete port isolation from other services for VPS deployment ([aa3b56a](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/aa3b56a518ecc158677b91d4c52b7912db3e3c81))
 
-
-
 # [1.0.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.2.0...v1.0.0) (2025-12-02)
 
 
@@ -78,8 +72,6 @@
 
 * **auth:** implement  user authentication and profile system ([f9a7316](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f9a73167a897dfe8a17db3e74525bdb2728291c3)), closes [#8](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/issues/8)
 * **reviews,testing:** implement user reviews system and E2E testing ([f51d710](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/f51d7108708cbe76f8c6b6ab087917ae9132b419))
-
-
 
 # [0.2.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.1.0...v0.2.0) (2025-12-01)
 
@@ -94,8 +86,6 @@
 * **project:** tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống ([3180677](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/31806776e8bb99b8791328ab20a1f420f21f6216))
 * tích hợp bản đồ, tìm kiếm, chi tiết trường học và sửa lỗi hệ thống ([c46eddb](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/c46eddbdefc2fd856398858c34e06ebfedc7938c))
 
-
-
 # [0.1.0](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/v0.0.2...v0.1.0) (2025-12-01)
 
 
@@ -104,8 +94,6 @@
 * Architecture Diagram ([d961e50](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/d961e50ed08bcbd9e3bd59efe029045f768f9176))
 * Architecture picture ([db99f90](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/db99f90ea7f21f6fcd6ed12b2428c0ca6668568d))
 * **ci:** generate dummy package.json for changelog workflow ([66668ba](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/commit/66668baee7f7a9954d389b241f00f14a3996d17a))
-
-
 
 ## [0.0.2](https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ/compare/b7e8a61c23e6040a0dfe80220762dbff1c33c06e...v0.0.2) (2025-12-01)
 
@@ -129,6 +117,3 @@
 ### BREAKING CHANGES
 
 * Thay đổi cấu trúc thư mục documentation và scripts.
-
-
-
