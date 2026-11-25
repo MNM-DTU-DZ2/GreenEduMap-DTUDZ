@@ -20,14 +20,16 @@
 
 ## 📖 Tổng Quan
 
-**GreenEduMap** là một dự án mã nguồn mở do đội **DTU-DZ_2** đến từ **Đại học Duy Tân** phát triển để tham gia cuộc thi **Olympic Tin học Sinh viên – Khối Mã nguồn mở 2025**. Dự án thuộc lĩnh vực đô thị thông minh xanh, với mục tiêu :
+**GreenEduMap** là nền tảng mã nguồn mở (**Bản đồ dữ liệu mở và AI cảnh báo môi trường theo vị trí cho Smart Campus và đô thị thích ứng**) do đội **DTU-DZ_2** đến từ **Đại học Duy Tân** phát triển để tham gia cuộc thi **Smart City 2026 • ISSCEI 2026** (nhóm lĩnh vực *Giám sát thông minh – Smart monitoring*), với mục tiêu:
 
 🤝 **Kết nối người dân – trường học – chính quyền** bằng bản đồ tri thức.
-🔍 **Minh bạch hóa dữ liệu đô thị** theo từng khu vực để cộng đồng dễ tiếp cận.
-🤖 **Tối ưu hóa quy trình ra quyết định bằng AI** giúp gợi ý hành động xanh phù hợp từng khu vực.
-🎓 **Thúc đẩy giáo dục bền vững** và khuyến khích cộng đồng cùng đóng góp, mở rộng.
+🔍 **Minh bạch hóa dữ liệu đô thị** theo từng khu vực (kèm nguồn, thời điểm và mức tin cậy) để cộng đồng dễ tiếp cận.
+🤖 **Tối ưu hóa quy trình ra quyết định bằng AI** giúp cảnh báo rủi ro và gợi ý hành động xanh phù hợp từng vị trí.
+🎓 **Thúc đẩy giáo dục bền vững** và khuyến khích cộng đồng cùng đóng góp, theo dõi xử lý sự cố.
 
-Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI, GIS, OpenData và dashboard thời gian thực để tạo nên hệ sinh thái đô thị minh bạch, xanh và có khả năng mở rộng cho nhiều địa phương.
+Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI, GIS (PostGIS), OpenData (NGSI-LD) và dashboard thời gian thực theo liên kết **WEFE (Nước – Năng lượng – Thực phẩm – Hệ sinh thái)** để tạo nên hệ sinh thái đô thị thích ứng, minh bạch, xanh và có khả năng mở rộng cho nhiều địa phương.
+
+> 🎬 **Video demo:** [YouTube](https://youtu.be/CzMfeL2TTvE)
 
 ---
 
@@ -35,42 +37,42 @@ Dự án tập trung hình thành một nền tảng toàn diện kết hợp AI
 
 ![Banner](assets/images/doi_tuong_huong_den_greenedumap.png)
 
-1. **Người dân** → xem chất lượng sống và nhận gợi ý hành động xanh, cung cấp thông tin môi trường .
-2. **Chính quyền** → ra quyết định dựa trên dữ liệu, sử dụng dữ liệu để quản lý đô thị hiệu quả.
-3. **Trường học** → triển khai giáo dục xanh (Green Skills), tích hợp dữ liệu vào giáo dục môi trường.
-4. **Tổ chức môi trường** → sử dụng dữ liệu cho và giám sát, xây dựng chiến dịch truyền thông dựa trên dữ liệu thật.
-5. **Nhà nghiên cứu** → truy cập dữ liệu mở chuẩn hóa để nghiên cứu và đổi mới, xây dựng mô hình AI/ML.
+1. **Người dân & Sinh viên** → xem chất lượng sống, nhận cảnh báo ô nhiễm, nắng nóng, mưa ngập theo khu vực/tuyến đi và nhận gợi ý hành động xanh, gửi phản ánh hiện trường kèm ảnh GPS.
+2. **Chính quyền** → ra quyết định dựa trên dữ liệu, theo dõi hàng đợi xác minh phản ánh và rủi ro theo địa bàn để quản lý đô thị hiệu quả.
+3. **Trường học** → triển khai giáo dục xanh (Green Skills), điều chỉnh lịch hoạt động ngoài trời và tích hợp dữ liệu vào giáo dục môi trường.
+4. **Tổ chức môi trường & Doanh nghiệp** → sử dụng dữ liệu để giám sát, xây dựng chiến dịch truyền thông và đầu tư xanh dựa trên dữ liệu thật.
+5. **Nhà nghiên cứu** → truy cập dữ liệu mở chuẩn hóa (NGSI-LD, CSV/GeoJSON) để nghiên cứu và đổi mới, xây dựng mô hình AI/ML.
 ---
 
 ## ✨ Modules chính của GreenEduMap
 
-### 1. 📱 Module tương tác người dân
+### 1. 📱 Module tương tác người dân & sinh viên
 
-🌍 Xem dữ liệu môi trường realtime (chất lượng không khí, nhiệt độ, cảnh báo ô nhiễm)
+🌍 Xem dữ liệu môi trường realtime (chất lượng không khí PM2.5/AQI, nhiệt độ, mưa – ngập, giao thông)
 
-🏫 Tìm kiếm trường học xanh và khóa học bền vững (Green Skills)
+🏫 Tìm kiếm trường học xanh, điểm tài nguyên xanh và khóa học bền vững (Green Skills)
 
-📊 Theo dõi chất lượng sống theo từng khu vực
+📍 Gửi phản ánh cộng đồng 4 trạng thái (`đã gửi – tiếp nhận – đang xác minh – đã xử lý`) kèm ảnh GPS, chống trùng, tự động xóa EXIF và che thông tin cá nhân
 
-💡 Nhận gợi ý hành động xanh từ AI GreenBot
+💡 Nhận cảnh báo theo vị trí (kèm nguồn, thời điểm, mức tin cậy) và gợi ý hành động xanh từ AI GreenBot
 
 ### 2. 🤖 Module phân tích AI & Dữ liệu
 
-🧠 **AI GreenBot**: Phân tích tương quan môi trường ↔ giáo dục, phát hiện mẫu bất thường
+🧠 **AI GreenBot**: Diễn giải chỉ số môi trường bằng ngôn ngữ phổ thông, phân tích tương quan đa lớp
 
-📈 Clustering khu vực (Xanh – Vàng – Đỏ) dựa trên chỉ số môi trường
+📈 Phân cụm K-Means khu vực (Xanh – Vàng – Đỏ) dựa trên chỉ số môi trường
 
-🔮 Dự báo xu hướng ô nhiễm và biến động mảng xanh
+🔮 Dự báo xu hướng ô nhiễm, điểm nóng nhiệt và biến động mảng xanh
 
-⭐ Đánh giá và gợi ý hành động xanh tự động cho từng khu vực
+⭐ Minh bạch độ tin cậy: tách bạch dữ liệu đo thực tế, dữ liệu dự báo và phản ánh chưa xác minh
 
-### 3. 🗺️ Module quản lý dữ liệu môi trường & giáo dục
+### 3. 🗺️ Module quản lý dữ liệu môi trường, giáo dục & WEFE
 
-🌡️ Thu thập và quản lý dữ liệu môi trường (OpenAQ, OpenWeather, Sentinel)
+🌡️ Thu thập và quản lý 6 lớp dữ liệu không gian: không khí (OpenAQ/IoT), thời tiết – mưa (OpenWeather), điểm ngập, giao thông (OSM), cây xanh – tái chế – rác hữu cơ, trường học & cộng đồng
 
-🏫 Quản lý trường học, khóa học xanh và tính toán Green Score
+🏫 Quản lý trường học, khóa học xanh, điểm thu gom rác hữu cơ/vườn trường và tính toán Green Score
 
-🗺️ Bản đồ 3D realtime hiển thị dữ liệu môi trường – giáo dục theo từng phường/xã
+🗺️ Bản đồ 2D/3D realtime hiển thị dữ liệu môi trường – giáo dục – chuỗi liên kết **WEFE** (Nước – Năng lượng – Thực phẩm – Hệ sinh thái)
 
 📊 Dashboard trực quan cho chính quyền và trường học
 
@@ -201,7 +203,7 @@ Dự án hướng tới xây dựng hệ sinh thái đô thị xanh thông minh,
 
 ```bash
 # Clone dự án
-git clone https://github.com/HoDuongQuocHuy278/GreenEduMap-DTUDZ.git
+git clone https://github.com/MNM-DTU-DZ2/GreenEduMap-DTUDZ.git
 cd GreenEduMap-DTUDZ
 ```
 
@@ -209,61 +211,54 @@ cd GreenEduMap-DTUDZ
 
 ```bash
 # Copy file môi trường mẫu
-cp .env.example .env
+cp infrastructure/docker/.env.example infrastructure/docker/.env
 
 # Chỉnh sửa file .env với thông tin của bạn
-nano .env
+nano infrastructure/docker/.env
 ```
 
 **Các biến môi trường quan trọng:**
 
 ```env
 # Database
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=greenedumap
-DB_USER=postgres
-DB_PASSWORD=your_password
+POSTGRES_DB=greenedumap
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
 
-# Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
+# Ports
+API_GATEWAY_PORT=4500
+WEB_APP_PORT=4501
 
 # API Keys
 OPENAQ_API_KEY=your_openaq_key
 OPENWEATHER_API_KEY=your_openweather_key
-SENTINEL_API_KEY=your_sentinel_key
 
 # Authentication
-KEYCLOAK_URL=http://localhost:8080
-JWT_SECRET=your_jwt_secret
-
-# Frontend
-NEXT_PUBLIC_API_URL=http://localhost:3000
+JWT_SECRET_KEY=your_jwt_secret
 ```
 
 ### 3. Khởi động với Docker Compose
 
 ```bash
-# Build và khởi động tất cả services
-docker-compose up -d
+# Di chuyển vào thư mục docker và khởi động tất cả services
+cd infrastructure/docker
+docker compose up -d
 
 # Kiểm tra trạng thái
-docker-compose ps
+docker compose ps
 
 # Xem logs
-docker-compose logs -f
+docker compose logs -f
 ```
 
 Hệ thống sẽ tự động khởi động các thành phần:
 - **Frontend**: Next.js (Web) & React Native (Mobile support)
-- **Backend**: FastAPI (Python)
-- **Database**: PostgreSQL + PostGIS
-- **Message Broker**: RabbitMQ
+- **Backend**: FastAPI (API Gateway & microservices)
+- **Database**: PostgreSQL + PostGIS, MongoDB, Redis
+- **Message Broker**: RabbitMQ, EMQX (MQTT)
 - **AI Services**: Python Services
-- **Gateway**: Traefik
-- **Auth**: Keycloak
-- **Semantic**: FiWARE Orion-LD & MongoDB
+- **Auth**: Auth Service (JWT)
+- **Semantic / OpenData**: OpenData Service (NGSI-LD)
 
 ---
 
@@ -381,12 +376,12 @@ docker-compose logs -f backend
 
 ---
 
-##  Tài liệu tham khảo
+## 📚 Tài liệu tham khảo
 
-- [Architecture](./Architecture.md) - Kiến trúc hệ thống
-- [API Documentation](./api/README.md) - Tài liệu API
-- [Contributing](../CONTRIBUTING.md) - Hướng dẫn đóng góp
-- [Troubleshooting](../TROUBLESHOOTING.md) - Xử lý sự cố
+- [Architecture](./docs/ARCHITECTURE.md) - Kiến trúc hệ thống
+- [API Documentation](./docs/API_DOCUMENTATION.md) - Tài liệu API
+- [Setup Guide](./Setup.md) - Hướng dẫn cài đặt chi tiết
+- [Contributing](./CONTRIBUTING.md) - Hướng dẫn đóng góp
 
 ---
 
@@ -402,7 +397,8 @@ GreenEduMap-DTUDZ/
 │   ├── auth-service/           # Authentication Service - Port 8001
 │   ├── resource-service/       # Green Zones, Recycling Centers - Port 8002
 │   ├── education-service/      # Schools, Green Courses - Port 8003
-│   ├── environment-service/    # Air Quality, Weather - Port 8007
+│   ├── environment-service/    # Air Quality, Weather
+│   ├── data-ingestion-service/ # Data Collectors & Ingestion
 │   ├── ai-service/             # ML Models (RabbitMQ Workers)
 │   ├── opendata-service/       # NGSI-LD, Linked Open Data
 │   └── shared/                 # Shared utilities, models, configs
@@ -421,7 +417,8 @@ GreenEduMap-DTUDZ/
 │   ├── PROJECT_CONTEXT.md      # Project context & background
 │   ├── DEPLOYMENT.md           # Deployment guide
 │   ├── VPS_DEPLOYMENT_GUIDE.md # VPS deployment instructions
-│   ├── DEVELOPMENT_WORKFLOW.md # Development workflow
+│   ├── BUILD_WITHOUT_DOCKER.md # Build without Docker guide
+│   ├── SSL_SETUP_GUIDE.md      # SSL setup guide
 │   └── DOCKER.md               # Docker usage guide
 │
 ├── scripts/                     # Utility Scripts
@@ -451,10 +448,12 @@ GreenEduMap-DTUDZ/
 ## 🧪 Kiểm thử
 
 ```bash
-cd backend
-pytest -v --cov=app
+# Backend service (ví dụ api-gateway)
+cd modules/api-gateway
+pytest -v
 
-cd frontend
+# Web Frontend
+cd modules/web-app
 npm run test
 ```
 
@@ -462,18 +461,18 @@ npm run test
 
 ## 📄 Tài liệu liên quan
 
-| File                          | Mô tả                  |
+| File | Mô tả |
 | ----------------------------- | ---------------------- |
-| `docs/architecture.md`        | Kiến trúc chi tiết     |
-| `docs/api_reference.md`       | API đầy đủ             |
-| `docs/open_data_standards.md` | NGSI-LD, SOSA/SSN, LOD |
-| `CONTRIBUTING.md`             | Quy tắc đóng góp       |
+| `docs/ARCHITECTURE.md` | Kiến trúc chi tiết |
+| `docs/API_DOCUMENTATION.md` | API đầy đủ |
+| `docs/PROJECT.md` | Tổng quan dự án |
+| `CONTRIBUTING.md` | Quy tắc đóng góp |
 
 ---
 
 ## 🤝 Đóng Góp Cho Dự Án
 
-Dự án này là mã nguồn mở, được phát triển bởi đội **DTU-DZ_2** đến từ **Đại học Duy Tân** để tham gia cuộc thi **Olympic Tin học Sinh viên – Khối Mã nguồn mở năm 2025** nên rất hoan nghênh cộng đồng tham gia đóng góp!
+Dự án này là mã nguồn mở, được phát triển bởi đội **DTU-DZ_2** đến từ **Đại học Duy Tân** để tham gia cuộc thi **Smart City 2026 • ISSCEI 2026** nên rất hoan nghênh cộng đồng tham gia đóng góp!
 
 ### 🌱 Quy Trình Đóng Góp
 
@@ -534,17 +533,17 @@ Dự án này tuân theo bộ quy tắc ứng xử cho cộng đồng. Xem file 
 
 ## 👥 Người Hướng Dẫn
 
-| 👨‍🏫 Vai Trò | 📧 Thông Tin |
-| ----------- | ------------ |
-| **Giảng Viên** | **Nguyễn Quốc Long**<br>Email: quoclongdng@gmail.com |
+| 👨‍🏫 Vai Trò | 📧 Thông Tin | 📧 Email|
+| ----------- | ------------ | ------------ |
+| **Giảng Viên Hướng Dẫn** | **Th.S Trần Kim Sanh** | **trankimsanh@dtu.edu.vn** |
 
 ### 📞 Liên hệ Team DTU-DZ2
 
 Nếu cần trao đổi gì thêm, vui lòng liên hệ:
 
-- **Trần Xuân Trường**: xuantruong081205@gmail.com
+- **Trần Xuân Trường** *(Trưởng nhóm)*: xuantruong081205@gmail.com
 - **Hồ Dương Quốc Huy**: huyho2782005@gmail.com
-- **Lê Tuấn Minh**: llttminh@gmail.com
+- **Võ Thị Thái Ngọc**: vothithaingoc207@gmail.com
 
 ---
 
@@ -574,5 +573,5 @@ Dự án này được phân phối dưới [GNU General Public License v3.0](LI
 
 ---
 
-© 2025 **GreenEduMap** - Dữ liệu mở dẫn lối đô thị xanh 🌱 
+© 2026 **GreenEduMap** - Dữ liệu mở dẫn lối đô thị xanh 🌱
 
