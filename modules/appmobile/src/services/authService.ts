@@ -95,10 +95,17 @@ export const authService = {
     // PROFILE MANAGEMENT
     // ============================================================================
 
+    // getProfile: async (): Promise<User> => {
+    //     const response = await api.get<ApiResponse<User>>('/auth/me');
+    //     return response.data.data;
+    // },
+
     getProfile: async (): Promise<User> => {
-        const response = await api.get<ApiResponse<User>>('/auth/me');
-        return response.data.data;
+        const response = await api.get<any>('/auth/me');
+        return response.data?.data || response.data;
     },
+
+
 
     updateProfile: async (data: UpdateProfileRequest): Promise<User> => {
         const response = await api.put<ApiResponse<User>>('/auth/profile', data);
