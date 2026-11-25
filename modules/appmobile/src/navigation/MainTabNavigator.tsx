@@ -27,10 +27,12 @@
  */
 
 import * as React from 'react';
+import { Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { theme } from '../theme/colors';
+import { theme, ICON_SIZE, SPACING } from '../theme';
+// import { theme } from '../theme/colors';
 import { RootStackParamList } from './types';
 import { useAuth } from '../contexts/AuthContext';
 import { useTranslation } from '../hooks/useTranslation';
@@ -77,35 +79,45 @@ const Tab = createBottomTabNavigator<RootStackParamList>();
 // MAIN TABS COMPONENT
 // ============================================================================
 const MainTabs = () => {
-  const { userRole } = useAuth();
+  // const { userRole } = useAuth();
+  const { user } = useAuth();
   const { t } = useTranslation();
 
   const tabScreenOptions = {
     headerShown: false,
-    tabBarActiveTintColor: theme.colors.primary,
+    tabBarActiveTintColor: theme.colors.success,
     tabBarInactiveTintColor: theme.colors.textLight,
     tabBarStyle: {
       backgroundColor: theme.colors.white,
       borderTopColor: theme.colors.border,
-      paddingBottom: 8,
-      paddingTop: 8,
-      height: 60,
-      elevation: 8,
-      shadowColor: theme.colors.primary,
-      shadowOffset: { width: 0, height: -4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 12,
-      marginBottom: 12,
+      borderTopWidth: 1,
+      paddingBottom: Platform.select({
+        ios: SPACING.md, // Extra padding for iOS home indicator
+        android: SPACING.sm,
+      }),
+      height: Platform.select({
+        ios: theme.layout.bottomTabHeight + 20, // Extra height for iOS
+        android: theme.layout.bottomTabHeight,
+      }),
+      ...theme.shadows.md,
     },
     tabBarLabelStyle: {
       fontFamily: theme.typography.fontFamily,
-      fontSize: 12,
+      fontSize: theme.typography.fontSize.xs,
       fontWeight: '600' as any,
+      marginTop: 2,
+    },
+    tabBarIconStyle: {
+      marginTop: 4,
     },
   };
 
   return (
-    <Tab.Navigator screenOptions={tabScreenOptions}>
+    <Tab.Navigator screenOptions={tabScreenOptions}
+      screenListeners={({ route }) => ({
+        tabPress: () => console.log(`[MainTabs] tabPress: ${route.name}`),
+        focus: () => console.log(`[MainTabs] focus: ${route.name}`),
+      })}>
       {/* Map Tab - Environmental Monitoring */}
       <Tab.Screen
         name="Map"

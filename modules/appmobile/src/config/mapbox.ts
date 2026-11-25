@@ -23,6 +23,8 @@
 
 import Mapbox from '@rnmapbox/maps';
 import env from './env';
+// import env from './env.example';
+
 
 // Set Mapbox access token
 Mapbox.setAccessToken(env.MAPBOX_ACCESS_TOKEN);
@@ -31,7 +33,7 @@ Mapbox.setAccessToken(env.MAPBOX_ACCESS_TOKEN);
 Mapbox.setTelemetryEnabled(false);
 
 // Set WellKnownTileServer (optional - để sử dụng Mapbox tiles)
-Mapbox.setWellKnownTileServer('Mapbox');
+Mapbox.setWellKnownTileServer('Mapbox');     
 
 // Configure camera settings (optional)
 export const DEFAULT_CAMERA_CONFIG = {

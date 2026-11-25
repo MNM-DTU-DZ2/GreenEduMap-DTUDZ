@@ -245,12 +245,14 @@ const MapScreenMapbox: React.FC<NativeStackScreenProps<any>> = ({ navigation }) 
   const aqiStatus = getAQIStatus(averageAQI);
 
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
+    <View style={styles.container} pointerEvents="box-none">
       {/* Map View - Full Screen */}
       <MapView
         ref={mapRef}
         style={styles.map}
         styleURL={Mapbox.StyleURL.Light}
+        surfaceView={false}
       >
         {/* Camera */}
         <Camera
